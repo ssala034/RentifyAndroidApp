@@ -3,8 +3,18 @@ package com.group20.rentify.entity;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AdminAccount extends Account {
+
+    public AdminAccount(Map<String, Object> dbObj) {
+        super(dbObj);
+
+        Object role = dbObj.get("role");
+        if (!(role instanceof String) || !role.equals("admin")) {
+            throw new IllegalArgumentException();
+        }
+    }
 
     public AdminAccount(String username, String email) {
         super(username, email, "admin");
