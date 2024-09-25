@@ -2,7 +2,7 @@ package com.group20.rentify.entity;
 
 import java.util.ArrayList;
 
-public class Account extends Entity {
+public class Account implements Entity {
 
     //class variables
     protected static ArrayList<Account> accounts;
