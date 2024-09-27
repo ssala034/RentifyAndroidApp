@@ -1,8 +1,10 @@
 package com.group20.rentify;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,4 +23,13 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    public void signInClick(@NonNull View view){
+        //go to welcome activity
+    }
+    public void createAccountClick(@NonNull View view){
+        // go to create account activity
+    }
+
+
 }
