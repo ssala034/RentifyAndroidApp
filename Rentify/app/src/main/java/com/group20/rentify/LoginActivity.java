@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -27,7 +29,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void signInClick(@NonNull View view){
-        // validate email and password
+        String email = ((EditText) findViewById(R.id.text_inputEmail)).getText().toString();
+        String password = ((EditText) findViewById(R.id.text_inputPassword)).getText().toString();
+        /* maybe use try catch
+        // validate(email)
+        //validate(password)
+        */
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
@@ -37,5 +44,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateAccount.class);
         startActivity(intent);
     }
-    
+
 }
