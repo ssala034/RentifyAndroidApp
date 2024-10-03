@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 public class AdminAccount extends Account {
 
-    public AdminAccount(String name, String username, String email, String role) {
-        super(name, username, email, role);
-    }
-
     /**Return the account readable attributes.
      * Instead of keeping all accounts as a master list in memory,
      * this method may be better implemented by getting the account list from the db.

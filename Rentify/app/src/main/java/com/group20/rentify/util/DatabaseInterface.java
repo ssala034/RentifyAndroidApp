@@ -17,7 +17,6 @@ import com.group20.rentify.MainActivity;
 import com.group20.rentify.entity.Account;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
