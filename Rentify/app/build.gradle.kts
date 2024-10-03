@@ -5,7 +5,8 @@ plugins {
 
 android {
     namespace = "com.group20.rentify"
-    compileSdk = 34
+    compileSdk = 35
+
 
     defaultConfig {
         applicationId = "com.group20.rentify"
