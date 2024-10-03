@@ -32,8 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = ((EditText) findViewById(R.id.text_inputEmail)).getText().toString();
         String password = ((EditText) findViewById(R.id.text_inputPassword)).getText().toString();
         /* maybe use try catch
-        // validate(email)
-        //validate(password)
+        // validate(email);
+        //validate(password);
         */
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
