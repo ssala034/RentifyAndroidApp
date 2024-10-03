@@ -42,7 +42,7 @@ public class Account implements Entity {
      * <p>One of {Renter, Lessor, Admin}</p>
      * <p>READ ONLY</p>
      */
-    private final String role;  // this may be changed to a different type later
+    private final UserRole role;
 
     // constructors
 
@@ -66,7 +66,7 @@ public class Account implements Entity {
 
         value = dbObj.get("role");
         if (value instanceof String) {
-            role = (String) value;
+            role = UserRole.stringToRole((String) value);
         } else {
             throw new IllegalArgumentException();
         }
@@ -85,7 +85,7 @@ public class Account implements Entity {
      * @param email     The primary email of the user
      * @param role      One of {admin, renter, lessor}
      */
-    public Account(String username, String email, String role) {
+    public Account(String username, String email, UserRole role) {
         this(username, email, role, username);
     }
 
@@ -96,7 +96,7 @@ public class Account implements Entity {
      * @param role      One of {admin, renter, lessor}
      * @param name      The display name of the user
      */
-    public Account(String username, String email, String role, String name) {
+    public Account(String username, String email, UserRole role, String name) {
         this.username = username;
         this.role = role;
         this.name = name;
@@ -143,7 +143,7 @@ public class Account implements Entity {
      * Getter for the role attribute
      * @return  role
      */
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
@@ -187,7 +187,7 @@ public class Account implements Entity {
         dbRep.put("username", username);
         dbRep.put("name", name);
         dbRep.put("email", email);
-        dbRep.put("role", role);
+        dbRep.put("role", UserRole.roleToString(role));
 
         return dbRep;
     }

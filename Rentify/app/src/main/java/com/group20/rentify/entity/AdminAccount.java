@@ -26,7 +26,7 @@ public class AdminAccount extends Account {
      * @param email     The primary email of the administrator
      */
     public AdminAccount(String username, String email) {
-        super(username, email, "admin");
+        super(username, email, UserRole.admin);
     }
 
     /**
@@ -36,14 +36,14 @@ public class AdminAccount extends Account {
      * @param name      The display name of the administrator
      */
     public AdminAccount(String username, String email, String name) {
-        super(username, email, "admin", name);
+        super(username, email, UserRole.admin, name);
     }
 
     /**
      * Create an admin version of account.
      */
     public AdminAccount(@NonNull Account a) {
-        super(a.getUsername(), a.getEmail(), "admin", a.getName());
+        super(a.getUsername(), a.getEmail(), UserRole.admin, a.getName());
     }
 
     /**
