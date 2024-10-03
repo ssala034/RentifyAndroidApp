@@ -45,6 +45,14 @@
                 android:text="Welcome to rentify, create an account to get started!" />
 
             <EditText
+                android:id="@+id/emailEnter"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:hint="Enter your Email"
+                android:textSize="14sp" />
+
+            <EditText
                 android:id="@+id/usernameEnter"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -71,19 +79,19 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/emailEnter"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:hint="Enter your Email"
-                android:textSize="14sp" />
-
-            <EditText
                 android:id="@+id/passwordEnter"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Password"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/passwordEnter2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:hint="Re-enter your password"
                 android:textSize="14sp" />
 
             <RadioGroup
@@ -97,11 +105,11 @@
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:id="@+id/lessorSelect"
+                        android:id="@+id/renterSelect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Lessor"
+                        android:text="Renter"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
