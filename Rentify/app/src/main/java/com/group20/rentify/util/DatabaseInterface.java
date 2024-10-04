@@ -90,7 +90,7 @@ public class DatabaseInterface {
         }
 
         if( checksUsername( acc.getUsername())){
-            Log.d("Username in DB already","Username in DB already "+ acc.getName());
+            Log.d("Username in DB already","Username in DB already "+ acc.getUsername());
             return false;
         }
 
@@ -240,8 +240,9 @@ public class DatabaseInterface {
        });
     }
 
-    /*
-    * dataBase.getAccount("AH", this, new DatabaseCallBack() {
+    /* DEMO FOR CALLBACK:
+
+     dataBase.getAccount("Joey", this "(main activity context)" , new DatabaseCallBack() {
             @Override
             public void onAccountRetrieved(Account account) {
                 //handle the account as you want
