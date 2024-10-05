@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.group20.rentify.MainActivity;
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -129,8 +130,8 @@ public class DatabaseInterface {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Username already exists, handle this case (e.g., show error)
-                    Account acc = dataSnapshot.getValue(Account.class);
-                    callBack.onAccountRetrieved(acc);
+                    Entity entity = dataSnapshot.getValue(Account.class);
+                    callBack.onEntityRetrieved(entity);
                 } else {
                     // Username does not exist
                     throw new IllegalStateException("Username not there.");
@@ -140,7 +141,7 @@ public class DatabaseInterface {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
-                callBack.onAccountRetrieved(null);
+                callBack.onEntityRetrieved(null);
             }
         });
 
@@ -151,7 +152,7 @@ public class DatabaseInterface {
 
     /*Given an account it will remove it from the db. You can get that account via the callback and manipulate as you want.
     * */
-    public Account removeAccount(Account acc){
+    public Account removeAccount(Account acc) throws  IllegalStateException{
         DatabaseReference node = db.getReference().child("users").child(acc.getUsername());
 
         node.removeValue().addOnCompleteListener(task -> {
@@ -178,14 +179,14 @@ public class DatabaseInterface {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Convert the snapshot to an Account object
-                    Account account = dataSnapshot.getValue(Account.class);
-                    if (account != null) {
+                    // Convert the snapshot to an Entity object, Maybe an account careful!!
+                    Entity entity =  dataSnapshot.getValue(Account.class);
+                    if (entity != null) {
                         // Now remove the account from Firebase
                         node.removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 // Successfully removed, pass the account to the callback
-                                callBack.onAccountRemoval(account);
+                                callBack.onEntityRemoval(entity);
                             } else {
                                 // Handle removal failure
                                 Log.d("A", "Failed to remove account '" + username + "'");
@@ -217,18 +218,18 @@ public class DatabaseInterface {
     public void retreiveAccounts(String username, Context context, DatabaseCallBack callBack){
        getAccount(username, context, new DatabaseCallBack(){
            @Override
-           public void onAccountRetrieved(Account account){
-               if(account != null && account.getRole().equals("admin")){
+           public void onEntityRetrieved(Entity entity){
+               if(entity != null && entity.getRole().equals("admin")){
                    db.getReference("users").get().addOnCompleteListener(task -> {
                        if(task.isSuccessful()){
-                           ArrayList<Account> accountList = new ArrayList<>();
+                           ArrayList<Entity> entityList = new ArrayList<>();
                            for(DataSnapshot snapshot: task.getResult().getChildren()){
                                Account tmp = snapshot.getValue(Account.class);
                                if(tmp!=null){
-                                   accountList.add(tmp);
+                                   entityList.add(tmp);
                                }
                            }
-                           callBack.onAccountList(accountList);
+                           callBack.onEntityList(entityList);
                        }else{
                            Log.d("a", "failed to get user accounts");
                        }

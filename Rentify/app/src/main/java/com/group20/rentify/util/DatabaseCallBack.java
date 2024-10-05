@@ -1,24 +1,25 @@
 package com.group20.rentify.util;
 
-import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.Entity;
 
 import java.util.ArrayList;
 
 
-public class DatabaseCallBack implements CallBack{
-    @Override
-    public void onAccountRetrieved(Account account) {
+public class DatabaseCallBack{
+    public void onEntityRetrieved(Entity entity) {
 
     }
 
-    @Override
-    public void onAccountRemoval(Account account) {
+    public void onEntityRemoval(Entity entity) {
 
     }
-    public void onAccountList(ArrayList<Account> listOfAccounts){
+
+    // might try to make them non - void return types later
+    public void onEntityList(ArrayList<Entity> listOfEntities){
+
     }
 
-    @Override
+
     public void onError() {
 
     }
