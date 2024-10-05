@@ -1,12 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
     namespace = "com.group20.rentify"
     compileSdk = 35
-
 
     defaultConfig {
         applicationId = "com.group20.rentify"
@@ -73,4 +73,7 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+    
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)   // I think this does it for me
 }

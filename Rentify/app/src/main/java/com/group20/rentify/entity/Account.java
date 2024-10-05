@@ -30,7 +30,7 @@ public class Account implements Entity {
      * The user's unique username which can be used for sign in.
      */
     private String username;
-
+  
     /**
      * The user's associated email address.
      * <p>Currently READ ONLY.</p>
