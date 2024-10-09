@@ -16,20 +16,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.group20.rentify.MainActivity;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
+import com.group20.rentify.entity.UserRole;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
-* This is our App point of interaction with our Firebase Realtime Database.
-* Some of the method must be used with the intention of overriding a callback method in DatabaseCallBack class.
+ * This is our App point of interaction with our Firebase Realtime Database.
+ * Some of the method must be used with the intention of overriding a callback method in DatabaseCallBack class.
  * Since Realtime Database gets the data asynchronous, we cannot directly return the data because we don't know if dB has finished the getting it.
  * basically it lets you run other things in the background. The callback waits till its done. A bit more code but can be done.
  * Look at bottom of class to see how to use the callbacks.
-*
-*
-* */
-
+ */
 public class DatabaseInterface {
 
 
@@ -51,10 +49,9 @@ public class DatabaseInterface {
     * @param account to add
     * @return boolean
     * */
-    public boolean createAccount(String name, String username, String email, String role){
+    public boolean createAccount(String username, String email, UserRole role, String name){
         // worry about if an admin account is passed
-        Account tmp = new Account(name,username,email,role);
-        return saveAnAccount(tmp);
+        return saveAnAccount(new Account(username, email, role, name));
     }
 
     /*create account in our db with all its attributes
@@ -70,10 +67,7 @@ public class DatabaseInterface {
     * @return boolean
     *   */
     public boolean checksUsername(String username){
-        if(userSet.contains(username)){
-            return true;
-        }
-        return false;
+        return userSet.contains(username);
     }
 
     /*Saves an account into our database. Returns true if done so, and returns false if username already taken.
@@ -84,19 +78,18 @@ public class DatabaseInterface {
     private boolean saveAnAccount(Account acc) throws IllegalStateException{
 
         // checks if admin already created or not done yet
-        if(!acc.getRole().equals("admin") && adminCount == 0){
+        if (acc.getRole() != UserRole.admin && adminCount == 0) {
             throw new IllegalStateException("Admin must be create first");
-        }else if(acc.getRole().equals("admin") && adminCount >= 1){
+        } else if(acc.getRole() == UserRole.admin && adminCount >= 1){
             throw new IllegalStateException("Maximum 1 admin account possible");
         }
 
-        if( checksUsername( acc.getUsername())){
+        if(checksUsername(acc.getUsername())){
             Log.d("Username in DB already","Username in DB already "+ acc.getUsername());
             return false;
         }
 
-        if(adminCount != 1)
-            adminCount++;
+        adminCount = 1;
 
         // try to make so can add username in the listener
         userSet.add(acc.getUsername());
@@ -146,9 +139,6 @@ public class DatabaseInterface {
         });
 
     }
-
-
-
 
     /*Given an account it will remove it from the db. You can get that account via the callback and manipulate as you want.
     * */
@@ -219,24 +209,33 @@ public class DatabaseInterface {
        getAccount(username, context, new DatabaseCallBack(){
            @Override
            public void onEntityRetrieved(Entity entity){
-               if(entity != null && entity.getRole().equals("admin")){
-                   db.getReference("users").get().addOnCompleteListener(task -> {
-                       if(task.isSuccessful()){
-                           ArrayList<Entity> entityList = new ArrayList<>();
-                           for(DataSnapshot snapshot: task.getResult().getChildren()){
-                               Account tmp = snapshot.getValue(Account.class);
-                               if(tmp!=null){
-                                   entityList.add(tmp);
+               Account acc;
+
+               if (entity instanceof Account) {
+                    acc = (Account) entity;
+
+                   if(acc.getRole() == UserRole.admin) {
+                       db.getReference("users").get().addOnCompleteListener(task -> {
+                           if(task.isSuccessful()){
+                               ArrayList<Entity> entityList = new ArrayList<>();
+                               for(DataSnapshot snapshot: task.getResult().getChildren()){
+                                   Account tmp = snapshot.getValue(Account.class);
+                                   if(tmp!=null){
+                                       entityList.add(tmp);
+                                   }
                                }
+                               callBack.onEntityList(entityList);
+                           }else{
+                               Log.d("a", "failed to get user accounts");
                            }
-                           callBack.onEntityList(entityList);
-                       }else{
-                           Log.d("a", "failed to get user accounts");
-                       }
-                   });
-               }else{
-                   Log.d("a", "User must be an admin to get list of all users");
+                       });
+                   }else{
+                       Log.d("a", "User must be an admin to get list of all users");
+                   }
+               } else {
+                   Log.d("a", "Retrieval error: Entity retrieved is not an Account");
                }
+
            }
        });
     }
