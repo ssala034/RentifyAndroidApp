@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.group20.rentify.MainActivity;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
 
@@ -51,11 +50,11 @@ public class DatabaseInterface {
     * @param account to add
     * @return boolean
     * */
-    public boolean createAccount(String name, String username, String email, String role){
-        // worry about if an admin account is passed
-        Account tmp = new Account(name,username,email,role);
-        return saveAnAccount(tmp);
-    }
+//    public boolean createAccount(String name, String username, String email, String role){
+//        // worry about if an admin account is passed
+//        Account tmp = new Account(name,username,email,role);
+//        return saveAnAccount(tmp);
+//    }
 
     /*create account in our db with all its attributes
      * @param account to add
@@ -215,31 +214,31 @@ public class DatabaseInterface {
     * You must override the callback method, or add your own to manipualte that list as you want.
     * */
 
-    public void retreiveAccounts(String username, Context context, DatabaseCallBack callBack){
-       getAccount(username, context, new DatabaseCallBack(){
-           @Override
-           public void onEntityRetrieved(Entity entity){
-               if(entity != null && entity.getRole().equals("admin")){
-                   db.getReference("users").get().addOnCompleteListener(task -> {
-                       if(task.isSuccessful()){
-                           ArrayList<Entity> entityList = new ArrayList<>();
-                           for(DataSnapshot snapshot: task.getResult().getChildren()){
-                               Account tmp = snapshot.getValue(Account.class);
-                               if(tmp!=null){
-                                   entityList.add(tmp);
-                               }
-                           }
-                           callBack.onEntityList(entityList);
-                       }else{
-                           Log.d("a", "failed to get user accounts");
-                       }
-                   });
-               }else{
-                   Log.d("a", "User must be an admin to get list of all users");
-               }
-           }
-       });
-    }
+//    public void retreiveAccounts(String username, Context context, DatabaseCallBack callBack){
+//       getAccount(username, context, new DatabaseCallBack(){
+//           @Override
+//           public void onEntityRetrieved(Entity entity){
+//               if(entity != null && entity.getRole().equals("admin")){
+//                   db.getReference("users").get().addOnCompleteListener(task -> {
+//                       if(task.isSuccessful()){
+//                           ArrayList<Entity> entityList = new ArrayList<>();
+//                           for(DataSnapshot snapshot: task.getResult().getChildren()){
+//                               Account tmp = snapshot.getValue(Account.class);
+//                               if(tmp!=null){
+//                                   entityList.add(tmp);
+//                               }
+//                           }
+//                           callBack.onEntityList(entityList);
+//                       }else{
+//                           Log.d("a", "failed to get user accounts");
+//                       }
+//                   });
+//               }else{
+//                   Log.d("a", "User must be an admin to get list of all users");
+//               }
+//           }
+//       });
+//    }
 
     /* DEMO FOR CALLBACK:
 

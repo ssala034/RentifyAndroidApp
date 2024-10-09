@@ -3,9 +3,7 @@ package com.group20.rentify;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -41,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void createAccountClick(@NonNull View view){
         // go to create account activity
-        Intent intent = new Intent(this, CreateAccount.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
