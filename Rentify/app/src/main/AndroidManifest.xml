@@ -22,6 +22,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".util.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".util.CreateAccountInterface"
+            android:exported="false"
+            android:label="@string/title_activity_create_account_interface"
+            android:theme="@style/Theme.Rentify">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
