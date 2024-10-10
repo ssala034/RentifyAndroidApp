@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#C0B3FD"
-    tools:context=".util.RegisterActivity">
+    tools:context=".RegisterActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
