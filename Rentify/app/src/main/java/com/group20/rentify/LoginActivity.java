@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.group20.rentify.controller.FormController;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,13 +31,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void signInClick(@NonNull View view){
         String email = ((EditText) findViewById(R.id.text_inputEmail)).getText().toString();
-        String password = ((EditText) findViewById(R.id.text_inputPassword)).getText().toString();
-        /* maybe use try catch
-        // validate(email);
-        //validate(password);
-        */
-        Intent intent = new Intent(this, WelcomeActivity.class);
-        startActivity(intent);
+        String password = FormController.getInstance().hashPassword(
+                ((EditText) findViewById(R.id.text_inputPassword)).getText().toString()
+        );
+
+        if (FormController.getInstance().verifyLogin(email, password)) {
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this,
+                    "Incorrect Username or Password",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void createAccountClick(@NonNull View view){

@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.guava)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

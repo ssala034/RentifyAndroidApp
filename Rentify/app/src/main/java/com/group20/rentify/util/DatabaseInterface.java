@@ -6,8 +6,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,20 +32,30 @@ import java.util.HashSet;
  */
 public class DatabaseInterface {
 
+    private static DatabaseInterface instance;
 
     /* all instances of DbInterface must interact with same Db, thus same reference*/
     private static FirebaseDatabase db;
     private static int adminCount = 0;
     /*current way of keeping track of existing users, to do via a search with Firebase need a callback. LATER*/
     private static HashSet<String> userSet;
+    private FirebaseAuth auth;
 
-    public DatabaseInterface(){
+    private DatabaseInterface(){
         db = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
         /* all nodes will be under root node users*/
         db.getReference().child("users");
         userSet = new HashSet<>();
     }
 
+    public static DatabaseInterface getInstance() {
+        if (instance == null) {
+            instance = new DatabaseInterface();
+        }
+
+        return instance;
+    }
 
     /* create account in our db with all its attributes
     * @param account to add
@@ -116,7 +129,7 @@ public class DatabaseInterface {
     *
     * @param string username of account, context the MainActivity context, Callback to override.
     * */
-    public void getAccount(String username, Context context, DatabaseCallBack callBack) throws IllegalStateException{
+    public void getAccount(String username, DatabaseCallBack callBack) throws IllegalStateException{
         db.getReference().child("users").child(username).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -160,7 +173,7 @@ public class DatabaseInterface {
 
     /*Given an account it will remove it from the db. You can get that account via the callback.
     * */
-    public void removeAccount(String username, Context context, DatabaseCallBack callBack) {
+    public void removeAccount(String username, DatabaseCallBack callBack) {
         DatabaseReference node = db.getReference().child("users").child(username);
 
         // First, get the account details
@@ -198,14 +211,12 @@ public class DatabaseInterface {
         });
     }
 
-
-
     /*Given a admin account, it will retrieve a list of user created so far, including the admin account.
     * You must override the callback method, or add your own to manipualte that list as you want.
     * */
 
-    public void retreiveAccounts(String username, Context context, DatabaseCallBack callBack){
-       getAccount(username, context, new DatabaseCallBack(){
+    public void retreiveAccounts(String username, DatabaseCallBack callBack){
+       getAccount(username, new DatabaseCallBack(){
            @Override
            public void onEntityRetrieved(Entity entity){
                Account acc;
@@ -237,6 +248,17 @@ public class DatabaseInterface {
 
            }
        });
+    }
+
+    public boolean authenticateAccount(String email, String password) {
+        final boolean[] logged = new boolean[1];
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                logged[0] = task.isSuccessful();
+            }
+        });
+        return logged[0];
     }
 
     /* DEMO FOR CALLBACK:

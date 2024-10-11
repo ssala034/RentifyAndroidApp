@@ -16,6 +16,8 @@ public class Account implements Entity {
     // may remove this attribute and query the db instead
     // temporarily using an array list until the best data structure can be decided
 
+    private static Account sessionAccount;
+
     // instance variables
     /**
      * The user's profile display name.
@@ -111,6 +113,14 @@ public class Account implements Entity {
         this.role = a.role;
         this.name = a.name;
         this.email = a.email;
+    }
+
+    public static Account getSessionAccount() {
+        return sessionAccount;
+    }
+
+    public static void setSessionAccount(Account currentSession) {
+        sessionAccount = currentSession;
     }
 
     // getters
