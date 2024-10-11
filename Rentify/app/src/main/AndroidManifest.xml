@@ -13,25 +13,18 @@
         android:theme="@style/Theme.Rentify"
         tools:targetApi="31">
         <activity
-            android:name=".util.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".util.CreateAccountInterface"
-            android:exported="false"
-            android:label="@string/title_activity_create_account_interface"
-            android:theme="@style/Theme.Rentify">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".WelcomeActivity"
+            android:exported="true">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".RegisterActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

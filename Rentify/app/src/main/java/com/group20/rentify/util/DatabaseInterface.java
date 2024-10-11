@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.group20.rentify.MainActivity;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.UserRole;
