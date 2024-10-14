@@ -50,7 +50,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Enter your Email"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <EditText
                 android:id="@+id/usernameEnter"
@@ -62,7 +62,7 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/firstNameEnter2"
+                android:id="@+id/firstNameEnter"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -84,7 +84,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Password"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:inputType="textPassword"/>
 
             <EditText
                 android:id="@+id/passwordEnter2"
@@ -92,41 +93,37 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Re-enter your password"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:inputType="textPassword"/>
 
             <RadioGroup
                 android:id="@+id/selectRole"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:checkedButton="@id/renterSelect"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/renterSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Renter"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <RadioButton
-                        android:id="@+id/renterSelect"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Renter"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <RadioButton
-                        android:id="@+id/lenderSelect"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Lendor"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                <RadioButton
+                    android:id="@+id/lenderSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Lendor"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
             </RadioGroup>
 
-            <TextView
+            <CheckBox
                 android:id="@+id/adminCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -4,9 +4,7 @@ import android.util.Patterns;
 
 import com.google.common.hash.Hashing;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.Entity;
-import com.group20.rentify.util.DatabaseCallBack;
-import com.group20.rentify.util.DatabaseInterface;
+import com.group20.rentify.entity.UserRole;
 
 import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
@@ -14,9 +12,10 @@ import java.util.NoSuchElementException;
 public class FormController {
 
     private static FormController instance;
+    private SaveDataController saveDataController;
 
     private FormController() {
-        super();
+        saveDataController = SaveDataController.getInstance();
     }
 
     public static FormController getInstance() {
@@ -35,30 +34,33 @@ public class FormController {
         return password1 == null || password2 == null || password1.equals(password2);
     }
 
+    public boolean verifyUsername(String username) {
+        return saveDataController.verifyUniqueUsername(username);
+    }
+
     public boolean verifyLogin(String email, String password) {
-        if (DatabaseInterface.getInstance().authenticateAccount(email, password)) {
-            try {
-                DatabaseInterface.getInstance().getAccount(
-                        email,
-                        new DatabaseCallBack() {
-                            @Override
-                            public void onEntityRetrieved(Entity entity) {
-                                if (entity instanceof  Account) {
+        try {
+            saveDataController.authenticate(email, password,
+                    success -> SaveDataController.getInstance().getAccount(email,
+                            entity -> {
+                                if (entity instanceof Account) {
                                     Account.setSessionAccount((Account) entity);
                                 } else {
                                     throw new NoSuchElementException("Account does not exist");
                                 }
-                            }
-                        });
+                            }));
 
-            } catch (NoSuchElementException e) {
-                return false;
-            }
-
-            return true;
+        } catch (NoSuchElementException e) {
+            return false;
         }
 
-        return false;
+        return true;
+    }
+
+    public boolean createAccount(String username, String email, UserRole role, String firstName, String lastName)
+        throws IllegalStateException {
+        Account createdAccount = new Account(username, email, role, firstName, lastName);
+        return saveDataController.saveAccount(createdAccount);
     }
 
     public String hashPassword(String password) {

@@ -50,6 +50,7 @@ public class DatabaseInterface implements DataSaver {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void retrieveEntity(String key, Class cls, EntityRetrievalCallback callback) {
         DatabaseReference node = db.getReference().child(key);
 

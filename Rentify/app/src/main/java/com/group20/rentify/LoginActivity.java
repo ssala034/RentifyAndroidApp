@@ -17,6 +17,9 @@ import com.group20.rentify.controller.FormController;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private EditText emailInput;
+    private EditText passwordInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,21 +30,29 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // create listeners
+        emailInput = findViewById(R.id.text_inputEmail);
+        passwordInput = findViewById(R.id.text_inputPassword);
+
+        createFocusListeners();
     }
 
-    public void signInClick(@NonNull View view){
-        String email = ((EditText) findViewById(R.id.text_inputEmail)).getText().toString();
-        String password = FormController.getInstance().hashPassword(
-                ((EditText) findViewById(R.id.text_inputPassword)).getText().toString()
-        );
+    public void signInClick(@NonNull View view) {
+        if (validateNotEmpty(emailInput) && validateNotEmpty(passwordInput)) {
+            String email = emailInput.getText().toString();
+            String password = FormController.getInstance().hashPassword(
+                    passwordInput.getText().toString()
+            );
 
-        if (FormController.getInstance().verifyLogin(email, password)) {
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this,
-                    "Incorrect Username or Password",
-                    Toast.LENGTH_SHORT).show();
+            if (FormController.getInstance().verifyLogin(email, password)) {
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this,
+                        "Incorrect Username or Password",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -49,6 +60,28 @@ public class LoginActivity extends AppCompatActivity {
         // go to create account activity
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    private void createFocusListeners() {
+        emailInput.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                validateNotEmpty(emailInput);
+            }
+        });
+
+        passwordInput.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                validateNotEmpty(passwordInput);
+            }
+        });
+    }
+
+    private boolean validateNotEmpty(EditText field) {
+        if (field.getText().toString().isEmpty()) {
+            field.setError("Input field is required");
+            return false;
+        }
+        return true;
     }
 
 }

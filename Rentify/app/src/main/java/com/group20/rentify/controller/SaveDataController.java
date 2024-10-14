@@ -32,18 +32,24 @@ public class SaveDataController {
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
                 data -> {
-                    Set<String> updatedUsernames = data.keySet();
-                    usernames.retainAll(updatedUsernames);
-                    usernames.addAll(updatedUsernames);
+                    if (data != null) {
+                        Set<String> updatedUsernames = data.keySet();
+                        usernames.retainAll(updatedUsernames);
+                        usernames.addAll(updatedUsernames);
+                    } else {
+                        usernames.clear();
+                    }
                 },
                 error -> {throw (DatabaseException) error;});
 
         dataSaver.addDataChangeListener(DataSaver.USER_PATH,
                 data -> {
                     accounts.clear();
-                    for (Object account : data.values()) {
-                        if (account instanceof Account) {
-                            accounts.add((Account) account);
+                    if (data != null) {
+                        for (Object account : data.values()) {
+                            if (account instanceof Account) {
+                                accounts.add((Account) account);
+                            }
                         }
                     }
                 },
@@ -75,7 +81,7 @@ public class SaveDataController {
      * @return                          True if account can be created and is saved successfully
      * @throws IllegalStateException    If admin requirements are not met
      */
-    private boolean saveAnAccount(Account acc) {
+    public boolean saveAccount(Account acc) {
 
         if(acc.getRole() == UserRole.admin){
             if (adminCreated)
@@ -91,7 +97,7 @@ public class SaveDataController {
         // update the username -> email table
         // this also updates the username set through the event listener
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + acc.getUsername(), acc.getEmail());
-        dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + acc.getEmail(), acc.getUsername());
+        dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(acc.getEmail()), acc.getUsername());
 
         // Add the account under the "users" node with their username as the key, Asynchronous
         dataSaver.saveEntity(acc, DataSaver.USER_PATH + "/" + acc.getUsername());
@@ -156,5 +162,9 @@ public class SaveDataController {
      */
     public void addToAuth(String email, String password) {
         dataSaver.addToAuth(email, password);
+    }
+
+    private String replaceIllegalCharacters(String str) {
+        return str.replace('.', '-');
     }
 }
