@@ -5,9 +5,9 @@ import android.util.Patterns;
 import com.google.common.hash.Hashing;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.UserRole;
+import com.group20.rentify.util.callback.AuthenticationCallback;
 
 import java.nio.charset.StandardCharsets;
-import java.util.NoSuchElementException;
 
 public class FormController {
 
@@ -38,29 +38,34 @@ public class FormController {
         return saveDataController.verifyUniqueUsername(username);
     }
 
-    public boolean verifyLogin(String email, String password) {
-        try {
-            saveDataController.authenticate(email, password,
-                    success -> SaveDataController.getInstance().getAccount(email,
-                            entity -> {
-                                if (entity instanceof Account) {
-                                    Account.setSessionAccount((Account) entity);
-                                } else {
-                                    throw new NoSuchElementException("Account does not exist");
-                                }
-                            }));
-
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-
-        return true;
+    public void verifyLogin(String email, String password, AuthenticationCallback callback) {
+        saveDataController.authenticate(email, password,
+                success -> {
+                    if (success) {
+                        saveDataController.getAccount(email,
+                                entity -> {
+                                    if (entity instanceof Account) {
+                                        Account.setSessionAccount((Account) entity);
+                                        callback.onAuthenticationCompleted(true);
+                                    } else {
+                                        callback.onAuthenticationCompleted(false);
+                                    }
+                                });
+                    } else {
+                        callback.onAuthenticationCompleted(false);
+                    }
+                });
     }
 
-    public boolean createAccount(String username, String email, UserRole role, String firstName, String lastName)
+    public boolean createAccount(String username, String email, UserRole role, String firstName, String lastName, String password)
         throws IllegalStateException {
         Account createdAccount = new Account(username, email, role, firstName, lastName);
-        return saveDataController.saveAccount(createdAccount);
+        boolean success = saveDataController.saveAccount(createdAccount);
+        if (success) {
+            saveDataController.addToAuth(email, password);
+            Account.setSessionAccount(createdAccount);
+        }
+        return success;
     }
 
     public String hashPassword(String password) {

@@ -108,7 +108,8 @@ public class RegisterActivity extends AppCompatActivity {
                     emailInput.getText().toString(),
                     getRole(),
                     firstNameInput.getText().toString(),
-                    lastNameInput.getText().toString()
+                    lastNameInput.getText().toString(),
+                    controller.hashPassword(passwordInput.getText().toString())
             );
         } catch (IllegalStateException e) {
             Toast.makeText(this,

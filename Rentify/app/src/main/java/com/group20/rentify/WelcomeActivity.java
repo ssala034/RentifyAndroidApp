@@ -1,6 +1,7 @@
 package com.group20.rentify;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +9,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.group20.rentify.entity.Account;
+
 public class WelcomeActivity extends AppCompatActivity {
+
+    public static final String GREETING = "Hello";
+    public static final String WELCOME = "Welcome to Rentify!";
+    public static final String ROLE_PREFIX = "You are logged in as";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +27,17 @@ public class WelcomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        syncTextWithState();
+    }
+
+    private void syncTextWithState() {
+        Account signedIn = Account.getSessionAccount();
+        ((TextView) findViewById(R.id.RegisterTitle)).setText(
+                String.format("%s, %s!\n%s", GREETING, signedIn.getFirstName(), WELCOME)
+        );
+        ((TextView) findViewById(R.id.userRole)).setText(
+                String.format("%s: %s", ROLE_PREFIX, signedIn.getRole())
+        );
     }
 }

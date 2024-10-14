@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput;
     private EditText passwordInput;
+    private FormController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +37,29 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.text_inputPassword);
 
         createFocusListeners();
+
+        // initialize controller
+        controller = FormController.getInstance();
     }
 
     public void signInClick(@NonNull View view) {
         if (validateNotEmpty(emailInput) && validateNotEmpty(passwordInput)) {
             String email = emailInput.getText().toString();
-            String password = FormController.getInstance().hashPassword(
+            String password = controller.hashPassword(
                     passwordInput.getText().toString()
             );
 
-            if (FormController.getInstance().verifyLogin(email, password)) {
-                Intent intent = new Intent(this, WelcomeActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(this,
-                        "Incorrect Username or Password",
-                        Toast.LENGTH_SHORT).show();
-            }
+            controller.verifyLogin(email, password,
+                    success -> {
+                        if (success) {
+                            Intent intent = new Intent(this, WelcomeActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(this,
+                                    "Incorrect Username or Password",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 

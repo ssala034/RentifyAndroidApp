@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 import com.group20.rentify.util.callback.ChangeListenerCallback;
-import com.group20.rentify.util.callback.EntityRetrievalCallback;
+import com.group20.rentify.util.callback.DataRetrievalCallback;
 import com.group20.rentify.util.callback.ErrorHandlerCallback;
 
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class DatabaseInterface implements DataSaver {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void retrieveEntity(String key, Class cls, EntityRetrievalCallback callback) {
+    public void retrieveEntity(String key, Class cls, DataRetrievalCallback<Entity> callback) {
         DatabaseReference node = db.getReference().child(key);
 
         node.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -62,16 +62,16 @@ public class DatabaseInterface implements DataSaver {
                     if (!(res instanceof Entity)) {
                         throw new IllegalArgumentException();
                     }
-                    callback.onEntityRetrieved((Entity) res);
+                    callback.onDataRetrieved((Entity) res);
                 } else {
                     Log.d("Database ERROR", "Entity does not exist");
-                    callback.onEntityRetrieved(null);
+                    callback.onDataRetrieved(null);
                 }
             };
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d("Database ERROR", "The read failed: " + databaseError.getCode());
-                callback.onEntityRetrieved(null);
+                callback.onDataRetrieved(null);
             }
         });
     }
@@ -119,9 +119,25 @@ public class DatabaseInterface implements DataSaver {
     }
 
     @Override
-    public Object retrieveData(String key) {
+    public void retrieveData(String key, DataRetrievalCallback<Object> callback) {
         DatabaseReference node = db.getReference().child(key);
-        return node.get();
+        node.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Object res = dataSnapshot.getValue();
+                    callback.onDataRetrieved(res);
+                } else {
+                    Log.d("Database ERROR", "Object does not exist");
+                    callback.onDataRetrieved(null);
+                }
+            };
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("Database ERROR", "The read failed: " + databaseError.getCode());
+                callback.onDataRetrieved(null);
+            }
+        });
     }
 
     @Override

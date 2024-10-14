@@ -63,7 +63,7 @@ public class Account implements Entity {
         this.username = username;
         this.email = email;
         this.role = role;
-        this.firstName = firstName;
+        this.firstName = firstName.isEmpty() ? username : firstName;
         this.lastName = lastName;
     }
 

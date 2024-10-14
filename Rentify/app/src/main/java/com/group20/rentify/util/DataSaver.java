@@ -3,7 +3,7 @@ package com.group20.rentify.util;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 import com.group20.rentify.util.callback.ChangeListenerCallback;
-import com.group20.rentify.util.callback.EntityRetrievalCallback;
+import com.group20.rentify.util.callback.DataRetrievalCallback;
 import com.group20.rentify.util.callback.ErrorHandlerCallback;
 
 public interface DataSaver {
@@ -18,7 +18,7 @@ public interface DataSaver {
      * @param key       The full path to the entity (i.e., users.username.name)
      * @param callback  A callback for processing the retrieved data
      */
-    void retrieveEntity(String key, Class cls, EntityRetrievalCallback callback);
+    void retrieveEntity(String key, Class cls, DataRetrievalCallback<Entity> callback);
 
     /**
      * Remove the data item at the path provided by key
@@ -44,10 +44,10 @@ public interface DataSaver {
 
     /**
      * Retrieve the data stored at a location
-     * @param key   The full path to the location of the data field to retrieve
-     * @return      The data stored at the key location
+     * @param key       The full path to the location of the data field to retrieve
+     * @param callback  The callback for processing the data stored at the key location
      */
-    Object retrieveData(String key);
+    void retrieveData(String key, DataRetrievalCallback<Object> callback);
 
     /**
      * Authenticate a login

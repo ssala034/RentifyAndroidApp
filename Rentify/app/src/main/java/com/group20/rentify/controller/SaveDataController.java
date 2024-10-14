@@ -4,11 +4,12 @@ import android.util.Log;
 
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;
 import com.group20.rentify.util.DatabaseInterface;
 import com.group20.rentify.util.callback.AuthenticationCallback;
-import com.group20.rentify.util.callback.EntityRetrievalCallback;
+import com.group20.rentify.util.callback.DataRetrievalCallback;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -112,14 +113,16 @@ public class SaveDataController {
      * @param identifier    username or email of account
      * @param callback      callback object overriding onEntityRetrieved
      */
-    public void getAccount(String identifier, EntityRetrievalCallback callback) {
-        String username;
+    public void getAccount(String identifier, DataRetrievalCallback<Entity> callback) {
         if (usernames.contains(identifier)) {
-            username = identifier;
+            dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class, callback);
         } else {
-            username = dataSaver.retrieveData(DataSaver.EMAIL_PATH + "/" + identifier).toString();
+            dataSaver.retrieveData(
+                    DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier),
+                    result -> {
+                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class, callback);
+                    });
         }
-        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + username, Account.class, callback);
     }
 
     /**
@@ -149,10 +152,14 @@ public class SaveDataController {
      */
     public void authenticate(String credential, String password, AuthenticationCallback callback) {
         if (usernames.contains(credential)) {
-            credential = dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + credential).toString();
+            dataSaver.retrieveData(
+                    DataSaver.USERNAME_PATH + "/" + credential,
+                    result -> {
+                        dataSaver.authenticate(result.toString(), password, callback);
+                    });
+        } else {
+            dataSaver.authenticate(credential, password, callback);
         }
-
-        dataSaver.authenticate(credential, password, callback);
     }
 
     /**
@@ -166,5 +173,9 @@ public class SaveDataController {
 
     private String replaceIllegalCharacters(String str) {
         return str.replace('.', '-');
+    }
+
+    private String restoreReplaced(String str) {
+        return str.replace('-', '.');
     }
 }
