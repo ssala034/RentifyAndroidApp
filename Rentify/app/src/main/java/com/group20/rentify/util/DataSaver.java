@@ -10,7 +10,7 @@ public interface DataSaver {
 
     String USERNAME_PATH = "usernames";
     String USER_PATH = "users";
-    String EMAIL_PATH = "paths";
+    String EMAIL_PATH = "emails";
 
     /**
      * Get the data item at the path provided by key

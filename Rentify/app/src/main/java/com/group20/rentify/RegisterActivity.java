@@ -134,6 +134,11 @@ public class RegisterActivity extends AppCompatActivity {
                 emailInput.setError("Email should be in the form someone@email.id");
                 return false;
             }
+
+            if (!controller.verifyUniqueEmail(emailInput.getText().toString())) {
+                emailInput.setError("Email already associated with existing account");
+                return false;
+            }
             return true;
         }
         return false;

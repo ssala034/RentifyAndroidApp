@@ -39,6 +39,10 @@ public class FormController {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    public boolean verifyUniqueEmail(String email) {
+        return saveDataController.verifyUniqueEmail(email);
+    }
+
     public boolean verifyPassword(String password1, String password2) {
         return password1 == null || password2 == null || password1.equals(password2);
     }

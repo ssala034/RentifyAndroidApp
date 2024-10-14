@@ -22,12 +22,14 @@ public class SaveDataController {
 
     private final DataSaver dataSaver;
     private final Set<String> usernames;
+    private final Set<String> emails;
     private final List<Account> accounts;
     private boolean adminCreated;
 
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
         usernames = new HashSet<>();
+        emails = new HashSet<>();
         accounts = new ArrayList<>();
 
         // add listeners
@@ -35,10 +37,22 @@ public class SaveDataController {
                 data -> {
                     if (data != null) {
                         Set<String> updatedUsernames = data.keySet();
-                        usernames.retainAll(updatedUsernames);
+                        usernames.clear();
                         usernames.addAll(updatedUsernames);
                     } else {
                         usernames.clear();
+                    }
+                },
+                error -> {throw (DatabaseException) error;});
+
+        dataSaver.addDataChangeListener(DataSaver.EMAIL_PATH,
+                data -> {
+                    if (data != null) {
+                        Set<String> updatedEmails = data.keySet();
+                        emails.clear();
+                        emails.addAll(updatedEmails);
+                    } else {
+                        emails.clear();
                     }
                 },
                 error -> {throw (DatabaseException) error;});
@@ -68,12 +82,21 @@ public class SaveDataController {
     }
 
     /**
-     * Given an account user, checks if that username is already taken.
+     * Given an account user, check if that username is already taken.
      * @param username  A potential account username
      * @return          True if the username does not belong to any other users in the system.
      */
     public boolean verifyUniqueUsername(String username){
         return !usernames.contains(username);
+    }
+
+    /**
+     * Given an account email, check if that email is already taken.
+     * @param email  A potential account email
+     * @return       True if the email is not associated with any other accounts in the system.
+     */
+    public boolean verifyUniqueEmail(String email) {
+        return !emails.contains(replaceIllegalCharacters(email));
     }
 
     /**
