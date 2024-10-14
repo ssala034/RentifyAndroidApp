@@ -152,6 +152,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validatePasswordInput(EditText passwordField) {
         if (validateNotEmpty(passwordField)) {
+            String complexityMessage = controller.verifyPasswordComplexity(passwordField.getText().toString());
+            if (!complexityMessage.isEmpty()) {
+                passwordField.setError(complexityMessage);
+                return false;
+            }
+
             String password = controller.hashPassword(passwordInput.getText().toString());
             String rePassword = controller.hashPassword(passwordReInput.getText().toString());
             if (!controller.verifyPassword(password, rePassword)) {
@@ -162,6 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
             // clear the error messages
             passwordInput.setError(null);
             passwordReInput.setError(null);
+
             return true;
         }
         return false;

@@ -7,9 +7,18 @@ import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.nio.charset.StandardCharsets;
 
 public class FormController {
+
+    public static final int MIN_PASSWORD_LENGTH = 8;
+    public static final boolean REQUIRE_NUMERIC = true;
+    public static final boolean REQUIRE_UPPERCASE = true;
+    public static final boolean REQUIRE_LOWERCASE = true;
+    public static final boolean REQUIRE_SYMBOL = true;
+    public static final String SYMBOLS = "^$*.[]{}()?\"!@#%&/\\,><':;|_~";
 
     private static FormController instance;
     private SaveDataController saveDataController;
@@ -32,6 +41,34 @@ public class FormController {
 
     public boolean verifyPassword(String password1, String password2) {
         return password1 == null || password2 == null || password1.equals(password2);
+    }
+
+    public String verifyPasswordComplexity(String password) {
+        boolean hasLower, hasUpper, hasNumber, hasSymbol;
+        hasLower = hasUpper = hasNumber = hasSymbol = false;
+
+        if (password.length() < MIN_PASSWORD_LENGTH) {
+            return "Password must be at least 8 characters long";
+        }
+
+        for (char c : password.toCharArray()) {
+            hasLower = hasLower || Character.isLowerCase(c);
+            hasUpper = hasUpper || Character.isUpperCase(c);
+            hasNumber = hasNumber || Character.isDigit(c);
+            hasSymbol = hasSymbol || SYMBOLS.contains(String.valueOf(c));
+        }
+
+        if (REQUIRE_LOWERCASE && !hasLower) {
+            return "Password must contain at least one lowercase letter";
+        } else if (REQUIRE_UPPERCASE && !hasUpper) {
+            return "Password must contain at least one uppercase letter";
+        } else if (REQUIRE_NUMERIC && !hasNumber) {
+            return "Password must contain at least one number [0-9]";
+        } else if (REQUIRE_SYMBOL && !hasSymbol) {
+            return "Password must contain one of " + SYMBOLS;
+        }
+
+        return "";
     }
 
     public boolean verifyUsername(String username) {
