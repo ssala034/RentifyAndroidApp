@@ -70,7 +70,8 @@ public class SaveDataController {
                 },
                 error -> {throw (DatabaseException) error;});
 
-        adminCreated = false;
+        dataSaver.retrieveData(DataSaver.ADMIN_PATH,
+                result -> adminCreated = result != null);
     }
 
     public static SaveDataController getInstance() {
@@ -106,10 +107,10 @@ public class SaveDataController {
      * @throws IllegalStateException    If admin requirements are not met
      */
     public boolean saveAccount(Account acc) {
-
         if(acc.getRole() == UserRole.admin){
             if (adminCreated)
                 throw new IllegalStateException("Maximum 1 admin account possible");
+            dataSaver.saveOrUpdateData(DataSaver.ADMIN_PATH + acc.getUsername(), true);
             adminCreated = true;
         }
 

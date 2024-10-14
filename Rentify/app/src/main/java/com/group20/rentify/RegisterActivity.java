@@ -71,8 +71,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onAdminCheckToggled(View view) {
-        findViewById(R.id.renterSelect).setEnabled(!((CheckBox) view).isChecked());
-        findViewById(R.id.lenderSelect).setEnabled(!((CheckBox) view).isChecked());
+        enableRoleRadioGroup(!((CheckBox) view).isChecked());
+    }
+
+    private void enableRoleRadioGroup(boolean enable) {
+        findViewById(R.id.renterSelect).setEnabled(enable);
+        findViewById(R.id.lenderSelect).setEnabled(enable);
     }
 
     private void createFocusListeners() {
@@ -116,6 +120,8 @@ public class RegisterActivity extends AppCompatActivity {
                     "Creation of more than one admin account currently not supported",
                     Toast.LENGTH_SHORT).show();
             findViewById(R.id.adminCreate).setEnabled(false);
+            ((CheckBox) findViewById(R.id.adminCreate)).setChecked(false);
+            enableRoleRadioGroup(true);
             return false;
         }
     }

@@ -7,8 +7,6 @@ import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 
-import org.checkerframework.checker.units.qual.C;
-
 import java.nio.charset.StandardCharsets;
 
 public class FormController {
@@ -17,7 +15,7 @@ public class FormController {
     public static final boolean REQUIRE_NUMERIC = true;
     public static final boolean REQUIRE_UPPERCASE = true;
     public static final boolean REQUIRE_LOWERCASE = true;
-    public static final boolean REQUIRE_SYMBOL = true;
+    public static final boolean REQUIRE_SYMBOL = false;  // it would be best if this field was enabled but the admin pwd does not contain symbols
     public static final String SYMBOLS = "^$*.[]{}()?\"!@#%&/\\,><':;|_~";
 
     private static FormController instance;

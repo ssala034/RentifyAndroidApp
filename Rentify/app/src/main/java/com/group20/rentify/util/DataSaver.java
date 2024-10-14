@@ -11,6 +11,7 @@ public interface DataSaver {
     String USERNAME_PATH = "usernames";
     String USER_PATH = "users";
     String EMAIL_PATH = "emails";
+    String ADMIN_PATH = "admins";
 
     /**
      * Get the data item at the path provided by key
