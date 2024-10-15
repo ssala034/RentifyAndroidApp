@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -12,7 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.group20.rentify.controller.FormController;
+
 public class LoginActivity extends AppCompatActivity {
+
+    private EditText emailInput;
+    private EditText passwordInput;
+    private FormController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,23 +31,64 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // create listeners
+        emailInput = findViewById(R.id.text_inputEmail);
+        passwordInput = findViewById(R.id.text_inputPassword);
+
+        createFocusListeners();
+
+        // initialize controller
+        controller = FormController.getInstance();
     }
 
-    public void signInClick(@NonNull View view){
-        String email = ((EditText) findViewById(R.id.text_inputEmail)).getText().toString();
-        String password = ((EditText) findViewById(R.id.text_inputPassword)).getText().toString();
-        /* maybe use try catch
-        // validate(email);
-        //validate(password);
-        */
-        Intent intent = new Intent(this, WelcomeActivity.class);
-        startActivity(intent);
+    public void signInClick(@NonNull View view) {
+        if (validateNotEmpty(emailInput) && validateNotEmpty(passwordInput)) {
+            String email = emailInput.getText().toString();
+            String password = controller.hashPassword(
+                    passwordInput.getText().toString()
+            );
+
+            controller.verifyLogin(email, password,
+                    success -> {
+                        if (success) {
+                            Intent intent = new Intent(this, WelcomeActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(this,
+                                    "Incorrect Username or Password",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     public void createAccountClick(@NonNull View view){
         // go to create account activity
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    private void createFocusListeners() {
+        emailInput.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                validateNotEmpty(emailInput);
+            }
+        });
+
+        passwordInput.setOnFocusChangeListener((view, hasFocus) -> {
+            if (!hasFocus) {
+                validateNotEmpty(passwordInput);
+            }
+        });
+    }
+
+    private boolean validateNotEmpty(EditText field) {
+        if (field.getText().toString().isEmpty()) {
+            field.setError("Input field is required");
+            return false;
+        }
+        return true;
     }
 
 }

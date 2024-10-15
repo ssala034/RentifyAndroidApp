@@ -1,30 +1,32 @@
 package com.group20.rentify.entity;
 
-import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import com.group20.rentify.controller.SaveDataController;
 
 /**
  * A model class for user accounts of the Rentify app.
  */
 public class Account implements Entity {
 
-    //class variables
-    protected static ArrayList<Account> accounts;
-    // may remove this attribute and query the db instead
-    // temporarily using an array list until the best data structure can be decided
+    private static Account sessionAccount;
 
     // instance variables
     /**
-     * The user's profile display name.
+     * The user's first name, which is used as their display name.
      * <p>
      *     If not provided, the default behaviour is to
      *     use the user's username for the name.
      * </p>
      */
-    private String name;
+    private String firstName;
+
+    /**
+     * The user's last name.
+     * <p>
+     *     If not provided, the default behaviour is to
+     *     leave it blank.
+     * </p>
+     */
+    private String lastName;
 
     /**
      * The user's unique username which can be used for sign in.
@@ -35,58 +37,18 @@ public class Account implements Entity {
      * The user's associated email address.
      * <p>Currently READ ONLY.</p>
      */
-    private final String email;
+    private String email;
 
     /**
      * The user's role in the system.
      * <p>One of {Renter, Lessor, Admin}</p>
      * <p>READ ONLY</p>
      */
-    private final UserRole role;
+    private UserRole role;
 
     // constructors
+    public Account() {
 
-    /**
-     * Constructor for creating entity from database representation
-     */
-    public Account(Map<String, Object> dbObj) {
-        Object value = dbObj.get("username");
-        if (value instanceof String) {
-            username = (String) value;
-        } else {
-            throw new IllegalArgumentException();
-        }
-
-        value = dbObj.get("name");
-        if (value instanceof String) {
-            name = (String) value;
-        } else {
-            throw new IllegalArgumentException();
-        }
-
-        value = dbObj.get("role");
-        if (value instanceof String) {
-            role = UserRole.stringToRole((String) value);
-        } else {
-            throw new IllegalArgumentException();
-        }
-
-        value = dbObj.get("email");
-        if (value instanceof String) {
-            email = (String) value;
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    /**
-     * Minimum argument constructor.
-     * @param username  The unique identifier for the user
-     * @param email     The primary email of the user
-     * @param role      One of {admin, renter, lessor}
-     */
-    public Account(String username, String email, UserRole role) {
-        this(username, email, role, username);
     }
 
     /**
@@ -94,23 +56,23 @@ public class Account implements Entity {
      * @param username  The unique identifier for the user
      * @param email     The primary email of the user
      * @param role      One of {admin, renter, lessor}
-     * @param name      The display name of the user
+     * @param firstName The first name and display name of the user
+     * @param lastName  The last name of the user
      */
-    public Account(String username, String email, UserRole role, String name) {
+    public Account(String username, String email, UserRole role, String firstName, String lastName) {
         this.username = username;
-        this.role = role;
-        this.name = name;
         this.email = email;
+        this.role = role;
+        this.firstName = firstName.isEmpty() ? username : firstName;
+        this.lastName = lastName;
     }
 
-    /**
-     * Copy constructor
-     */
-    public Account(@NonNull Account a) {
-        this.username = a.username;
-        this.role = a.role;
-        this.name = a.name;
-        this.email = a.email;
+    public static Account getSessionAccount() {
+        return sessionAccount;
+    }
+
+    public static void setSessionAccount(Account currentSession) {
+        sessionAccount = currentSession;
     }
 
     // getters
@@ -124,11 +86,19 @@ public class Account implements Entity {
     }
 
     /**
-     * Getter for the name attribute
-     * @return  name
+     * Getter for the first name attribute
+     * @return  firstName
      */
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Getter for the last name attribute
+     * @return  lastName
+     */
+    public String getLastName() {
+        return lastName;
     }
 
     /**
@@ -157,38 +127,32 @@ public class Account implements Entity {
      */
     public boolean setUsername(String username) {
         // check if the username is already in use
-        boolean validUsr = true;  // change this to an appropriate method call
+        boolean validUsr = SaveDataController.getInstance().verifyUniqueUsername(username);
 
         if (validUsr) {
-            // modify the existing account in the db
             this.username = username;
         }
 
-        return validUsr;
+        return validUsr && SaveDataController.getInstance().saveAccount(this);
     }
 
     /**
-     * Setter for the name attribute
+     * Setter for the first name attribute
      * @param name  The new name
      */
-    public void setName(String name) {
+    public boolean setFirstName(String name) {
         // modify the existing account in the db
-        this.name = name;
+        this.firstName = name;
+        return SaveDataController.getInstance().saveAccount(this);
     }
 
     /**
-     * TEMPORARY METHOD until a proper ORM layer is implemented
-     * <p>Implements method of Entity interface.</p>
-     * @return  the map representation of the object that is compatible with firebase
+     * Setter for the last name attribute
+     * @param name  The new name
      */
-    public Map<String, Object> getDatabaseRepresentation() {
-        Map<String, Object> dbRep = new HashMap<>();
-
-        dbRep.put("username", username);
-        dbRep.put("name", name);
-        dbRep.put("email", email);
-        dbRep.put("role", UserRole.roleToString(role));
-
-        return dbRep;
+    public boolean setLastName(String name) {
+        // modify the existing account in the db
+        this.lastName = name;
+        return SaveDataController.getInstance().saveAccount(this);
     }
 }
