@@ -1,6 +1,9 @@
 package com.group20.rentify;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,12 +13,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.UserRole;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     public static final String GREETING = "Hello";
     public static final String WELCOME = "Welcome to Rentify!";
     public static final String ROLE_PREFIX = "You are logged in as";
+
+    private Button viewAccountBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +34,14 @@ public class WelcomeActivity extends AppCompatActivity {
             return insets;
         });
 
-        syncTextWithState();
+        // set up listeners
+        viewAccountBtn = findViewById(R.id.viewAccountsBtn);
+        viewAccountBtn.setOnClickListener(this::onViewAccountsBtnClicked);
+
+        syncWithState();
     }
 
-    private void syncTextWithState() {
+    private void syncWithState() {
         Account signedIn = Account.getSessionAccount();
         ((TextView) findViewById(R.id.RegisterTitle)).setText(
                 String.format("%s, %s!\n%s", GREETING, signedIn.getFirstName(), WELCOME)
@@ -39,5 +49,19 @@ public class WelcomeActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.userRole)).setText(
                 String.format("%s: %s", ROLE_PREFIX, signedIn.getRole())
         );
+
+        if (signedIn.getRole() == UserRole.admin) {
+            setUpAdminPrivileges();
+        }
+    }
+
+    private void setUpAdminPrivileges() {
+        viewAccountBtn.setVisibility(TextView.VISIBLE);
+    }
+
+    private void onViewAccountsBtnClicked(View view) {
+        Intent intent = new Intent(this, ViewAccountsActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

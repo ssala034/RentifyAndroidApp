@@ -2,6 +2,7 @@ package com.group20.rentify.controller;
 
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
@@ -62,9 +63,9 @@ public class SaveDataController {
                     accounts.clear();
                     if (data != null) {
                         for (Object account : data.values()) {
-                            if (account instanceof Account) {
-                                accounts.add((Account) account);
-                            }
+                            // should find a cleaner way to do this
+                            // so that database logic is abstracted from this class
+                            accounts.add(((DataSnapshot) account).getValue(Account.class));
                         }
                     }
                 },

@@ -162,7 +162,7 @@ public class DatabaseInterface implements DataSaver {
                     Map<String, Object> data = new HashMap<>();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         if (ds.exists()) {
-                            data.put(ds.getKey(), ds.getValue());
+                            data.put(ds.getKey(), ds);
                         }
                     }
                     callback.onDataChange(data);
