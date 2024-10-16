@@ -111,7 +111,7 @@ public class SaveDataController {
         if(acc.getRole() == UserRole.admin){
             if (adminCreated)
                 throw new IllegalStateException("Maximum 1 admin account possible");
-            dataSaver.saveOrUpdateData(DataSaver.ADMIN_PATH + acc.getUsername(), true);
+            dataSaver.saveOrUpdateData(DataSaver.ADMIN_PATH + "/" + acc.getUsername(), true);
             adminCreated = true;
         }
 
