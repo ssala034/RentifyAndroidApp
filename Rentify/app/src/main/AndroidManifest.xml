@@ -13,14 +13,24 @@
         android:theme="@style/Theme.Rentify"
         tools:targetApi="31">
         <activity
+            android:name=".ShowAllCategories"
+            android:exported="false" />
+        <activity
+            android:name=".ShowCategories"
+            android:exported="false"
+            android:theme="@style/Theme.Rentify" />
+        <activity
+            android:name=".AdminDashboard"
+            android:exported="false" />
+        <activity
             android:name=".ViewAccountsActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">

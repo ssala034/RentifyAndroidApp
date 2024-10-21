@@ -50,4 +50,6 @@
     <string name="text_createAccount">"Don't have an account "</string>
     <string name="input_email">Email</string>
     <string name="header">Rentify</string>
+    <string name="viewAllUsers">Show All Users</string>
+    <string name="showAllCategories">Show All Categories</string>
 </resources>
