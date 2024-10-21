@@ -103,7 +103,7 @@
                 android:layout_height="27dp" />
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/buttonManageCategories"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
