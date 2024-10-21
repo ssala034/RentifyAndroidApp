@@ -42,7 +42,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
         // temporary for now instead of displaying all account
         Log.d("WelcomeActivity", "Display button clicked");
         List<Account> accounts = controller.getAccountList();
-        LinearLayout accountList = findViewById(R.id.accountListView);
+        LinearLayout accountList = findViewById(R.id.categoriesListView);
 
         for (Account account : accounts) {
             createSingleDisplay(account.getUsername(), account.getRole(), account.getEmail(), accountList);
