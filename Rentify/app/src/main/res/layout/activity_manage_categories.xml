@@ -39,19 +39,19 @@
                     android:id="@+id/heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="20dp"
                     android:text="@string/categoryPageTitle"
                     android:textAlignment="viewStart"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:padding="20dp"
-                    android:layout_weight="2"/>
+                    android:textStyle="bold" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/buttonAddCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:clickable="true"
                     app:srcCompat="@android:drawable/ic_menu_add" />
             </LinearLayout>
@@ -62,9 +62,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:orientation="horizontal">
+                android:layout_height="80dp"
+
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <LinearLayout
                     android:id="@+id/category1"
@@ -92,6 +93,17 @@
                         android:text="@string/category1Details"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/buttonDeleteCategory1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    app:ensureMinTouchTargetSize="false"
+                    app:srcCompat="@android:drawable/ic_delete" />
+
             </LinearLayout>
 
             <Space
@@ -99,39 +111,47 @@
                 android:layout_height="27dp" />
 
             <LinearLayout
-                android:id="@+id/category2"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_weight="4"
-                android:background="#7262C8">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-                <TextView
-                    android:id="@+id/category2Title"
+                <LinearLayout
+                    android:id="@+id/category2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="20dp"
-                    android:text="@string/category2Title"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:layout_height="80dp"
+                    android:layout_weight="2"
+                    android:background="#7262C8">
 
-                <TextView
-                    android:id="@+id/category2Details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/category2Details"
-                    android:textColor="#FFFFFF" />
+                    <TextView
+                        android:id="@+id/category2Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="20dp"
+                        android:text="@string/category2Title"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/category2Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/category2Details"
+                        android:textColor="#FFFFFF" />
+
+                </LinearLayout>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton5"
+                    android:id="@+id/buttonDeleteCategory2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:clickable="true"
-                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
+                    app:srcCompat="@android:drawable/ic_delete" />
             </LinearLayout>
 
             <Space
