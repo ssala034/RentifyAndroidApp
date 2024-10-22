@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Rentify"
         tools:targetApi="31">
         <activity
+            android:name=".EditCategory"
+            android:exported="false" />
+        <activity
             android:name=".ManageCategories"
             android:exported="false" />
         <activity
