@@ -27,4 +27,5 @@
     <string name="hintCategoryName">Category Name</string>
     <string name="hintCategoryDescription">Category Description</string>
     <string name="doneCreatingCategory">DONE</string>
+    <string name="categoryAdd">Add Category</string>
 </resources>
