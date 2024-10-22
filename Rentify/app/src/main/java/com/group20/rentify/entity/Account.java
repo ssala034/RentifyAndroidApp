@@ -117,6 +117,11 @@ public class Account implements Entity {
         return role;
     }
 
+    @Override
+    public String getUniqueIdentifier() {
+        return getUsername();
+    }
+
     // setters
 
     /**
@@ -154,5 +159,10 @@ public class Account implements Entity {
         // modify the existing account in the db
         this.lastName = name;
         return SaveDataController.getInstance().saveAccount(this);
+    }
+
+    @Override
+    public boolean setUniqueIdentifier(String id) {
+        return setUsername(id);
     }
 }
