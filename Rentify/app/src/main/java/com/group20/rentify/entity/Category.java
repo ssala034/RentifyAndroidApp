@@ -72,5 +72,31 @@ public class Category implements Entity {
         this.description = description;
     }
 
+    /**
+     * Return the name of the entity type, usually the same as the class name
+     */
+    @Override
+    public String getEntityTypeName() {
+        return "";
+    }
+
+    /**
+     * Return the identifier which uniquely identifies the entity
+     */
+    @Override
+    public String getUniqueIdentifier() {
+        return "";
+    }
+
+    /**
+     * Set the identifier which uniquely identifies the entity
+     *
+     * @param id The new identifier
+     * @return True if the new identifier is set successfully, false otherwise
+     */
+    @Override
+    public boolean setUniqueIdentifier(String id) {
+        return false;
+    }
 }
 
