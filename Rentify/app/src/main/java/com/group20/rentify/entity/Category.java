@@ -73,7 +73,10 @@ public class Category implements Entity {
     }
 
     /**
+     * Overrides method from interface Entity
+     * <p>
      * Return the name of the entity type, usually the same as the class name
+     * </p>
      */
     @Override
     public String getEntityTypeName() {
@@ -81,7 +84,10 @@ public class Category implements Entity {
     }
 
     /**
+     * Overrides method from interface Entity
+     * <p>
      * Return the identifier which uniquely identifies the entity
+     * </p>
      */
     @Override
     public String getUniqueIdentifier() {
@@ -89,8 +95,11 @@ public class Category implements Entity {
     }
 
     /**
-     * Set the identifier which uniquely identifies the entity
      *
+     * Overrides method from interface Entity
+     * <p>
+     * Set the identifier which uniquely identifies the entity
+     *</p>
      * @param id The new identifier
      * @return True if the new identifier is set successfully, false otherwise
      */
