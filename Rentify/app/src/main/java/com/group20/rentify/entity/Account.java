@@ -67,6 +67,11 @@ public class Account implements Entity {
         this.lastName = lastName;
     }
 
+    @Override
+    public String getEntityTypeName() {
+        return "account";
+    }
+
     public static Account getSessionAccount() {
         return sessionAccount;
     }
