@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C0B3FD"
-    tools:context=".ViewAllCategories">
+    tools:context=".ManageCategories">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -29,15 +29,32 @@
             android:layout_margin="30dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/heading"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="@string/categoryPageTitle"
-                android:textAlignment="viewStart"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/categoryPageTitle"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:padding="20dp"
+                    android:layout_weight="2"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floatingActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
+            </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -102,17 +119,6 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="27dp" />
-
-            <Button
-                android:id="@+id/buttonManageCategories"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:clickable="true"
-                android:text="@string/manageCategoriesButton"
-                android:textAlignment="center"
-                app:cornerRadius="@dimen/fab_margin" />
 
 
         </LinearLayout>
