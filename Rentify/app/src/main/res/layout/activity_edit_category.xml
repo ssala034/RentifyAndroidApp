@@ -30,25 +30,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textEditCategory"
+                android:id="@+id/textCategoryHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/editCategoryHeading"
                 android:textAlignment="textStart"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="visible" />
 
-
-            <TextView
-                android:id="@+id/textAddCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/categoryAdd"
-                android:textAlignment="textStart"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView2"
