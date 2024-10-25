@@ -48,7 +48,7 @@ public class CategoryController {
 
         dataController.getEntity("category", identifier, Category.class, result -> {
             if(result != null){
-                dataController.removeEntity(result, identifier);
+                dataController.removeEntity(result);
             }else{
                 Log.d("Category Error", "Category doesn't exists");
 
