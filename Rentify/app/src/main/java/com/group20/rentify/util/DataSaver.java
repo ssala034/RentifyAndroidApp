@@ -73,4 +73,11 @@ public interface DataSaver {
      * @param errorCallback The callback to attach to the error listener
      */
     void addDataChangeListener(String path, ChangeListenerCallback callback, ErrorHandlerCallback errorCallback);
+
+    /**
+     * Create a unique identifier for a saved entity
+     * @param path  The path to the location for which a unique identifier will be generated
+     * @return      The generated id
+     */
+    String generateUniqueIdentifier(String path);
 }

@@ -7,6 +7,21 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+
+    <string name="text_email">Email/Username:</string>
+    <string name="text_password">Password:</string>
+    <string name="button_signIn">Sign In</string>
+    <string name="button_createAccount">Create Account</string>
+    <string name="text_createAccount">"Don't have an account "</string>
+    <string name="input_email">Email</string>
+    <string name="header">Rentify</string>
+    <string name="category1Details">This is the description for category 1</string>
+    <string name="category1Title">Category 1</string>
+    <string name="categoryPageTitle">CATEGORIES</string>
+    <string name="category2Title">Category 2</string>
+    <string name="category2Details">This is the description for category 2</string>
+    <string name="manageCategoriesButton">Manage Categories</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -43,11 +58,4 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="text_email">Email/Username:</string>
-    <string name="text_password">Password:</string>
-    <string name="button_signIn">Sign In</string>
-    <string name="button_createAccount">Create Account</string>
-    <string name="text_createAccount">"Don't have an account "</string>
-    <string name="input_email">Email</string>
-    <string name="header">Rentify</string>
 </resources>

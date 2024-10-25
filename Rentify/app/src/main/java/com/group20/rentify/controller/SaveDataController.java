@@ -219,11 +219,64 @@ public class SaveDataController {
         dataSaver.addToAuth(email, password);
     }
 
+    /**
+     * If the entity exists in the saved data, update the existing entity;
+     * else, save a new entity by generating a unique id
+     *
+     * @param entity    The entity to save
+     */
+    public void saveEntity(Entity entity) {
+        String entityRootPath = pluralize(entity.getEntityTypeName());
+        String id = entity.getUniqueIdentifier();
+
+        dataSaver.retrieveEntity(entityRootPath + "/" + id, entity.getClass(),
+                result -> {
+                    if (result != null) {
+                        dataSaver.saveEntity(entity, entityRootPath + "/" + id);
+                    } else {
+                        String newId = dataSaver.generateUniqueIdentifier(entityRootPath);
+                        entity.setUniqueIdentifier(newId);
+                        dataSaver.saveEntity(entity, entityRootPath + "/" + newId);
+                    }
+                });
+    }
+
+    /**
+     * Given a unique identifier asynchronously retrieves the entity if it exists else return null pointer.
+     * The returned object is passed to the callback for processing.
+     *
+     * @param entityType    the entity type returned by Entity.getEntityTypeName()
+     * @param identifier    the unique identifier returned by Entity.getUniqueIdentifier()
+     * @param cls           the target entity class
+     * @param callback      callback object overriding onEntityRetrieved
+     */
+    public void getEntity(String entityType, String identifier, Class cls, DataRetrievalCallback<Entity> callback) {
+        dataSaver.retrieveEntity(pluralize(entityType) + "/" + identifier, cls, callback);
+    }
+
+    /**
+     * Given an entity, synchronously remove it from the db.
+     *
+     * @param entity                    the entity to be removed
+     * @throws IllegalStateException    if the entity does not exist in the database
+     */
+    public void removeEntity(Entity entity) {
+        dataSaver.removeEntity(pluralize(entity.getEntityTypeName() + "/" + entity.getUniqueIdentifier()));
+    }
+
     private String replaceIllegalCharacters(String str) {
         return str.replace('.', '-');
     }
 
     private String restoreReplaced(String str) {
         return str.replace('-', '.');
+    }
+
+    private String pluralize(String str) {
+        if (str.charAt(str.length() - 1) == 'y') {
+            return str.substring(0, str.length() - 1) + "ies";
+        }
+
+        return str + "s";
     }
 }
