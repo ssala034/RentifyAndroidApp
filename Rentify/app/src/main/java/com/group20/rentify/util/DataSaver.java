@@ -12,6 +12,7 @@ public interface DataSaver {
     String USER_PATH = "users";
     String EMAIL_PATH = "emails";
     String ADMIN_PATH = "admins";
+    String CATEGORY_PATH = "categories";
 
     /**
      * Get the data item at the path provided by key
@@ -49,7 +50,6 @@ public interface DataSaver {
      * @param callback  The callback for processing the data stored at the key location
      */
     void retrieveData(String key, DataRetrievalCallback<Object> callback);
-
     /**
      * Authenticate a login
      *

@@ -25,6 +25,7 @@ public class SaveDataController {
     private final Set<String> usernames;
     private final Set<String> emails;
     private final List<Account> accounts;
+    private final List<Category> categories;
     private boolean adminCreated;
 
     private SaveDataController() {
@@ -32,6 +33,7 @@ public class SaveDataController {
         usernames = new HashSet<>();
         emails = new HashSet<>();
         accounts = new ArrayList<>();
+        categories = new ArrayList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -66,6 +68,19 @@ public class SaveDataController {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
                             accounts.add(((DataSnapshot) account).getValue(Account.class));
+                        }
+                    }
+                },
+                error -> {throw (DatabaseException) error;});
+
+        dataSaver.addDataChangeListener(DataSaver.CATEGORY_PATH,
+                data -> {
+                    categories.clear();
+                    if (data != null) {
+                        for (Object category : data.values()) {
+                            // should find a cleaner way to do this
+                            // so that database logic is abstracted from this class
+                            categories.add(((DataSnapshot) category).getValue(Category.class));
                         }
                     }
                 },
@@ -167,6 +182,14 @@ public class SaveDataController {
      */
     public List<Account> getAccounts() {
         return accounts;
+    }
+
+    /**
+     * Getter for the list of categories, synchronized with the saved data
+     * @return  A list of all categories currently existing in the system
+     */
+    public List<Category> getCategories() {
+        return categories;
     }
 
     /**
