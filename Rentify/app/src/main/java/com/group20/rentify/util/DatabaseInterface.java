@@ -179,6 +179,11 @@ public class DatabaseInterface implements DataSaver {
         });
     }
 
+    @Override
+    public String generateUniqueIdentifier(String path) {
+        return db.getReference(path).push().getKey();
+    }
+
     private void createRoots() {
         // create root nodes
         for (String root : ROOTS) {
