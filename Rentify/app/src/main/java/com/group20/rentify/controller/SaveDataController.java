@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;

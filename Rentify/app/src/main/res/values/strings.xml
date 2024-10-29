@@ -28,4 +28,7 @@
     <string name="hintCategoryDescription">Category Description</string>
     <string name="doneCreatingCategory">DONE</string>
     <string name="categoryAdd">Add Category</string>
+    
+    <string name="viewAllUsers">View All Users</string>
+    <string name="showAllCategories">Show All Categories</string>
 </resources>

@@ -4,6 +4,7 @@ package com.group20.rentify.controller;
 import android.util.Log;
 
 
+import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.util.callback.DataRetrievalCallback;
 
@@ -39,6 +40,22 @@ public class CategoryController {
         return true;
     }
 
+    public void updateCategory(String identifier, String newDescription){
+        getCategory(identifier, new DataRetrievalCallback<Entity>() {
+            @Override
+            public void onDataRetrieved(Entity data) {
+                Category curr = (Category) data;
+                if(curr != null){
+                    curr.setDescription(newDescription);
+                }else{
+                    Log.d("Database Error", "Unable to successfully update Category ");
+                }
+            }
+        });
+    }
+
+    // Make a a way to go from cateogry name to id and then id to the actual cateogry object
+
     /**
      * Given an id, synchronously remove it from the db.
      *
@@ -62,9 +79,19 @@ public class CategoryController {
      *
      * @param identifier    category id
      * @param callback      callback object overriding onEntityRetrieved
-     */    public void getCategory(String identifier, DataRetrievalCallback<Entity> callback){
+     */
+    public void getCategory(String identifier, DataRetrievalCallback<Entity> callback){
         dataController.getEntity("category", identifier, Category.class, callback);
 
+    }
+
+    public Category getCategory(String catName){
+        for(Category curr : dataController.getCategories()){
+            if(curr.getName().equals(catName)){
+                return curr;
+            }
+        }
+        return null;
     }
 
     public List<Category> getCategories() {
