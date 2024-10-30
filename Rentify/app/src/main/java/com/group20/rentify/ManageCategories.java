@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.databinding.DataBindingUtil;
 
 public class ManageCategories extends AppCompatActivity {
 
@@ -14,11 +15,23 @@ public class ManageCategories extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_manage_categories);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        TestBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_categories);
+        binding.textCategoryTitle.setText("hello");
+
+
     }
+
+    private void addText(String text){
+        binding.textCategoryTitle.setText("hello world");
+    }
+
+    /*
+     * TestBinding binding = DataBindingUtil.setContentView(this, activity_manage_categories);
+     * binding.textCategoryTitle.setText("hello world");
+     *
+     * */
+
+    //HelloWorldBinding binding =
+    //    DataBindingUtil.setContentView(this, R.layout.hello_world);
+    //binding.hello.setText("Hello World");
 }
