@@ -17,7 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".ManageCategories"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ViewAllCategories"
             android:exported="true" />
