@@ -44,7 +44,7 @@ public class Account implements Entity {
      * <p>One of {Renter, Lessor, Admin}</p>
      * <p>READ ONLY</p>
      */
-    private UserRole role;
+    private AccountRole role;
 
     // constructors
     public Account() {
@@ -59,7 +59,7 @@ public class Account implements Entity {
      * @param firstName The first name and display name of the user
      * @param lastName  The last name of the user
      */
-    public Account(String username, String email, UserRole role, String firstName, String lastName) {
+    public Account(String username, String email, AccountRole role, String firstName, String lastName) {
         this.username = username;
         this.email = email;
         this.role = role;
@@ -118,7 +118,7 @@ public class Account implements Entity {
      * Getter for the role attribute
      * @return  role
      */
-    public UserRole getRole() {
+    public AccountRole getRole() {
         return role;
     }
 

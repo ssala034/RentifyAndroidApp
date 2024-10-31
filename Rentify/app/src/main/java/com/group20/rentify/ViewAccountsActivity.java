@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.divider.MaterialDivider;
 import com.group20.rentify.controller.ViewAccountsController;
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.AccountRole;
 import com.group20.rentify.entity.UserRole;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
         }
     }
 
-    private void createSingleDisplay(String username, UserRole role, String email, LinearLayout view) {
+    private void createSingleDisplay(String username, AccountRole role, String email, LinearLayout view) {
         TextView toAdd = new TextView(this);
         toAdd.setText(String.format("\n%s\n\tRole: %s\n\tEmail: %s\n", username, role, email));
         toAdd.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
