@@ -17,10 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".ManageCategories"
-            android:exported="false" />
-        <activity
-            android:name=".ViewAllCategories"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AdminDashboard"
             android:exported="false" />

@@ -31,4 +31,6 @@
 
     <string name="viewAllUsers">View All Users</string>
     <string name="showAllCategories">Manage Categories</string>
+    <string name="text_manage_categories">Manage Categories</string>
+    <string name="text_done">Done</string>
 </resources>
