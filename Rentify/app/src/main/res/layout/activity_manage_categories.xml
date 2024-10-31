@@ -76,7 +76,7 @@
                             android:layout_weight="1"
                             android:background="#C0B3FD"
                             android:clickable="true"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:srcCompat="@android:drawable/ic_menu_edit" />
                     </LinearLayout>
 
