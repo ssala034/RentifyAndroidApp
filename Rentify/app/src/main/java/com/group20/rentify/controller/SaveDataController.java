@@ -138,14 +138,20 @@ public class SaveDataController {
      * @param identifier    username or email of account
      * @param callback      callback object overriding onEntityRetrieved
      */
-    public void getAccount(String identifier, DataRetrievalCallback<Entity> callback) {
+    public void getAccount(String identifier, DataRetrievalCallback<Account> callback) {
         if (usernames.contains(identifier)) {
-            dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class, callback);
+            dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class,
+                    entity -> {
+                        callback.onDataRetrieved((Account) entity);
+                    });
         } else {
             dataSaver.retrieveData(
                     DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier),
                     result -> {
-                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class, callback);
+                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class,
+                                entity -> {
+                                    callback.onDataRetrieved((Account) entity);
+                                });
                     });
         }
     }
