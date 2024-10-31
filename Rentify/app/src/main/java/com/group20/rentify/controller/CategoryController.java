@@ -40,21 +40,10 @@ public class CategoryController {
         return true;
     }
 
-    public void updateCategory(String identifier, String newDescription){
+    public void updateCategory(Category category, String newDescription){
+        category.setDescription(newDescription);
+        dataController.updateEntity(category);
 
-        getCategory(identifier, new DataRetrievalCallback<Entity>() {
-            @Override
-            public void onDataRetrieved(Entity data) {
-                Category curr = (Category) data;
-                if (curr != null) {
-                    curr.setDescription(newDescription);
-                    // Update the category description in the database
-                    dataController.updateEntity("categories" + "/" + identifier, curr);
-                } else {
-                    Log.d("Database Error", "Unable to successfully update Category ");
-                }
-            }
-        });
     }
 
     // Make a a way to go from category name to id and then id to the actual category object

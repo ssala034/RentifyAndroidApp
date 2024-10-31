@@ -86,8 +86,8 @@ public class EditCategory extends AppCompatActivity {
 
             Category category = controller.getCategory(categoryName);
             if (category != null) {
-                String id = category.getUniqueIdentifier();
-                controller.updateCategory(id, categoryDescription);
+//                String id = category.getUniqueIdentifier();
+                controller.updateCategory(category, categoryDescription);
 
                 // shouldn't be able to change category name
                 Toast.makeText(this, "Category updated successfully", Toast.LENGTH_SHORT).show();

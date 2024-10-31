@@ -20,7 +20,7 @@ public class Category implements Entity {
     /**
      * The unique identifier for the category
      */
-    private String id;
+    private String uniqueIdentifier;
 
     // constructors
 
@@ -32,12 +32,12 @@ public class Category implements Entity {
      * Full argument constructor.
      * @param name The name of the category
      * @param description The description providing information about the category
-     * @param id The unique identifier of the category
+     * @param uniqueIdentifier The unique identifier of the category
      */
-    public Category(String name, String description, String id){
+    public Category(String name, String description, String uniqueIdentifier){
         this.name = name;
         this.description = description;
-        this.id = id;
+        this.uniqueIdentifier = uniqueIdentifier;
     }
 
 
@@ -74,7 +74,7 @@ public class Category implements Entity {
      */
     @Override
     public String getUniqueIdentifier() {
-        return id;
+        return uniqueIdentifier;
     }
 
 
@@ -106,7 +106,7 @@ public class Category implements Entity {
     @Override
     public boolean setUniqueIdentifier(String id) {
         if (id != null && !id.isEmpty()){
-            this.id = id;
+            this.uniqueIdentifier = id;
             return true;
         }
         return false;

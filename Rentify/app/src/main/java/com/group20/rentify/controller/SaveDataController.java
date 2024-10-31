@@ -255,8 +255,8 @@ public class SaveDataController {
         dataSaver.retrieveEntity(pluralize(entityType) + "/" + identifier, cls, callback);
     }
 
-    public void updateEntity(String key, Object value){
-        dataSaver.saveOrUpdateData(key,value);
+    public void updateEntity(Entity entity){
+        dataSaver.saveEntity(entity, pluralize(entity.getEntityTypeName()) + "/" + entity.getUniqueIdentifier());
     }
 
     /**
@@ -266,7 +266,7 @@ public class SaveDataController {
      * @throws IllegalStateException    if the entity does not exist in the database
      */
     public void removeEntity(Entity entity) {
-        dataSaver.removeEntity(pluralize(entity.getEntityTypeName() + "/" + entity.getUniqueIdentifier()));
+        dataSaver.removeEntity(pluralize(entity.getEntityTypeName()) + "/" + entity.getUniqueIdentifier());
     }
 
     private String replaceIllegalCharacters(String str) {
