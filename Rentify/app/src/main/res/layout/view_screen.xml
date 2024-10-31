@@ -25,18 +25,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="20dp"
+                android:text="@{CategoryTitle}"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="@{CategoryTitle}"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="#FFFFFF"
-                android:text="@{CategoryDescription}"/>
+                android:text="@{CategoryDescription}"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
@@ -55,24 +55,15 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
 
-            <ImageView
-                android:id="@+id/buttonEditCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:visibility="gone"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
         </LinearLayout>
 
     </LinearLayout>
     <Space
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         tools:ignore="MissingConstraints" />
 
 

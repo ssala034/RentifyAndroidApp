@@ -25,7 +25,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,14 +36,14 @@
                 <LinearLayout
                     android:id="@+id/categoriesListView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:weightSum="4">
 
                         <TextView
                             android:id="@+id/textHeading"
@@ -53,10 +53,11 @@
                             android:padding="20dp"
                             android:text="@string/categoryPageTitle"
                             android:textAlignment="center"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/buttonAddCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -65,24 +66,36 @@
                             android:visibility="visible"
                             app:backgroundTint="#C0B3FD"
                             app:srcCompat="@android:drawable/ic_menu_add" />
+
+                        <ImageView
+                            android:id="@+id/buttonEditCategory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="#C0B3FD"
+                            android:clickable="true"
+                            android:visibility="visible"
+                            app:srcCompat="@android:drawable/ic_menu_edit" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/buttonManageCategories"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    android:clickable="true"
-                    android:text="@string/manageCategoriesButton"
-                    android:textAlignment="center"
-                    app:cornerRadius="@dimen/fab_margin" />
-
 
             </LinearLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/buttonManageCategories"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:text="@string/manageCategoriesButton"
+            android:textAlignment="center"
+            app:cornerRadius="@dimen/fab_margin" />
 
     </androidx.cardview.widget.CardView>
 
