@@ -13,8 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.AdminRole;
-import com.group20.rentify.entity.UserRole;
+import com.group20.rentify.entity.RoleName;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -51,7 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 String.format("%s: %s", ROLE_PREFIX, signedIn.getRole())
         );
 
-        if (signedIn.getRole().getClass() == AdminRole.class) {
+        if (signedIn.getRole().getRoleName() == RoleName.admin) {
             setUpAdminPrivileges();
         }
     }
