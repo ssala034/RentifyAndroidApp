@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#C0B3FD"
     tools:context=".ManageCategories">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,48 +22,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/categoriesListView"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/heading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="20dp"
-                    android:text="@string/categoryPageTitle"
-                    android:textAlignment="viewStart"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/categoriesListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/buttonAddCategory"
-                    android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/textHeading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:padding="20dp"
+                            android:text="@string/categoryPageTitle"
+                            android:textAlignment="center"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:visibility="visible"
+                            app:backgroundTint="#C0B3FD"
+                            app:srcCompat="@android:drawable/ic_menu_add" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonManageCategories"
+                    style="@style/Widget.AppCompat.Button"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:background="#FFFFFF"
                     android:clickable="true"
-                    app:backgroundTint="#C0B3FD"
-                    app:srcCompat="@android:drawable/ic_menu_add" />
+                    android:text="@string/manageCategoriesButton"
+                    android:textAlignment="center"
+                    app:cornerRadius="@dimen/fab_margin" />
+
+
             </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="27dp" />
-
-        </LinearLayout>
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
