@@ -47,11 +47,11 @@ public class ManageCategories extends AppCompatActivity {
         // Initialize buttons
         addCategoryBtn = (Button) findViewById(R.id.buttonAddCategory);
 
-        editCategory1Btn = (Button) findViewById(R.id.buttonEditCategory1);
-        editCategory2Btn = (Button) findViewById(R.id.buttonEditCategory2);
-        deleteCategoryBtn = (Button) findViewById(R.id.buttonDeleteCategory1); // ??
-
-        categoriesListView = (ListView) findViewById(R.id.categoriesListView);
+//        editCategory1Btn = (Button) findViewById(R.id.buttonEditCategory);
+//        editCategory2Btn = (Button) findViewById(R.id.buttonEditCategory2);
+//        deleteCategoryBtn = (Button) findViewById(R.id.buttonDeleteCategory1); // ??
+//
+//        categoriesListView = (ListView) findViewById(R.id.categoriesListView);
 
         // Set listeners
         addCategoryBtn.setOnClickListener(this::onAddCategoryBtnClicked);
@@ -138,4 +138,6 @@ public class ManageCategories extends AppCompatActivity {
                 .setCancelable(false) // Prevent closing by clicking outside
                 .show();
     }
+
+
 }

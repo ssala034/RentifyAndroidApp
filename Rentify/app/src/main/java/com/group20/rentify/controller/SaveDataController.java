@@ -255,6 +255,10 @@ public class SaveDataController {
         dataSaver.retrieveEntity(pluralize(entityType) + "/" + identifier, cls, callback);
     }
 
+    public void updateEntity(String key, Object value){
+        dataSaver.saveOrUpdateData(key,value);
+    }
+
     /**
      * Given an entity, synchronously remove it from the db.
      *

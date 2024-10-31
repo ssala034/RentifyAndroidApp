@@ -57,7 +57,7 @@ public class EditCategory extends AppCompatActivity {
             textCategoryHeading.setText("Add Category");
             isAdd = true;
         } else {
-            textCategoryHeading.setText("EDIT Category"); // Default case for editing
+            textCategoryHeading.setText("Edit Category"); // Default case for editing
             isAdd = false;
         }
 
@@ -78,21 +78,37 @@ public class EditCategory extends AppCompatActivity {
 
     private void editCategory(String categoryName, String categoryDescription) {
 
-        Category category = controller.getCategory(categoryName);
+        if(!verifyName(categoryName)){
+            // fix so it is on enter!!!!!!, NOT just on Done button
+            Toast.makeText(this, "Enter Category Name in Database", Toast.LENGTH_SHORT).show();
+            nameInput.setError("Please edit an existing category");
+        }else{
 
-        if (category != null) {
-            String id = category.getUniqueIdentifier();
-            controller.updateCategory(id, categoryDescription);
-            // shouldn't be able to change category name
-            Toast.makeText(this, "Category updated successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Error updating category", Toast.LENGTH_SHORT).show();
+            Category category = controller.getCategory(categoryName);
+            if (category != null) {
+                String id = category.getUniqueIdentifier();
+                controller.updateCategory(id, categoryDescription);
 
+                // shouldn't be able to change category name
+                Toast.makeText(this, "Category updated successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error updating category", Toast.LENGTH_SHORT).show();
+            }
         }
+
+    }
+
+    private boolean verifyName(String categoryName) {
+        for(Category c: controller.getCategories()){
+            if(c.getName().equals(categoryName)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addCategory(String categoryName, String categoryDescription) {
-        Category newCategory = new Category(categoryName, categoryDescription, "01");
+        Category newCategory = new Category(categoryName, categoryDescription, "901");
         boolean done = controller.addCategory(newCategory);
         if(done) {
             Toast.makeText(this, "Category added successfully", Toast.LENGTH_SHORT).show();

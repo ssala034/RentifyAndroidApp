@@ -41,20 +41,23 @@ public class CategoryController {
     }
 
     public void updateCategory(String identifier, String newDescription){
+
         getCategory(identifier, new DataRetrievalCallback<Entity>() {
             @Override
             public void onDataRetrieved(Entity data) {
                 Category curr = (Category) data;
-                if(curr != null){
+                if (curr != null) {
                     curr.setDescription(newDescription);
-                }else{
+                    // Update the category description in the database
+                    dataController.updateEntity("categories" + "/" + identifier, curr);
+                } else {
                     Log.d("Database Error", "Unable to successfully update Category ");
                 }
             }
         });
     }
 
-    // Make a a way to go from cateogry name to id and then id to the actual cateogry object
+    // Make a a way to go from category name to id and then id to the actual category object
 
     /**
      * Given an id, synchronously remove it from the db.
@@ -85,9 +88,9 @@ public class CategoryController {
 
     }
 
-    public Category getCategory(String catName){
+    public Category getCategory(String categoryName){
         for(Category curr : dataController.getCategories()){
-            if(curr.getName().equals(catName)){
+            if(curr.getName().equals(categoryName)){
                 return curr;
             }
         }

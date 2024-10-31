@@ -24,7 +24,7 @@ public class ViewAllCategories extends AppCompatActivity {
 
     private CategoryController controller;
     private Button manageCategories;
-    ListView categoriesListView;
+//    ListView categoriesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
