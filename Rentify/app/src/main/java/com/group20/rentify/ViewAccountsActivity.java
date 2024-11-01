@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,8 +95,39 @@ public class ViewAccountsActivity extends AppCompatActivity implements Subscribe
         });
 
         dialogView.findViewById(R.id.buttonDelete).setOnClickListener(view -> {
+            showDeleteConfirmationDialogue(account);
+            b.dismiss();
+        });
+    }
+
+    private void showDeleteConfirmationDialogue(Account account) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.layout_confirmation_dialogue, null);
+        dialogBuilder.setView(dialogView);
+
+        ((TextView) dialogView.findViewById(R.id.dialogueMessage)).setText(
+                "Warning: Deleting account will permanently delete all related data"
+        );
+
+        Button confirmButton = dialogView.findViewById(R.id.buttonConfirm);
+        Button cancelButton = dialogView.findViewById(R.id.buttonCancel);
+
+        confirmButton.setText("Delete");
+        cancelButton.setText("Cancel");
+
+        dialogBuilder.setTitle("Confirm Delete");
+
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+
+        confirmButton.setOnClickListener(view -> {
             controller.deleteAccount(account);
             Toast.makeText(getApplicationContext(), "Account deleted successfully.", Toast.LENGTH_SHORT).show();
+            b.dismiss();
+        });
+
+        cancelButton.setOnClickListener(view -> {
             b.dismiss();
         });
     }
