@@ -31,6 +31,7 @@ public class SaveDataController {
     private boolean adminCreated;
 
     private final List<Subscriber<Account>> accountSubscribers;
+    private final List<Subscriber<Category>> categorySubscribers;
 
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
@@ -39,6 +40,7 @@ public class SaveDataController {
         accounts = new ArrayList<>();
         categories = new ArrayList<>();
         accountSubscribers = new LinkedList<>();
+        categorySubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -91,6 +93,10 @@ public class SaveDataController {
                             // so that database logic is abstracted from this class
                             categories.add(((DataSnapshot) category).getValue(Category.class));
                         }
+                    }
+
+                    for (Subscriber<Category> s: categorySubscribers) {
+                        s.notify(categories);
                     }
                 },
                 error -> {throw (DatabaseException) error;});
@@ -210,7 +216,8 @@ public class SaveDataController {
      * Getter for the list of categories, synchronized with the saved data
      * @return  A list of all categories currently existing in the system
      */
-    public List<Category> getCategories() {
+    public List<Category> getCategories(Subscriber<Category> s) {
+        categorySubscribers.add(s);
         return categories;
     }
 

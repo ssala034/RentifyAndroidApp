@@ -55,7 +55,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public int getItemCount() {
-        // Returns the total number of categories in the list
         return categories.size();
     }
 

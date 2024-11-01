@@ -40,13 +40,13 @@ public class CategoryController {
         return true;
     }
 
-    public void updateCategory(Category category, String newDescription){
+    public void updateCategory(Category category, String newName, String newDescription){
         category.setDescription(newDescription);
+        category.setName(newName);
         dataController.updateEntity(category);
 
     }
 
-    // Make a a way to go from category name to id and then id to the actual category object
 
     /**
      * Given an id, synchronously remove it from the db.
@@ -74,20 +74,10 @@ public class CategoryController {
      */
     public void getCategory(String identifier, DataRetrievalCallback<Entity> callback){
         dataController.getEntity("category", identifier, Category.class, callback);
-
     }
 
-    public Category getCategory(String categoryName){
-        for(Category curr : dataController.getCategories()){
-            if(curr.getName().equals(categoryName)){
-                return curr;
-            }
-        }
-        return null;
-    }
-
-    public List<Category> getCategories() {
-        return dataController.getCategories();
+    public List<Category> getCategories(Subscriber<Category> s) {
+        return dataController.getCategories(s);
     }
 
 }
