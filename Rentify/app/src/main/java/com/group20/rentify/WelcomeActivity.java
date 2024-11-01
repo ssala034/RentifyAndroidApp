@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,7 +22,9 @@ public class WelcomeActivity extends AppCompatActivity {
     public static final String WELCOME = "Welcome to Rentify!";
     public static final String ROLE_PREFIX = "You are logged in as";
 
-    private Button viewAccountBtn;
+    private Button launchMainScreen;
+    private boolean skip;
+    private Account signedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +38,18 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
         // set up listeners
-        viewAccountBtn = findViewById(R.id.viewAccountsBtn);
-        viewAccountBtn.setOnClickListener(this::onViewAccountsBtnClicked);
+        ((CheckBox) findViewById(R.id.checkBox)).setOnCheckedChangeListener(
+                (view, isChecked) -> skip = isChecked
+        );
+
+        launchMainScreen = findViewById(R.id.btnLaunchMain);
+        launchMainScreen.setOnClickListener(this::onStartExploringPressed);
 
         syncWithState();
     }
 
     private void syncWithState() {
-        Account signedIn = Account.getSessionAccount();
+        signedIn = Account.getSessionAccount();
         ((TextView) findViewById(R.id.RegisterTitle)).setText(
                 String.format("%s, %s!\n%s", GREETING, signedIn.getFirstName(), WELCOME)
         );
@@ -50,18 +57,16 @@ public class WelcomeActivity extends AppCompatActivity {
                 String.format("%s: %s", ROLE_PREFIX, signedIn.getRole())
         );
 
-        if (signedIn.getRole() == UserRole.admin) {
-            setUpAdminPrivileges();
+        if (skip) {
+            onStartExploringPressed(launchMainScreen);
         }
     }
 
-    private void setUpAdminPrivileges() {
-        viewAccountBtn.setVisibility(TextView.VISIBLE);
-    }
-
-    private void onViewAccountsBtnClicked(View view) {
-        Intent intent = new Intent(this, ViewAccountsActivity.class);
-        startActivity(intent);
-        finish();
+    private void onStartExploringPressed(View view) {
+        if (signedIn.getRole() == UserRole.admin) {
+            Intent intent = new Intent(this, AdminDashboard.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

@@ -57,7 +57,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/textCategoryDescription"
+                android:id="@+id/textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
