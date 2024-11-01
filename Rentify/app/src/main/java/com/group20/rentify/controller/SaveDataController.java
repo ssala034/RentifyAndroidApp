@@ -175,6 +175,8 @@ public class SaveDataController {
      * @throws IllegalStateException    if the account does not exist in the database
      */
     public void removeAccount(String username) {
+        dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + username, email ->
+                dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email.toString()), null));
         dataSaver.removeEntity(DataSaver.USER_PATH + "/" + username);
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + username, null);
     }
