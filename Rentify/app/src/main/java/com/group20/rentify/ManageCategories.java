@@ -38,9 +38,8 @@ public class ManageCategories extends AppCompatActivity {
         Button manage = findViewById(R.id.buttonManageCategories);
         manage.setOnClickListener(this::onManageCategoriesButtonClicked);
 
-        ImageView delete = parent.findViewById(R.id.buttonDeleteCategory);
+        ImageView delete = parent.findViewById(R.id.buttonDeleteItem);
         delete.setOnClickListener(this:: onDeleteButtonClicked);
-
 
     }
 
@@ -73,9 +72,9 @@ public class ManageCategories extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View categoryView = inflater.inflate(R.layout.view_screen,parentLayout,false);
 
-        ImageView delete = categoryView.findViewById(R.id.buttonDeleteCategory);
+        ImageView delete = categoryView.findViewById(R.id.buttonDeleteItem);
         delete.setTag(currCategory);
-        delete.setOnClickListener(this:: onDeleteButtonClicked);
+        delete.setOnClickListener(this::onDeleteButtonClicked);
 
 
         //individual text, title and description

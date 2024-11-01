@@ -14,6 +14,7 @@ import com.group20.rentify.util.callback.DataRetrievalCallback;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,11 +28,14 @@ public class SaveDataController {
     private final List<Account> accounts;
     private boolean adminCreated;
 
+    private final List<Subscriber<Account>> accountSubscribers;
+
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
         usernames = new HashSet<>();
         emails = new HashSet<>();
         accounts = new ArrayList<>();
+        accountSubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -67,6 +71,10 @@ public class SaveDataController {
                             // so that database logic is abstracted from this class
                             accounts.add(((DataSnapshot) account).getValue(Account.class));
                         }
+                    }
+
+                    for (Subscriber<Account> s: accountSubscribers) {
+                        s.notify(accounts);
                     }
                 },
                 error -> {throw (DatabaseException) error;});
@@ -131,6 +139,10 @@ public class SaveDataController {
         return true;
     }
 
+    public void updateAccount(Account acc) {
+        dataSaver.saveEntity(acc, DataSaver.USER_PATH + "/" + acc.getUsername());
+    }
+
     /**
      * Given a username or email asynchronously retrieves the account if it exists else return null pointer.
      * The returned object is passed to the callback for processing.
@@ -138,14 +150,20 @@ public class SaveDataController {
      * @param identifier    username or email of account
      * @param callback      callback object overriding onEntityRetrieved
      */
-    public void getAccount(String identifier, DataRetrievalCallback<Entity> callback) {
+    public void getAccount(String identifier, DataRetrievalCallback<Account> callback) {
         if (usernames.contains(identifier)) {
-            dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class, callback);
+            dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class,
+                    entity -> {
+                        callback.onDataRetrieved((Account) entity);
+                    });
         } else {
             dataSaver.retrieveData(
                     DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier),
                     result -> {
-                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class, callback);
+                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class,
+                                entity -> {
+                                    callback.onDataRetrieved((Account) entity);
+                                });
                     });
         }
     }
@@ -157,6 +175,8 @@ public class SaveDataController {
      * @throws IllegalStateException    if the account does not exist in the database
      */
     public void removeAccount(String username) {
+        dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + username, email ->
+                dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email.toString()), null));
         dataSaver.removeEntity(DataSaver.USER_PATH + "/" + username);
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + username, null);
     }
@@ -165,7 +185,8 @@ public class SaveDataController {
      * Getter for the list of accounts, synchronized with the saved data
      * @return  A list of all accounts currently existing in the system
      */
-    public List<Account> getAccounts() {
+    public List<Account> getAccounts(Subscriber<Account> s) {
+        accountSubscribers.add(s);
         return accounts;
     }
 

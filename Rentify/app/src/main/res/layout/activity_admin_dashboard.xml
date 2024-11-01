@@ -44,7 +44,7 @@
                 android:layout_height="18dp" />
 
             <Button
-                android:id="@+id/ViewAllUsersButtons"
+                android:id="@+id/viewUsersBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/viewAllUsers" />
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content" />
 
             <Button
-                android:id="@+id/ShowAllCategoriesButton"
+                android:id="@+id/showCategoriesBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/showAllCategories" />

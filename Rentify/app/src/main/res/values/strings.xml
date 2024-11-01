@@ -28,8 +28,12 @@
     <string name="hintCategoryDescription">Category Description</string>
     <string name="doneCreatingCategory">DONE</string>
     <string name="categoryAdd">Add Category</string>
-    <string name="viewAllUsers">viewAllUsers</string>
-    <string name="showAllCategories">showAllCategories</string>
+
+    <string name="viewAllUsers">View All Users</string>
+    <string name="showAllCategories">Manage Categories</string>
     <string name="text_manage_categories">Manage Categories</string>
     <string name="text_done">Done</string>
+
+    <string name="disableButtonText">Disable Account</string>
+    <string name="deleteButtonText">Delete Account</string>
 </resources>
