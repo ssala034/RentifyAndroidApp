@@ -74,27 +74,36 @@ public class EditCategory extends AppCompatActivity {
         }else{
             editCategory(categoryName, categoryDescription);
         }
+        // update
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("categoryName", categoryName);
+        resultIntent.putExtra("categoryDescription", categoryDescription);
+        setResult(RESULT_OK, resultIntent);
+        finish();
+
     }
 
     private void editCategory(String categoryName, String categoryDescription) {
-
-        if(!verifyName(categoryName)){
-            // fix so it is on enter!!!!!!, NOT just on Done button
-            Toast.makeText(this, "Enter Category Name in Database", Toast.LENGTH_SHORT).show();
-            nameInput.setError("Please edit an existing category");
-        }else{
-
-            Category category = controller.getCategory(categoryName);
-            if (category != null) {
+        Category category = controller.getCategory(categoryName);
+        if (category != null) {
 //                String id = category.getUniqueIdentifier();
-                controller.updateCategory(category, categoryDescription);
+            controller.updateCategory(category, categoryDescription);
 
-                // shouldn't be able to change category name
-                Toast.makeText(this, "Category updated successfully", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Error updating category", Toast.LENGTH_SHORT).show();
-            }
+            // shouldn't be able to change category name
+            Toast.makeText(this, "Category updated successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error updating category", Toast.LENGTH_SHORT).show();
         }
+
+//        if(!verifyName(categoryName)){
+////            // fix so it is on enter!!!!!!, NOT just on Done button
+////            Toast.makeText(this, "Enter Category Name in Database", Toast.LENGTH_SHORT).show();
+////            nameInput.setError("Please edit an existing category");
+//        }else{
+//
+//
+//        }
 
     }
 

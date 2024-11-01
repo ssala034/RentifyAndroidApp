@@ -15,21 +15,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.group20.rentify.controller.CategoryAdapter;
 import com.group20.rentify.controller.CategoryController;
 import com.group20.rentify.entity.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ManageCategories extends AppCompatActivity {
+public class ManageCategories extends AppCompatActivity implements CategoryAdapter.CategoryActionListener {
 
     private CategoryController controller;
-    private Button deleteCategoryBtn;
-    private Button editCategory1Btn;
-    private Button editCategory2Btn;
-    private Button addCategoryBtn;
-
-    private ListView categoriesListView;
+    private List<Category> categoriesList;
+    private CategoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,29 +45,94 @@ public class ManageCategories extends AppCompatActivity {
 
         controller = CategoryController.getInstance();
 
-        // Initialize buttons
-        addCategoryBtn = (Button) findViewById(R.id.buttonAddCategory);
-
-//        editCategory1Btn = (Button) findViewById(R.id.buttonEditCategory);
-//        editCategory2Btn = (Button) findViewById(R.id.buttonEditCategory2);
-//        deleteCategoryBtn = (Button) findViewById(R.id.buttonDeleteCategory1); // ??
-//
-//        categoriesListView = (ListView) findViewById(R.id.categoriesListView);
-
-        // Set listeners
-        addCategoryBtn.setOnClickListener(this::onAddCategoryBtnClicked);
-        editCategory1Btn.setOnClickListener(this::onEditCategory1BtnClicked);
-        editCategory2Btn.setOnClickListener(this::onEditCategory2BtnClicked);
-
-        // How to make it to just one button???
+        // Initialize RecyclerView and Adapter
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategories);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
+        categoriesList = controller.getCategories();
+        adapter = new CategoryAdapter(categoriesList, this);
+        recyclerView.setAdapter(adapter);
 
 
-        // load all categories
-        loadCategories();
+        // Set up the add button listener
+        FloatingActionButton addCategoryButton = findViewById(R.id.buttonAddCategory);
+        addCategoryButton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(ManageCategories.this, EditCategory.class);
+            intent.putExtra("action", "add");
+            startActivityForResult(intent, 1); // Request code 1 for adding
+
+            // Add a new category
+//            Category newCategory = new Category("New Category", "Description", null);
+//            categoriesList.add(newCategory);
+//            adapter.notifyItemInserted(categoriesList.size() - 1);
+        });
     }
 
-    /*Fix*/
-    private void loadCategories() {
+    @Override
+    public void onDeleteCategory(Category category) {
+        // Handle delete action
+        int position = categoriesList.indexOf(category);
+        if (position >= 0) {
+            categoriesList.remove(position);
+            adapter.notifyItemRemoved(position);
+            controller.removeCategory(category.getUniqueIdentifier());
+        }
+    }
+
+    @Override
+    public void onEditCategory(Category category) {
+
+        Intent intent = new Intent(ManageCategories.this, EditCategory.class);
+        intent.putExtra("action", "edit");
+        intent.putExtra("category", category);
+        startActivityForResult(intent, 2); // Request code 2 for editing
+
+
+
+//        // Handle edit action - you could open a new activity or dialog to edit the category
+//        int position = categoriesList.indexOf(category);
+//        if (position >= 0) {
+//            // Open edit dialog or activity (Example shown with a Toast for simplicity)
+//            Toast.makeText(this, "Editing: " + category.getName(), Toast.LENGTH_SHORT).show();
+//
+//            // Here, you might update the category's details in a dialog, then refresh the view
+//            category.setName("Edited Title"); // Simulate edit
+//            category.setDescription("Updated Details");
+//            adapter.notifyItemChanged(position);
+//        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            String name = data.getStringExtra("categoryName");
+            String description = data.getStringExtra("categoryDescription");
+
+            if (requestCode == 1) { // Adding a new category
+//                Category newCategory = new Category(name, description, null);
+//                controller.addCategory(newCategory);
+//                categoriesList.add(newCategory);
+            } else if (requestCode == 2) { // Editing an existing category
+                Category category = controller.getCategory(name);
+                if (category != null) {
+                    category.setDescription(description);
+                    category.setName(name);
+                    controller.updateCategory(category, description);
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+}
+
+
+
+
+
+/*
+*  private void loadCategories() {
         List<Category> categories = controller.getCategories();
 
         for(Category category: categories){
@@ -90,7 +156,6 @@ public class ManageCategories extends AppCompatActivity {
         }
     }
 
-    /*NEED TO FIX THIS SO IT WORKS ON DELETING A CATEGORY, NOT WELL RIGHT NOW ASK FOR HELP*/
     private void deleteCategory(String categoryName) {
         Category tmp = controller.getCategory(categoryName);
         controller.removeCategory(tmp.getUniqueIdentifier());
@@ -105,9 +170,7 @@ public class ManageCategories extends AppCompatActivity {
 
         loadCategories();  // Reload the list to reflect deletion
     }
-
-
-    private void onEditCategory1BtnClicked(View view) {
+* private void onEditCategory1BtnClicked(View view) {
         Intent intent = new Intent(this, EditCategory.class);
         startActivity(intent);
     }
@@ -139,5 +202,31 @@ public class ManageCategories extends AppCompatActivity {
                 .show();
     }
 
+*     /*NEED TO FIX THIS SO IT WORKS ON DELETING A CATEGORY, NOT WELL RIGHT NOW ASK FOR HELP*/
 
-}
+/*
+
+        // Initialize buttons
+        addCategoryBtn = (Button) findViewById(R.id.buttonAddCategory);
+
+//        editCategory1Btn = (Button) findViewById(R.id.buttonEditCategory);
+//        editCategory2Btn = (Button) findViewById(R.id.buttonEditCategory2);
+//        deleteCategoryBtn = (Button) findViewById(R.id.buttonDeleteCategory1); // ??
+//
+//        categoriesListView = (ListView) findViewById(R.id.categoriesListView);
+
+        // Set listeners
+        addCategoryBtn.setOnClickListener(this::onAddCategoryBtnClicked);
+        editCategory1Btn.setOnClickListener(this::onEditCategory1BtnClicked);
+        editCategory2Btn.setOnClickListener(this::onEditCategory2BtnClicked);
+
+        // How to make it to just one button???
+
+
+        // load all categories
+        loadCategories();
+        private Button deleteCategoryBtn;
+    private Button editCategory1Btn;
+    private Button editCategory2Btn;
+    private Button addCategoryBtn;
+ */
