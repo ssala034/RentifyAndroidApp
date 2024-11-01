@@ -5,11 +5,10 @@ import com.group20.rentify.entity.UserRole;
 
 import java.util.List;
 
-public class ViewAccountsController implements Subscriber<Account> {
+public class ViewAccountsController {
     private static ViewAccountsController instance;
 
     private final SaveDataController saveDataController;
-    private Subscriber<Account> viewer;
 
     private ViewAccountsController() {
         saveDataController = SaveDataController.getInstance();
@@ -23,14 +22,8 @@ public class ViewAccountsController implements Subscriber<Account> {
         return instance;
     }
 
-    @Override
-    public void notify(List<Account> updatedList) {
-        viewer.notify(updatedList);
-    }
-
     public List<Account> getAccountList(Subscriber<Account> s) {
-        viewer = s;
-        return saveDataController.getAccounts(this);
+        return saveDataController.getAccounts(s);
     }
 
     public boolean disableAccount(Account account) {
