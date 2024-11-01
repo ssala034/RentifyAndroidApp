@@ -11,7 +11,7 @@
         tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/categoryTitle"
+            android:id="@+id/itemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -21,7 +21,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/categoryDetails"
+            android:id="@+id/itemDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

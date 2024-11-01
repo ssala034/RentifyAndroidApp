@@ -18,4 +18,8 @@ public interface Entity {
      * @return      True if the new identifier is set successfully, false otherwise
      */
     boolean setUniqueIdentifier(String id);
+
+    String getName();
+
+    String getDescription();
 }

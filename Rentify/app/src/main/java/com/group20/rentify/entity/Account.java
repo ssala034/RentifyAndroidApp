@@ -44,7 +44,9 @@ public class Account implements Entity {
      * <p>One of {Renter, Lessor, Admin}</p>
      * <p>READ ONLY</p>
      */
-    private AccountRole role;
+    private UserRole role;
+
+    private boolean enabled;
 
     // constructors
     public Account() {
@@ -59,12 +61,13 @@ public class Account implements Entity {
      * @param firstName The first name and display name of the user
      * @param lastName  The last name of the user
      */
-    public Account(String username, String email, AccountRole role, String firstName, String lastName) {
+    public Account(String username, String email, UserRole role, String firstName, String lastName) {
         this.username = username;
         this.email = email;
         this.role = role;
         this.firstName = firstName.isEmpty() ? username : firstName;
         this.lastName = lastName;
+        enabled = true;
     }
 
     @Override
@@ -118,13 +121,27 @@ public class Account implements Entity {
      * Getter for the role attribute
      * @return  role
      */
-    public AccountRole getRole() {
+    public UserRole getRole() {
         return role;
     }
 
     @Override
     public String getUniqueIdentifier() {
         return getUsername();
+    }
+
+    @Override
+    public String getName() {
+        return getUsername();
+    }
+
+    @Override
+    public String getDescription() {
+        return String.format("%s\tRole: %s\n\tEmail: %s", enabled ? "" : "DISABLED\n", getRole(), getEmail());
+    }
+
+    public boolean getEnabled() {
+        return enabled;
     }
 
     // setters
@@ -143,31 +160,33 @@ public class Account implements Entity {
             this.username = username;
         }
 
-        return validUsr && SaveDataController.getInstance().saveAccount(this);
+        return validUsr;
     }
 
     /**
      * Setter for the first name attribute
      * @param name  The new name
      */
-    public boolean setFirstName(String name) {
+    public void setFirstName(String name) {
         // modify the existing account in the db
         this.firstName = name;
-        return SaveDataController.getInstance().saveAccount(this);
     }
 
     /**
      * Setter for the last name attribute
      * @param name  The new name
      */
-    public boolean setLastName(String name) {
+    public void setLastName(String name) {
         // modify the existing account in the db
         this.lastName = name;
-        return SaveDataController.getInstance().saveAccount(this);
     }
 
     @Override
     public boolean setUniqueIdentifier(String id) {
         return setUsername(id);
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

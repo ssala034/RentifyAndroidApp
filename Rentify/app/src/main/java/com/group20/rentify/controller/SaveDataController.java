@@ -6,7 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
-import com.group20.rentify.entity.RoleName;
+import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;
 import com.group20.rentify.util.DatabaseInterface;
 import com.group20.rentify.util.callback.AuthenticationCallback;
@@ -14,6 +14,7 @@ import com.group20.rentify.util.callback.DataRetrievalCallback;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,11 +28,14 @@ public class SaveDataController {
     private final List<Account> accounts;
     private boolean adminCreated;
 
+    private final List<Subscriber<Account>> accountSubscribers;
+
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
         usernames = new HashSet<>();
         emails = new HashSet<>();
         accounts = new ArrayList<>();
+        accountSubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -67,6 +71,10 @@ public class SaveDataController {
                             // so that database logic is abstracted from this class
                             accounts.add(((DataSnapshot) account).getValue(Account.class));
                         }
+                    }
+
+                    for (Subscriber<Account> s: accountSubscribers) {
+                        s.notify(accounts);
                     }
                 },
                 error -> {throw (DatabaseException) error;});
@@ -108,7 +116,7 @@ public class SaveDataController {
      * @throws IllegalStateException    If admin requirements are not met
      */
     public boolean saveAccount(Account acc) {
-        if(acc.getRole().getRoleName() == RoleName.admin){
+        if(acc.getRole() == UserRole.admin){
             if (adminCreated)
                 throw new IllegalStateException("Maximum 1 admin account possible");
             dataSaver.saveOrUpdateData(DataSaver.ADMIN_PATH + "/" + acc.getUsername(), true);
@@ -129,6 +137,10 @@ public class SaveDataController {
         dataSaver.saveEntity(acc, DataSaver.USER_PATH + "/" + acc.getUsername());
 
         return true;
+    }
+
+    public void updateAccount(Account acc) {
+        dataSaver.saveEntity(acc, DataSaver.USER_PATH + "/" + acc.getUsername());
     }
 
     /**
@@ -171,7 +183,8 @@ public class SaveDataController {
      * Getter for the list of accounts, synchronized with the saved data
      * @return  A list of all accounts currently existing in the system
      */
-    public List<Account> getAccounts() {
+    public List<Account> getAccounts(Subscriber<Account> s) {
+        accountSubscribers.add(s);
         return accounts;
     }
 

@@ -33,4 +33,7 @@
     <string name="showAllCategories">Manage Categories</string>
     <string name="text_manage_categories">Manage Categories</string>
     <string name="text_done">Done</string>
+
+    <string name="disableButtonText">Disable Account</string>
+    <string name="deleteButtonText">Delete Account</string>
 </resources>

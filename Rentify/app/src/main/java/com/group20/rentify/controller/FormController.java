@@ -4,7 +4,6 @@ import android.util.Patterns;
 
 import com.google.common.hash.Hashing;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.AccountRole;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 
@@ -97,7 +96,7 @@ public class FormController {
                 });
     }
 
-    public boolean createAccount(String username, String email, AccountRole role, String firstName, String lastName, String password)
+    public boolean createAccount(String username, String email, UserRole role, String firstName, String lastName, String password)
         throws IllegalStateException {
         Account createdAccount = new Account(username, email, role, firstName, lastName);
         boolean success = saveDataController.saveAccount(createdAccount);

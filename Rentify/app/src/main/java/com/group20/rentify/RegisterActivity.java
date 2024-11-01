@@ -15,10 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.group20.rentify.controller.FormController;
-import com.group20.rentify.entity.AccountRole;
-import com.group20.rentify.entity.AdminRole;
-import com.group20.rentify.entity.LesserRole;
-import com.group20.rentify.entity.RenterRole;
 import com.group20.rentify.entity.UserRole;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -198,13 +194,13 @@ public class RegisterActivity extends AppCompatActivity {
         return usernameCheck && emailCheck && passwordCheck;
     }
 
-    private AccountRole getRole() {
+    private UserRole getRole() {
         CheckBox admin = findViewById(R.id.adminCreate);
         if (admin.isChecked()) {
-            return new AdminRole();
+            return UserRole.admin;
         } else {
             int selected = ((RadioGroup) findViewById(R.id.selectRole)).getCheckedRadioButtonId();
-            return selected == R.id.renterSelect ? new RenterRole() : new LesserRole();
+            return selected == R.id.renterSelect ? UserRole.renter : UserRole.lesser;
         }
     }
 }
