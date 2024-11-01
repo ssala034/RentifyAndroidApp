@@ -61,19 +61,11 @@
                 android:visibility="visible" />
 
             <Button
-                android:id="@+id/btnRegister"
+                android:id="@+id/btnLaunchMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Exploring"
                 android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/viewAccountsBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="View Accounts"
-                android:textSize="20sp"
-                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
