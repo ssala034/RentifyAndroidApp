@@ -107,18 +107,11 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
             String categoryName = nameInput.getText().toString().trim();
             String categoryDescription = descriptionInput.getText().toString().trim();
 
-            boolean incorrect = false;
+            // split call to prevent lazy eval from skipping second validation
+            boolean correct = validateName(nameInput);
+            correct = validateDescription(descriptionInput) && correct;
 
-            if(validateInput(categoryName, true)){
-                nameInput.setError("Category Name must contain no special characters OR cannot be empty");
-                incorrect = true;
-            }
-            if(validateInput(categoryDescription, false)){
-                descriptionInput.setError("Category Description cannot only contain special characters OR cannot be empty");
-                incorrect = true;
-            }
-
-            if(!incorrect){
+            if(correct){
                 if(create){
                     addCategory(categoryName,categoryDescription);
                 }else{
@@ -151,15 +144,34 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
 
     }
 
-    private boolean validateInput(String s , boolean b){
-        if( b && isAlphaNumeric(s)){
+    private boolean validateNotEmpty(EditText field) {
+        if (field.getText().toString().isEmpty()) {
+            field.setError("Input field is required");
             return false;
         }
-        if(!b && hasAlphaWithSpecialChars(s)){
-            return false;
-        }
-
         return true;
+    }
+
+    private boolean validateName(EditText field) {
+        if (validateNotEmpty(field)) {
+            if (!isAlphaNumeric(field.getText().toString())) {
+                field.setError("Name can only contain letters and numbers");
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validateDescription(EditText field) {
+        if (validateNotEmpty(field)) {
+            if (!hasAlphaWithSpecialChars(field.getText().toString())) {
+                field.setError("Description must contain letters and may contain special characters");
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     // Method 1: Checks if a string contains only alphabetic (Latin) characters and numbers.
