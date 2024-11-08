@@ -5,6 +5,11 @@ public class Item implements Entity {
     // instance variables
 
     /**
+     * The category in which the item belongs to
+     */
+    private Category category;
+
+    /**
      * The name of the item
      */
     private String name;
@@ -42,13 +47,15 @@ public class Item implements Entity {
      * @param uniqueIdentifier The unique identifier of the item
      * @param rentalFee The price of renting the item
      * @param rentalTime The rental time period of the item
+     * @param category The category in which the item belongs to
      */
-    public Item(String name, String description, String uniqueIdentifier, int rentalFee, int rentalTime){
+    public Item(String name, String description, String uniqueIdentifier, int rentalFee, int rentalTime, Category category){
         this.name = name;
         this.description = description;
         this.uniqueIdentifier = uniqueIdentifier;
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
+        this.category = category;
     }
 
     // getters
@@ -104,6 +111,14 @@ public class Item implements Entity {
         return rentalTime;
     }
 
+    /**
+     * Getter for category
+     * @return category
+     */
+    public Category getCategory() {
+        return category;
+    }
+
     // setters
 
     /**
@@ -151,6 +166,18 @@ public class Item implements Entity {
      */
     public void setRentalTime(int rentalTime){
         this.rentalTime = rentalTime;
+    }
+
+    /**
+     * Setter for item category
+     * @param category
+     */
+    public void setCategory(Category category) {
+
+    }
+
+    public boolean hasCategory(){
+        return category != null;
     }
 
 }
