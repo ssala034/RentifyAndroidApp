@@ -79,7 +79,6 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
     @Override
     public void onEditCategory(Category category) {
         showAddUpdateDialog(false, category);
-
     }
 
     public void onAddCategoryPressed(View view) {
@@ -100,7 +99,7 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        nameInput = dialogView.findViewById(R.id.textCategoryName);
+        nameInput = dialogView.findViewById(R.id.textItemName);
         descriptionInput = dialogView.findViewById(R.id.textDescription);
 
         dialogView.findViewById(R.id.buttonCreateCategory).setOnClickListener(view ->{

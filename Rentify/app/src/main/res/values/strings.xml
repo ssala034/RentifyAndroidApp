@@ -36,4 +36,12 @@
 
     <string name="disableButtonText">Disable Account</string>
     <string name="deleteButtonText">Delete Account</string>
+
+    <string name="itemPageTitle">Items</string>
+    <string name="addItemHeading">Add Item</string>
+    <string name="infromationMessageEditIem">Enter the item\'s name, description, rental period, and rental fee below</string>
+    <string name="hintItemName">Item Name</string>
+    <string name="hintItemDescription">Item Description</string>
+    <string name="hintItemPeriod">Rental Period</string>
+    <string name="hintItemFee">Rental Fee</string>
 </resources>
