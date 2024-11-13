@@ -44,7 +44,6 @@ public class CategoryController {
         category.setDescription(newDescription);
         category.setName(newName);
         dataController.updateEntity(category);
-
     }
 
 

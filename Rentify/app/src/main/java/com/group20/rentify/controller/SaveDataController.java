@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
+import com.group20.rentify.entity.Item;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;
 import com.group20.rentify.util.DatabaseInterface;
@@ -28,10 +29,12 @@ public class SaveDataController {
     private final Set<String> emails;
     private final List<Account> accounts;
     private final List<Category> categories;
+    private final List<Item> items;
     private boolean adminCreated;
 
     private final List<Subscriber<Account>> accountSubscribers;
     private final List<Subscriber<Category>> categorySubscribers;
+    private final  List<Subscriber<Item>> itemSubscribers;
 
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
@@ -39,8 +42,10 @@ public class SaveDataController {
         emails = new HashSet<>();
         accounts = new ArrayList<>();
         categories = new ArrayList<>();
+        items = new ArrayList<>();
         accountSubscribers = new LinkedList<>();
         categorySubscribers = new LinkedList<>();
+        itemSubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -100,6 +105,24 @@ public class SaveDataController {
                     }
                 },
                 error -> {throw (DatabaseException) error;});
+
+        dataSaver.addDataChangeListener(DataSaver.CATEGORY_PATH,
+                data -> {
+                    items.clear();
+                    if (data != null) {
+                        for (Object item : data.values()) {
+                            // should find a cleaner way to do this
+                            // so that database logic is abstracted from this class
+                            items.add(((DataSnapshot) item).getValue(Item.class));
+                        }
+                    }
+
+                    for (Subscriber<Item> s: itemSubscribers) {
+                        s.notify(items);
+                    }
+                },
+                error -> {throw (DatabaseException) error;});
+
 
         dataSaver.retrieveData(DataSaver.ADMIN_PATH,
                 result -> adminCreated = result != null);
@@ -219,6 +242,15 @@ public class SaveDataController {
     public List<Category> getCategories(Subscriber<Category> s) {
         categorySubscribers.add(s);
         return categories;
+    }
+
+    /**
+     * Getter for the list of categories, synchronized with the saved data
+     * @return  A list of all categories currently existing in the system
+     */
+    public List<Item> getItems(Subscriber<Item> s) {
+        itemSubscribers.add(s);
+        return items;
     }
 
     /**
