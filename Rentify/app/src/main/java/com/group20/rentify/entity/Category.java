@@ -126,7 +126,7 @@ public class Category implements Entity {
      * @param item The item to be added
      */
     public void addIItem(Item item) {
-        if (item != null && !items.contains(item)){
+        if (item != null && !items.contains(item)) { //check if the item does not exist in the category and is not null
             items.add(item); //add the new item to the list of items that belong to this category
             item.setCategory(this); //set the category reference in the item
         }
@@ -137,9 +137,9 @@ public class Category implements Entity {
      * @param item The item to be removed
      */
     public void removeItem(Item item){
-        if (item != null && items.contains(item)) {
-            items.remove(item);
-            item.setCategory(null);
+        if (item != null && items.contains(item)) { //check if the item exists in the category and is not null
+            items.remove(item); //remove the item from the category items list
+            item.setCategory(null); //dissociate the item from this category
         }
     }
 
@@ -147,7 +147,7 @@ public class Category implements Entity {
      * Deletes the category and clears all its associated items
      */
     public void delete(){
-        for (Item item : items){
+        for (Item item : items) {
             item.setCategory(null); //dissociate each item from this category
         }
         items.clear(); //clear all items in the category
