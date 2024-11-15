@@ -82,10 +82,6 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
         showAddUpdateDialog(false, category);
     }
 
-//    @Override
-//    public void onCategoryClicked(Category category){
-//        startActivity(new Intent(this, ViewItemActivity.class));
-//    }
 
     public void onAddCategoryPressed(View view) {
         showAddUpdateDialog(true, null);

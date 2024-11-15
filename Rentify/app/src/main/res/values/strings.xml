@@ -49,11 +49,4 @@
     <string name="subtitleCategoriesForLessor">Click on each category to see the items</string>
     <string name="hintItemCategory">Choose a category for your item from the menu below</string>
 
-    <string-array name="languages">
-        <item>C</item>
-        <item>C++</item>
-        <item>Java</item>
-        <item>JavaScript</item>
-        <item>VisualBasic</item>
-    </string-array>
 </resources>

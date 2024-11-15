@@ -10,56 +10,61 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.group20.rentify.R;
-import com.group20.rentify.entity.Category;
+import com.group20.rentify.ViewItemActivity;
+import com.group20.rentify.entity.Item;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
-    private List<Category> categories;
-    private CategoryActionListener actionListener;
 
-    public CategoryAdapter(List<Category> categories, CategoryActionListener actionListener) {
-        this.categories = categories;
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.CategoryViewHolder>{
+
+    private List<Item> items;
+    private ViewItemActivity actionListener;
+
+    public ItemAdapter(List<Item> item, ViewItemActivity actionListener) {
+        this.items = items;
         this.actionListener = actionListener;
     }
 
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the layout for each category item
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_item, parent, false); // Assume category_item.xml is the layout for each item
-        return new CategoryViewHolder(view);
+        // Inflate the layout for each category item (category_item.xml)
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
+        return new CategoryViewHolder(view);  // Return a new instance of CategoryViewHolder
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+    //???
+    public void onBindViewHolder(CategoryViewHolder holder, int position) {
         // Get the category object at the current position
-        Category category = categories.get(position);
+        Item item = items.get(position);
 
         // Bind the category data to the views
-        holder.categoryTitle.setText(category.getName());
-        holder.categoryDetails.setText(category.getDescription());
+        holder.categoryTitle.setText(item.getName());
+        String description = item.getDescription() +"\nRental Fee: "+ item.getRentalFee() +"\nRental Time: "+ item.getRentalTime();
+        holder.categoryDetails.setText(description);
 
         // Set click listeners for delete and edit buttons
         holder.deleteButton.setOnClickListener(view -> {
             // Calls the activity’s onDeleteCategory for the specific category
-            actionListener.onDeleteCategory(category);
+            actionListener.onDeleteItem(item);
         });
 
         holder.editButton.setOnClickListener(view -> {
             // Calls the activity’s onEditCategory for the specific category
-            actionListener.onEditCategory(category);
+            actionListener.onEditItem(item);
         });
     }
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return items.size();
     }
 
-    public void notifyDataSetChange(List<Category> categories){
-        this.categories = categories;
+    public void notifyDataSetChange(List<Item> items){
+        this.items = items;
     }
 
     // ViewHolder for holding each category's view elements
@@ -69,7 +74,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            // Initialize views
+            // Initialize views from category_item.xml
             categoryTitle = itemView.findViewById(R.id.categoryTitle);
             categoryDetails = itemView.findViewById(R.id.categoryDetails);
             deleteButton = itemView.findViewById(R.id.buttonDeleteCategory);
@@ -78,9 +83,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     // Interface to communicate actions back to the activity
-    public interface CategoryActionListener {
-        void onDeleteCategory(Category category);
-        void onEditCategory(Category category);
+    public interface ItemActionListener {
+        void onDeleteItem(Item item);
+        void onEditItem(Item item);
     }
+
 
 }

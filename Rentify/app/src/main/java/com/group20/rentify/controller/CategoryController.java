@@ -74,6 +74,7 @@ public class CategoryController {
     }
 
     public List<Category> getCategories(Subscriber<Category> s) {
+        System.out.println(dataController.getCategories(s));
         return dataController.getCategories(s);
     }
 

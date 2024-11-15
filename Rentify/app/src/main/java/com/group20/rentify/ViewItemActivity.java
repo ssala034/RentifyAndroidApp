@@ -1,45 +1,44 @@
 package com.group20.rentify;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.group20.rentify.controller.CategoryAdapter;
+import com.group20.rentify.controller.CategoryController;
+import com.group20.rentify.controller.ItemAdapter;
 import com.group20.rentify.controller.ItemController;
 import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Item;
 
-
 import java.util.List;
 
-public class ViewItemActivity extends AppCompatActivity implements Subscriber<Item> {
+public class ViewItemActivity extends AppCompatActivity implements ItemAdapter.ItemActionListener, Subscriber<Item> {
 
     private ItemController controller;
+    private CategoryController categoryController;
     private List<Item> itemsList;
+    private List<Category> categoriesList;
+    private ItemAdapter adapter;
 
     private EditText nameInput;
     private EditText descriptionInput;
     private EditText periodInput;
     private EditText feeInput;
-    private String category;
+    private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,28 +46,55 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_item);
 
-//        controller = ItemController.getInstance();
-//
-//        // Initialize RecyclerView and Adapter
-//        RecyclerView recyclerView = findViewById(R.id.recyclerViewItems);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
-//        controller.getItems(this);
+        controller = ItemController.getInstance();
 
-        //adapter = new CategoryAdapter(categoriesList, this);
-        //recyclerView.setAdapter(adapter);
+        // Initialize RecyclerView and Adapter
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewItems);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
+        itemsList = controller.getItems(this);
+
+        adapter = new ItemAdapter(itemsList, this);
+        recyclerView.setAdapter(adapter);
+        categoriesList = getCategories();
 
         FloatingActionButton addItemButton = findViewById(R.id.buttonAddItem);
         addItemButton.setOnClickListener(this:: onAddItemPressed);
 
+    }
+
+    private List<Category> getCategories(){
+        categoryController = CategoryController.getInstance();
+        categoriesList = categoryController.getCategories(
+                new Subscriber<Category>() {
+                    @Override
+                    public void notify(List<Category> updatedList) {
+                        categoriesList = updatedList;
+                    }
+                }
+        );
+
+        return categoriesList;
 
     }
-//when category is clicked open this page and send category with it?
+
     private void onAddItemPressed(View view) {
         showUpdateItemDialog(true,null);
     }
-    private void onItemPressed(View view){
-        //get category from item pressed
-        //showUpdateItemDialog(false);
+
+    @Override
+    public void onDeleteItem(Item item) {
+        // Handle delete action
+        int position = itemsList.indexOf(item);
+        if (position >= 0) {
+            itemsList.remove(position);
+            adapter.notifyItemRemoved(position);
+            controller.removeItem(item.getUniqueIdentifier());
+        }
+    }
+
+    @Override
+    public void onEditItem(Item item){
+        showUpdateItemDialog(false,item);
     }
 
     private void showUpdateItemDialog(Boolean create,Item item){
@@ -76,12 +102,11 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_item, null);
         //testing dropdown menu
-        Spinner spinnerCategories = dialogView.findViewById(R.id.categoryOptions);
-
-        ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-
+       Spinner spinnerCategories = dialogView.findViewById(R.id.categoryOptions);
+       ArrayAdapter<Category> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(adapter);
+
         dialogBuilder.setView(dialogView);
 
 
@@ -103,7 +128,7 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
             String itemDescription = descriptionInput.getText().toString().trim();
             int itemPeriod = Integer.parseInt(periodInput.getText().toString().trim());
             int itemFee = Integer.parseInt(feeInput.getText().toString().trim());
-            category = spinnerCategories.getSelectedItem().toString();
+            category = (Category) spinnerCategories.getSelectedItem();
 
             boolean correct =
             validateName(nameInput) &&
@@ -113,7 +138,7 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
 
             if(correct){
                 if(create){
-                   //addItem(itemName,itemDescription,itemPeriod,itemFee,category);
+                   addItem(itemName,itemDescription,itemPeriod,itemFee,category);
                 }else{
                     editItem(item,itemName,itemDescription,itemPeriod,itemFee);
                 }
@@ -213,4 +238,5 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
         itemsList = updatedList;
         //adapter.notifyDataSetChanged();
     }
+
 }

@@ -111,5 +111,12 @@ public class Category implements Entity {
         }
         return false;
     }
+
+    /**
+     * To string method
+     * @return name of category
+     */
+    public String toString(){return this.name;}
+
 }
 
