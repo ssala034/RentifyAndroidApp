@@ -1,5 +1,6 @@
 package com.group20.rentify;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,11 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
     public void onEditCategory(Category category) {
         showAddUpdateDialog(false, category);
     }
+
+//    @Override
+//    public void onCategoryClicked(Category category){
+//        startActivity(new Intent(this, ViewItemActivity.class));
+//    }
 
     public void onAddCategoryPressed(View view) {
         showAddUpdateDialog(true, null);

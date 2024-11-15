@@ -79,6 +79,22 @@
                 android:inputType="text"
                 android:textSize="16sp"/>
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hintItemCategory" />
+
+            <Spinner
+                android:id="@+id/categoryOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:spinnerMode="dropdown"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <Button
                 android:id="@+id/buttonCreateItem"
                 android:layout_width="wrap_content"

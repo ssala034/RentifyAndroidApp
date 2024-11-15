@@ -1,11 +1,15 @@
 package com.group20.rentify;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +27,7 @@ import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Item;
 
+
 import java.util.List;
 
 public class ViewItemActivity extends AppCompatActivity implements Subscriber<Item> {
@@ -34,6 +39,7 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
     private EditText descriptionInput;
     private EditText periodInput;
     private EditText feeInput;
+    private String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,33 +47,43 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_item);
 
-        controller = ItemController.getInstance();
-
-        // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewItems);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
-        controller.getItems(this);
+//        controller = ItemController.getInstance();
+//
+//        // Initialize RecyclerView and Adapter
+//        RecyclerView recyclerView = findViewById(R.id.recyclerViewItems);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
+//        controller.getItems(this);
 
         //adapter = new CategoryAdapter(categoriesList, this);
         //recyclerView.setAdapter(adapter);
 
         FloatingActionButton addItemButton = findViewById(R.id.buttonAddItem);
         addItemButton.setOnClickListener(this:: onAddItemPressed);
+
+
     }
 //when category is clicked open this page and send category with it?
     private void onAddItemPressed(View view) {
-        //showUpdateItemDialog(true,category,null);
+        showUpdateItemDialog(true,null);
     }
     private void onItemPressed(View view){
         //get category from item pressed
         //showUpdateItemDialog(false);
     }
 
-    private void showUpdateItemDialog(Boolean create, Category category,Item item){
+    private void showUpdateItemDialog(Boolean create,Item item){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_item, null);
+        //testing dropdown menu
+        Spinner spinnerCategories = dialogView.findViewById(R.id.categoryOptions);
+
+        ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        spinnerCategories.setAdapter(adapter);
         dialogBuilder.setView(dialogView);
+
 
         if(create){
             ((TextView) dialogView.findViewById(R.id.textItemHeading)).setText("Add Category");
@@ -87,6 +103,8 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
             String itemDescription = descriptionInput.getText().toString().trim();
             int itemPeriod = Integer.parseInt(periodInput.getText().toString().trim());
             int itemFee = Integer.parseInt(feeInput.getText().toString().trim());
+            category = spinnerCategories.getSelectedItem().toString();
+
             boolean correct =
             validateName(nameInput) &&
             validateDescription(descriptionInput) &&
@@ -95,7 +113,7 @@ public class ViewItemActivity extends AppCompatActivity implements Subscriber<It
 
             if(correct){
                 if(create){
-                    addItem(itemName,itemDescription,itemPeriod,itemFee,category);
+                   //addItem(itemName,itemDescription,itemPeriod,itemFee,category);
                 }else{
                     editItem(item,itemName,itemDescription,itemPeriod,itemFee);
                 }

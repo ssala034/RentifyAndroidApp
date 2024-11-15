@@ -22,9 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditCategory"
-            android:exported="false" />
-        <activity
             android:name=".ManageCategories"
             android:exported="true" />
         <activity

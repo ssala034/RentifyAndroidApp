@@ -3,7 +3,6 @@ package com.group20.rentify.controller;
 
 import android.util.Log;
 
-
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.util.callback.DataRetrievalCallback;
@@ -17,6 +16,7 @@ public class CategoryController {
     private final SaveDataController dataController;
 
     public CategoryController(){
+
         dataController = SaveDataController.getInstance();
     }
 
@@ -36,7 +36,6 @@ public class CategoryController {
      */
     public boolean addCategory( Category category ){ // should admin logic go here??
         dataController.saveEntity(category);
-
         return true;
     }
 
@@ -59,7 +58,6 @@ public class CategoryController {
                 dataController.removeEntity(result);
             }else{
                 Log.d("Category Error", "Category doesn't exists");
-
             }
         });
     }

@@ -106,7 +106,7 @@ public class SaveDataController {
                 },
                 error -> {throw (DatabaseException) error;});
 
-        dataSaver.addDataChangeListener(DataSaver.CATEGORY_PATH,
+        dataSaver.addDataChangeListener(DataSaver.ITEM_PATH,
                 data -> {
                     items.clear();
                     if (data != null) {

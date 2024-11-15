@@ -44,4 +44,16 @@
     <string name="hintItemDescription">Item Description</string>
     <string name="hintItemPeriod">Rental Period</string>
     <string name="hintItemFee">Rental Fee</string>
+    <string name="headingLessorDashboard">Lessor Dashboard</string>
+    <string name="titleCategoriesForLessor">Categories:</string>
+    <string name="subtitleCategoriesForLessor">Click on each category to see the items</string>
+    <string name="hintItemCategory">Choose a category for your item from the menu below</string>
+
+    <string-array name="languages">
+        <item>C</item>
+        <item>C++</item>
+        <item>Java</item>
+        <item>JavaScript</item>
+        <item>VisualBasic</item>
+    </string-array>
 </resources>
