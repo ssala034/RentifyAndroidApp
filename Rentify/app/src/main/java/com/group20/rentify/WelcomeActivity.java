@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.UserRole;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -63,7 +64,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void onStartExploringPressed(View view) {
-        if (signedIn.getRole() == UserRole.admin) {
+        if (signedIn.getRole() == UserRole.Role.admin) {
             Intent intent = new Intent(this, AdminDashboard.class);
             startActivity(intent);
             finish();

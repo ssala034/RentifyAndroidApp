@@ -72,7 +72,7 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
         if (position >= 0) {
             categoriesList.remove(position);
             adapter.notifyItemRemoved(position);
-            controller.removeCategory(category.getUniqueIdentifier());
+            category.delete();
         }
     }
 

@@ -1,6 +1,7 @@
 package com.group20.rentify.controller;
 
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.UserRole;
 
 import java.util.List;
@@ -8,10 +9,8 @@ import java.util.List;
 public class ViewAccountsController {
     private static ViewAccountsController instance;
 
-    private final SaveDataController saveDataController;
-
     private ViewAccountsController() {
-        saveDataController = SaveDataController.getInstance();
+
     }
 
     public static ViewAccountsController getInstance() {
@@ -23,22 +22,28 @@ public class ViewAccountsController {
     }
 
     public List<Account> getAccountList(Subscriber<Account> s) {
-        return saveDataController.getAccounts(s);
+        Account account = Account.getSessionAccount();
+
+        if (account.getRole() == UserRole.Role.admin) {
+            return ((AdminRole) account.getAccountRole()).getAccountList(s);
+        } else {
+            throw new IllegalStateException("Only admin account can retrieve account list");
+        }
     }
 
     public boolean disableAccount(Account account) {
 
-        if (account.getRole() == UserRole.admin) {
+        if (account.getRole() == UserRole.Role.admin) {
             return false;
         }
 
         account.setEnabled(false);
-        saveDataController.updateAccount(account);
+        account.save();
 
         return true;
     }
 
     public void deleteAccount(Account account) {
-        saveDataController.removeAccount(account.getUsername());
+        account.delete();
     }
 }
