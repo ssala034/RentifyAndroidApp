@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
+import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.UserRole;
@@ -138,7 +139,7 @@ public class SaveDataController {
      * @throws IllegalStateException    If admin requirements are not met
      */
     public boolean saveAccount(Account acc) {
-        if(acc.getRole() == UserRole.admin){
+        if(acc.getRole() == UserRole.Role.admin){
             if (adminCreated)
                 throw new IllegalStateException("Maximum 1 admin account possible");
             dataSaver.saveOrUpdateData(DataSaver.ADMIN_PATH + "/" + acc.getUsername(), true);
@@ -281,10 +282,6 @@ public class SaveDataController {
      */
     public void getEntity(String entityType, String identifier, Class cls, DataRetrievalCallback<Entity> callback) {
         dataSaver.retrieveEntity(pluralize(entityType) + "/" + identifier, cls, callback);
-    }
-
-    public void updateEntity(Entity entity){
-        dataSaver.saveEntity(entity, pluralize(entity.getEntityTypeName()) + "/" + entity.getUniqueIdentifier());
     }
 
     /**

@@ -194,13 +194,13 @@ public class RegisterActivity extends AppCompatActivity {
         return usernameCheck && emailCheck && passwordCheck;
     }
 
-    private UserRole getRole() {
+    private UserRole.Role getRole() {
         CheckBox admin = findViewById(R.id.adminCreate);
         if (admin.isChecked()) {
-            return UserRole.admin;
+            return UserRole.Role.admin;
         } else {
             int selected = ((RadioGroup) findViewById(R.id.selectRole)).getCheckedRadioButtonId();
-            return selected == R.id.renterSelect ? UserRole.renter : UserRole.lesser;
+            return selected == R.id.renterSelect ? UserRole.Role.renter : UserRole.Role.lessor;
         }
     }
 }

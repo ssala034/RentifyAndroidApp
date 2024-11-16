@@ -84,7 +84,7 @@ public class FormController {
                         saveDataController.getAccount(email,
                                 entity -> {
                                     if (entity instanceof Account) {
-                                        Account.setSessionAccount((Account) entity);
+                                        Account.setSessionAccount(entity);
                                         callback.onAuthenticationCompleted(true);
                                     } else {
                                         callback.onAuthenticationCompleted(false);
@@ -96,7 +96,7 @@ public class FormController {
                 });
     }
 
-    public boolean createAccount(String username, String email, UserRole role, String firstName, String lastName, String password)
+    public boolean createAccount(String username, String email, UserRole.Role role, String firstName, String lastName, String password)
         throws IllegalStateException {
         Account createdAccount = new Account(username, email, role, firstName, lastName);
         boolean success = saveDataController.saveAccount(createdAccount);

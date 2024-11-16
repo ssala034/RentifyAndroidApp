@@ -1,5 +1,8 @@
 package com.group20.rentify.entity;
 
+import com.group20.rentify.controller.SaveDataController;
+import com.group20.rentify.controller.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,8 @@ import java.util.List;
  * A model class for the categories of the Rentify app.
  */
 public class Category implements Entity {
+
+    private static final SaveDataController dataSaver = SaveDataController.getInstance();
 
     // instance variables
 
@@ -28,12 +33,13 @@ public class Category implements Entity {
     /**
      * List of items contained in the category
      */
-    private List<Item> items;
+    private final List<Item> items;
 
 
     // constructors
 
     public Category() {
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -49,6 +55,24 @@ public class Category implements Entity {
         this.items = new ArrayList<>();
     }
 
+    public static List<Category> getCategories(Subscriber<Category> s) {
+        return dataSaver.getCategories(s);
+    }
+
+    @Override
+    public void delete(){
+        for (Item item : items) {
+            item.setCategory(null);  // dissociate each item from this category
+            item.delete();
+        }
+        items.clear(); // clear all items in the category
+        dataSaver.removeEntity(this);
+    }
+
+    @Override
+    public void save() {
+        dataSaver.saveEntity(this);
+    }
 
     // getters
 
@@ -125,7 +149,7 @@ public class Category implements Entity {
      * Adds a new item to a category
      * @param item The item to be added
      */
-    public void addIItem(Item item) {
+    public void addItem(Item item) {
         if (item != null && !items.contains(item)) { //check if the item does not exist in the category and is not null
             items.add(item); //add the new item to the list of items that belong to this category
             item.setCategory(this); //set the category reference in the item
@@ -141,16 +165,6 @@ public class Category implements Entity {
             items.remove(item); //remove the item from the category items list
             item.setCategory(null); //dissociate the item from this category
         }
-    }
-
-    /**
-     * Deletes the category and clears all its associated items
-     */
-    public void delete(){
-        for (Item item : items) {
-            item.setCategory(null); //dissociate each item from this category
-        }
-        items.clear(); //clear all items in the category
     }
 }
 

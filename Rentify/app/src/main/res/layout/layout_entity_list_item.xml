@@ -7,12 +7,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="4"
         android:padding="8dp">
 
-        <!-- Container for category title and details -->
+        <!-- Container for entity title and details -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -21,22 +21,22 @@
             android:padding="10dp"
             android:background="#7262C8">
 
-            <!-- Category Title -->
+            <!-- Entity Title -->
             <TextView
-                android:id="@+id/categoryTitle"
+                android:id="@+id/entityTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category Title"
+                android:text="Placeholder Title"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <!-- Category Details -->
+            <!-- Entity Details -->
             <TextView
-                android:id="@+id/categoryDetails"
+                android:id="@+id/entityDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category Details"
+                android:text="Placeholder Details"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
@@ -51,21 +51,21 @@
 
             <!-- Delete Button -->
             <ImageView
-                android:id="@+id/buttonDeleteCategory"
+                android:id="@+id/buttonDeleteEntity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
-                android:contentDescription="Delete Category"
+                android:contentDescription="Delete Entity"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
 
             <!-- Edit Button -->
             <ImageView
-                android:id="@+id/buttonEditCategory"
+                android:id="@+id/buttonEditEntity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="Edit Category"
+                android:contentDescription="Edit Entity"
                 app:srcCompat="@android:drawable/ic_menu_edit" />
         </LinearLayout>
 

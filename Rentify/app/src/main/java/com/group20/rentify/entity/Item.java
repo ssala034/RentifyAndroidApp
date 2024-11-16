@@ -1,6 +1,10 @@
 package com.group20.rentify.entity;
 
+import com.group20.rentify.controller.SaveDataController;
+
 public class Item implements Entity {
+
+    private static final SaveDataController dataSaver = SaveDataController.getInstance();
 
     // instance variables
 
@@ -60,6 +64,16 @@ public class Item implements Entity {
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
         this.category = category;
+    }
+
+    @Override
+    public void delete() {
+        dataSaver.removeEntity(this);
+    }
+
+    @Override
+    public void save() {
+        dataSaver.saveEntity(this);
     }
 
     // getters
