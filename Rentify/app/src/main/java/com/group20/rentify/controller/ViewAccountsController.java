@@ -43,7 +43,14 @@ public class ViewAccountsController {
         return true;
     }
 
-    public void deleteAccount(Account account) {
-        account.delete();
+    public boolean enableAccount(Account account) {
+        if (account.getRole() == UserRole.Role.admin) {
+            return false;
+        }
+
+        account.setEnabled(true);
+        account.save();
+
+        return true;
     }
 }
