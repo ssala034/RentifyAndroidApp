@@ -19,7 +19,23 @@ public interface Entity {
      */
     boolean setUniqueIdentifier(String id);
 
+    /**
+     * @return  The display name of the entity
+     */
     String getName();
 
+    /**
+     * @return  The display description for the entity
+     */
     String getDescription();
+
+    /**
+     * Destroy the entity and remove it from persistent data storage
+     */
+    void delete();
+
+    /**
+     * Save any changes made to the entity to persistent data storage
+     */
+    void save();
 }

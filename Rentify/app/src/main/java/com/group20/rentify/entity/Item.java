@@ -1,13 +1,12 @@
 package com.group20.rentify.entity;
 
+import com.group20.rentify.controller.SaveDataController;
+
 public class Item implements Entity {
 
-    // instance variables
+    private static final SaveDataController dataSaver = SaveDataController.getInstance();
 
-    /**
-     * The category in which the item belongs to
-     */
-    private Category category;
+    // instance variables
 
     /**
      * The name of the item
@@ -34,6 +33,11 @@ public class Item implements Entity {
      */
     private int rentalTime;
 
+    /**
+     * The category in which the item belongs to
+     */
+    private Category category;
+
     //constructors
 
     public Item() {
@@ -48,14 +52,28 @@ public class Item implements Entity {
      * @param rentalFee The price of renting the item
      * @param rentalTime The rental time period of the item
      * @param category The category in which the item belongs to
+     * @throws IllegalArgumentException if the category is null
      */
     public Item(String name, String description, String uniqueIdentifier, int rentalFee, int rentalTime, Category category){
+        if (category == null){
+            throw new IllegalArgumentException("An item must belong to a category!");
+        }
         this.name = name;
         this.description = description;
         this.uniqueIdentifier = uniqueIdentifier;
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
         this.category = category;
+    }
+
+    @Override
+    public void delete() {
+        dataSaver.removeEntity(this);
+    }
+
+    @Override
+    public void save() {
+        dataSaver.saveEntity(this);
     }
 
     // getters
@@ -169,15 +187,10 @@ public class Item implements Entity {
     }
 
     /**
-     * Setter for item category
-     * @param category
+     * Setter for category attribute
+     * @param category The category in which this item belongs to
      */
-    public void setCategory(Category category) {
-
+    public void setCategory(Category category){
+        this.category = category;
     }
-
-    public boolean hasCategory(){
-        return category != null;
-    }
-
 }

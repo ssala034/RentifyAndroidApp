@@ -7,6 +7,8 @@ import com.group20.rentify.controller.SaveDataController;
  */
 public class Account implements Entity {
 
+    private static final SaveDataController dataSaver = SaveDataController.getInstance();
+
     private static Account sessionAccount;
 
     // instance variables
@@ -44,7 +46,9 @@ public class Account implements Entity {
      * <p>One of {Renter, Lessor, Admin}</p>
      * <p>READ ONLY</p>
      */
-    private UserRole role;
+    private UserRole.Role role;
+
+    private UserRole accountRole;
 
     private boolean enabled;
 
@@ -61,13 +65,13 @@ public class Account implements Entity {
      * @param firstName The first name and display name of the user
      * @param lastName  The last name of the user
      */
-    public Account(String username, String email, UserRole role, String firstName, String lastName) {
+    public Account(String username, String email, UserRole.Role role, String firstName, String lastName) {
         this.username = username;
         this.email = email;
-        this.role = role;
         this.firstName = firstName.isEmpty() ? username : firstName;
         this.lastName = lastName;
         enabled = true;
+        this.accountRole = generateRole(role);
     }
 
     @Override
@@ -81,6 +85,16 @@ public class Account implements Entity {
 
     public static void setSessionAccount(Account currentSession) {
         sessionAccount = currentSession;
+    }
+
+    @Override
+    public void delete() {
+        dataSaver.removeAccount(username);
+    }
+
+    @Override
+    public void save() {
+        dataSaver.updateAccount(this);
     }
 
     // getters
@@ -121,8 +135,15 @@ public class Account implements Entity {
      * Getter for the role attribute
      * @return  role
      */
-    public UserRole getRole() {
+    public UserRole.Role getRole() { // for firebase compatibility
         return role;
+    }
+
+    public UserRole getAccountRole() {
+        if (accountRole == null) {
+            accountRole = generateRole(role);
+        }
+        return accountRole;
     }
 
     @Override
@@ -154,7 +175,7 @@ public class Account implements Entity {
      */
     public boolean setUsername(String username) {
         // check if the username is already in use
-        boolean validUsr = SaveDataController.getInstance().verifyUniqueUsername(username);
+        boolean validUsr = dataSaver.verifyUniqueUsername(username);
 
         if (validUsr) {
             this.username = username;
@@ -188,5 +209,18 @@ public class Account implements Entity {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    private UserRole generateRole(UserRole.Role role) {
+        switch (role) {
+            case admin:
+                return new AdminRole();
+            case renter:
+                return new RenterRole();
+            case lessor: case lesser:
+                return new LessorRole();
+            default:
+                throw new IllegalArgumentException("Invalid Role");
+        }
     }
 }

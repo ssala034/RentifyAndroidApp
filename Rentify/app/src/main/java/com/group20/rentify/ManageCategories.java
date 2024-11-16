@@ -1,6 +1,5 @@
 package com.group20.rentify;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,82 +7,37 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.group20.rentify.controller.CategoryAdapter;
 import com.group20.rentify.controller.CategoryController;
-import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.entity.Category;
 
-import java.util.List;
-
-public class ManageCategories extends AppCompatActivity implements CategoryAdapter.CategoryActionListener, Subscriber<Category> {
+public class ManageCategories extends ManageEntitiesActivity<Category> {
 
     private CategoryController controller;
-    private List<Category> categoriesList;
-    private CategoryAdapter adapter;
     private EditText nameInput;
     private EditText descriptionInput;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_manage_categories);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
+        ((TextView) findViewById(R.id.heading)).setText(R.string.categoryPageTitle);
+    }
+
+    @Override
+    protected void initEntityList() {
         controller = CategoryController.getInstance();
-
-        // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategories);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
-        categoriesList = controller.getCategories(this);
-        adapter = new CategoryAdapter(categoriesList, this);
-        recyclerView.setAdapter(adapter);
-
-
-        // Set up the add button listener
-        FloatingActionButton addCategoryButton = findViewById(R.id.buttonAddCategory);
-        addCategoryButton.setOnClickListener(this::onAddCategoryPressed);
+        entityList = controller.getCategories(this);
     }
 
     @Override
-    public void notify(List<Category> updatedList) {
-        categoriesList = updatedList;
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDeleteCategory(Category category) {
-        // Handle delete action
-        int position = categoriesList.indexOf(category);
-        if (position >= 0) {
-            categoriesList.remove(position);
-            adapter.notifyItemRemoved(position);
-            controller.removeCategory(category.getUniqueIdentifier());
-        }
-    }
-
-    @Override
-    public void onEditCategory(Category category) {
+    public void onEditEntity(Category category) {
         showAddUpdateDialog(false, category);
     }
 
-
-    public void onAddCategoryPressed(View view) {
+    @Override
+    protected void onAddEntityPressed(View view) {
         showAddUpdateDialog(true, null);
     }
 
@@ -101,7 +55,7 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        nameInput = dialogView.findViewById(R.id.textItemName);
+        nameInput = dialogView.findViewById(R.id.textCategoryName);
         descriptionInput = dialogView.findViewById(R.id.textDescription);
 
         dialogView.findViewById(R.id.buttonCreateCategory).setOnClickListener(view ->{
