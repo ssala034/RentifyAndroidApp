@@ -17,18 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.group20.rentify.controller.CategoryAdapter;
+import com.group20.rentify.adapter.EntityListAdapter;
 import com.group20.rentify.controller.CategoryController;
 import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.entity.Category;
 
 import java.util.List;
 
-public class ManageCategories extends AppCompatActivity implements CategoryAdapter.CategoryActionListener, Subscriber<Category> {
+public class ManageCategories extends AppCompatActivity implements EntityListAdapter.EntityActionListener<Category>, Subscriber<Category> {
 
     private CategoryController controller;
     private List<Category> categoriesList;
-    private CategoryAdapter adapter;
+    private EntityListAdapter<Category> adapter;
     private EditText nameInput;
     private EditText descriptionInput;
 
@@ -37,25 +37,29 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_manage_categories);
+        setContentView(R.layout.activity_manage_entities);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        ((TextView) findViewById(R.id.heading)).setText(R.string.categoryPageTitle);
+
         controller = CategoryController.getInstance();
 
         // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategories);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntities);
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
+
         categoriesList = controller.getCategories(this);
-        adapter = new CategoryAdapter(categoriesList, this);
+
+        adapter = new EntityListAdapter<>(categoriesList, this);
         recyclerView.setAdapter(adapter);
 
 
         // Set up the add button listener
-        FloatingActionButton addCategoryButton = findViewById(R.id.buttonAddCategory);
+        FloatingActionButton addCategoryButton = findViewById(R.id.buttonAddEntity);
         addCategoryButton.setOnClickListener(this::onAddCategoryPressed);
     }
 
@@ -66,7 +70,7 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
     }
 
     @Override
-    public void onDeleteCategory(Category category) {
+    public void onDeleteEntity(Category category) {
         // Handle delete action
         int position = categoriesList.indexOf(category);
         if (position >= 0) {
@@ -77,9 +81,8 @@ public class ManageCategories extends AppCompatActivity implements CategoryAdapt
     }
 
     @Override
-    public void onEditCategory(Category category) {
+    public void onEditEntity(Category category) {
         showAddUpdateDialog(false, category);
-
     }
 
     public void onAddCategoryPressed(View view) {

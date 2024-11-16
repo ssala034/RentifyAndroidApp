@@ -16,10 +16,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.group20.rentify.adapter.EntityList;
 import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.controller.ViewAccountsController;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.UserRole;
 

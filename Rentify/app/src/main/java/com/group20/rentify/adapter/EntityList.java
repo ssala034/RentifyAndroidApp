@@ -1,4 +1,4 @@
-package com.group20.rentify;
+package com.group20.rentify.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.group20.rentify.R;
 import com.group20.rentify.entity.Entity;
 
 import java.util.List;
