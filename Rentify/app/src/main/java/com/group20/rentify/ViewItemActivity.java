@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.group20.rentify.controller.CategoryAdapter;
 import com.group20.rentify.controller.CategoryController;
 import com.group20.rentify.controller.ItemAdapter;
 import com.group20.rentify.controller.ItemController;

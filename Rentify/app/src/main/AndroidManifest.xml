@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ManageCategories"
+            android:name=".ManageCategoriesActivity"
             android:exported="true" />
         <activity
             android:name=".AdminDashboard"
