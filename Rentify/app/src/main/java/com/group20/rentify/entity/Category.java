@@ -33,12 +33,13 @@ public class Category implements Entity {
     /**
      * List of items contained in the category
      */
-    private List<Item> items;
+    private final List<Item> items;
 
 
     // constructors
 
     public Category() {
+        this.items = new ArrayList<>();
     }
 
     /**

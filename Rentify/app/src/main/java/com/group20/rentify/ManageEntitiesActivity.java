@@ -106,6 +106,7 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
                 adapter.notifyItemRemoved(position);
                 entity.delete();
                 onDeleteSuccess();
+                b.dismiss();
             }
         });
 

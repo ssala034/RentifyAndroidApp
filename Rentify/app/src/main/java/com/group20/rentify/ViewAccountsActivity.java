@@ -83,7 +83,7 @@ public class ViewAccountsActivity extends ManageEntitiesActivity<Account> {
         });
 
         enableButton.setOnClickListener(view -> {
-            if (controller.disableAccount(account)) {
+            if (controller.enableAccount(account)) {
                 Toast.makeText(getApplicationContext(), "Account enabled successfully.", Toast.LENGTH_SHORT).show();
             }
             b.dismiss();
