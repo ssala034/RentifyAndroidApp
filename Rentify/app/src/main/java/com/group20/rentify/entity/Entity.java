@@ -27,7 +27,7 @@ public interface Entity {
     /**
      * @return  The display description for the entity
      */
-    String getDescription();
+    String displayDetails();
 
     /**
      * Destroy the entity and remove it from persistent data storage

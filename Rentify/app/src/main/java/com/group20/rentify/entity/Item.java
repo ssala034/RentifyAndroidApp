@@ -1,6 +1,9 @@
 package com.group20.rentify.entity;
 
 import com.group20.rentify.controller.SaveDataController;
+import com.group20.rentify.controller.Subscriber;
+
+import java.util.List;
 
 public class Item implements Entity {
 
@@ -66,6 +69,10 @@ public class Item implements Entity {
         this.category = category;
     }
 
+    public static List<Item> getItems(Subscriber<Item> s) {
+        return dataSaver.getItems(s);
+    }
+
     @Override
     public void delete() {
         dataSaver.removeEntity(this);
@@ -86,6 +93,16 @@ public class Item implements Entity {
     @Override
     public String getEntityTypeName() {
         return "item";
+    }
+
+    @Override
+    public String displayDetails() {
+        return String.format("\t%-20s%s\n\t%-20s%s\n\t%-20s%s\n\n%s",
+                "Category:", category,
+                "Rental Fee:", rentalFee,
+                "Rental Time:", rentalTime,
+                description
+        );
     }
 
     /**

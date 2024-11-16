@@ -157,7 +157,7 @@ public class Account implements Entity {
     }
 
     @Override
-    public String getDescription() {
+    public String displayDetails() {
         return String.format("%s\tRole: %s\n\tEmail: %s", enabled ? "" : "DISABLED\n", getRole(), getEmail());
     }
 

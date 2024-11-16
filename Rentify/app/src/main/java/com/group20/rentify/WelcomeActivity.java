@@ -68,6 +68,10 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AdminDashboard.class);
             startActivity(intent);
             finish();
+        } else if (signedIn.getRole() == UserRole.Role.lessor || signedIn.getRole() == UserRole.Role.lesser) {
+            Intent intent = new Intent(this, ViewItemActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

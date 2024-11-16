@@ -9,15 +9,9 @@ import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.group20.rentify.controller.CategoryController;
-import com.group20.rentify.controller.ItemAdapter;
 import com.group20.rentify.controller.ItemController;
 import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.entity.Category;
@@ -25,13 +19,11 @@ import com.group20.rentify.entity.Item;
 
 import java.util.List;
 
-public class ViewItemActivity extends AppCompatActivity implements ItemAdapter.ItemActionListener, Subscriber<Item> {
+public class ViewItemActivity extends ManageEntitiesActivity<Item> {
 
     private ItemController controller;
     private CategoryController categoryController;
-    private List<Item> itemsList;
     private List<Category> categoriesList;
-    private ItemAdapter adapter;
 
     private EditText nameInput;
     private EditText descriptionInput;
@@ -42,27 +34,19 @@ public class ViewItemActivity extends AppCompatActivity implements ItemAdapter.I
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_view_item);
 
-        controller = ItemController.getInstance();
-
-        // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewItems);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
-        itemsList = controller.getItems(this);
-
-        adapter = new ItemAdapter(itemsList, this);
-        recyclerView.setAdapter(adapter);
-        categoriesList = getCategories();
-
-        FloatingActionButton addItemButton = findViewById(R.id.buttonAddItem);
-        addItemButton.setOnClickListener(this:: onAddItemPressed);
-
+        categoryController = CategoryController.getInstance();
+        initCategoryList();
     }
 
-    private List<Category> getCategories(){
-        categoryController = CategoryController.getInstance();
+    @Override
+    protected void initEntityList() {
+        controller = ItemController.getInstance();
+        entityList = controller.getItems(this);
+    }
+
+    private void initCategoryList(){
+
         categoriesList = categoryController.getCategories(
                 new Subscriber<Category>() {
                     @Override
@@ -72,27 +56,15 @@ public class ViewItemActivity extends AppCompatActivity implements ItemAdapter.I
                 }
         );
 
-        return categoriesList;
-
     }
 
-    private void onAddItemPressed(View view) {
+    @Override
+    protected void onAddEntityPressed(View view) {
         showUpdateItemDialog(true,null);
     }
 
     @Override
-    public void onDeleteItem(Item item) {
-        // Handle delete action
-        int position = itemsList.indexOf(item);
-        if (position >= 0) {
-            itemsList.remove(position);
-            adapter.notifyItemRemoved(position);
-            controller.removeItem(item.getUniqueIdentifier());
-        }
-    }
-
-    @Override
-    public void onEditItem(Item item){
+    public void onEditEntity(Item item){
         showUpdateItemDialog(false,item);
     }
 
@@ -100,14 +72,13 @@ public class ViewItemActivity extends AppCompatActivity implements ItemAdapter.I
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.edit_item, null);
-        //testing dropdown menu
-       Spinner spinnerCategories = dialogView.findViewById(R.id.categoryOptions);
-       ArrayAdapter<Category> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesList);
+        // testing dropdown menu
+        Spinner spinnerCategories = dialogView.findViewById(R.id.categoryOptions);
+        ArrayAdapter<Category> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(adapter);
 
         dialogBuilder.setView(dialogView);
-
 
         if(create){
             ((TextView) dialogView.findViewById(R.id.textItemHeading)).setText("Add Category");
@@ -230,12 +201,6 @@ public class ViewItemActivity extends AppCompatActivity implements ItemAdapter.I
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void notify(List<Item> updatedList) {
-        itemsList = updatedList;
-        //adapter.notifyDataSetChanged();
     }
 
 }

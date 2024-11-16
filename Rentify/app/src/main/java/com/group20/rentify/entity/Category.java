@@ -85,6 +85,11 @@ public class Category implements Entity {
         return "category";
     }
 
+    @Override
+    public String displayDetails() {
+        return getDescription();
+    }
+
     /**
      * Getter for name attribute
      * @return name
