@@ -72,6 +72,7 @@ public class Account implements Entity {
         this.firstName = firstName.isEmpty() ? username : firstName;
         this.lastName = lastName;
         enabled = true;
+        this.role = role;
         this.accountRole = generateRole(role);
     }
 

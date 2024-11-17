@@ -200,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity {
             return UserRole.Role.admin;
         } else {
             int selected = ((RadioGroup) findViewById(R.id.selectRole)).getCheckedRadioButtonId();
-            return selected == R.id.renterSelect ? UserRole.Role.renter : UserRole.Role.lessor;
+            return selected == R.id.renterSelect ? UserRole.Role.renter : UserRole.Role.lesser;
         }
     }
 }
