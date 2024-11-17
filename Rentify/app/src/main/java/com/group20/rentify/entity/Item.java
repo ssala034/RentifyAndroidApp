@@ -99,10 +99,17 @@ public class Item implements Entity {
 
     @Override
     public void delete() {
-        // do not need to remove from owner first, assume that owner will from list before calling delete
         if (category != null) {  // null check in case category is deleted first
             category.removeItem(this);
             category.save();
+        }
+        if (owner != null) {
+            // this only updates firebase, assumes that if the account was loaded to disk
+            // deletion is handled already
+            dataSaver.getAccount(owner, data -> {
+                ((LessorRole) data.getAccountRole()).removeItem(this);
+                data.save();
+            });
         }
         dataSaver.removeEntity(this);
     }
