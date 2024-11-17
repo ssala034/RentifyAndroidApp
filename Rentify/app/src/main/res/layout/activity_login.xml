@@ -11,17 +11,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="682dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="20dp"
+        android:layout_height="match_parent"
+        app:contentPaddingTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,18 +27,23 @@
             android:background="#00F6F2F2"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/header"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="181dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/rentifylogo"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
 
                 <TextView
                     android:id="@+id/text_email"
@@ -54,7 +56,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:minHeight="48dp"
+                    tools:ignore="LabelFor" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
 
                 <TextView
                     android:id="@+id/text_password"
@@ -69,10 +77,15 @@
                     android:ems="10"
                     android:inputType="textPassword" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
+
                 <Button
                     android:id="@+id/button_signIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bg"
                     android:onClick="signInClick"
                     android:text="@string/button_signIn" />
 
@@ -82,16 +95,25 @@
                     android:layout_gravity="center"
                     android:orientation="vertical">
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="17dp" />
+
                     <TextView
                         android:id="@+id/text_createAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_createAccount" />
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="17dp" />
+
                     <Button
                         android:id="@+id/button_createAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/btn_bg"
                         android:onClick="createAccountClick"
                         android:text="@string/button_createAccount" />
                 </LinearLayout>
