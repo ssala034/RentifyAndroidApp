@@ -1,5 +1,7 @@
 package com.group20.rentify.entity;
 
+import com.google.firebase.database.DataSnapshot;
+
 public interface Entity {
 
     /**
@@ -38,4 +40,6 @@ public interface Entity {
      * Save any changes made to the entity to persistent data storage
      */
     void save();
+
+    void loadFurther(DataSnapshot ds);
 }

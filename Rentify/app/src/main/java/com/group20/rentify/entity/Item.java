@@ -1,5 +1,9 @@
 package com.group20.rentify.entity;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.Exclude;
 import com.group20.rentify.controller.SaveDataController;
 import com.group20.rentify.controller.Subscriber;
 
@@ -41,6 +45,8 @@ public class Item implements Entity {
      */
     private Category category;
 
+    private String categoryId;
+
     /**
      * The lessor who created the listing for the item -- READ ONLY
      */
@@ -81,6 +87,7 @@ public class Item implements Entity {
 
         category.addItem(this);
         this.category = category;
+        this.categoryId = category.getUniqueIdentifier();
 
         owner.addItem(this);
         this.owner = owner.getUser().getUsername();
@@ -95,6 +102,7 @@ public class Item implements Entity {
         // do not need to remove from owner first, assume that owner will from list before calling delete
         if (category != null) {  // null check in case category is deleted first
             category.removeItem(this);
+            category.save();
         }
         dataSaver.removeEntity(this);
     }
@@ -102,6 +110,13 @@ public class Item implements Entity {
     @Override
     public void save() {
         dataSaver.saveEntity(this);
+    }
+
+    @Override
+    public void loadFurther(DataSnapshot ds) {
+        dataSaver.getEntity("category", categoryId, Category.class, data -> {
+            setCategory((Category) data);
+        });
     }
 
     // getters
@@ -170,6 +185,7 @@ public class Item implements Entity {
      * Getter for category
      * @return category
      */
+    @Exclude
     public Category getCategory() {
         return category;
     }
@@ -180,6 +196,10 @@ public class Item implements Entity {
      */
     public String getOwner() {
         return owner;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
     }
 
     // setters
@@ -239,12 +259,25 @@ public class Item implements Entity {
         if (category != this.category) {
             if (this.category != null) {
                 this.category.removeItem(this);
+                this.category.save();
             }
             if (category != null) {
                 category.addItem(this);
+                category.save();
             }
             this.category = category;
         }
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+
+        Item other = (Item) obj;
+        return (getUniqueIdentifier() == null && other.getUniqueIdentifier() == null)
+                || (other.getUniqueIdentifier() != null
+                && other.getUniqueIdentifier().equals(getUniqueIdentifier()));
+    }
 }

@@ -176,7 +176,7 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
     }
     //check if only numbers (including float)
     private boolean isNumeric(String input){
-        return input.matches("\\f+");
+        return input.matches("\\d+(\\.\\d+)?");
     }
 
     private boolean isDollarFormat(String input) {

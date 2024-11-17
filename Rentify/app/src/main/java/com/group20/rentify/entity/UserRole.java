@@ -30,4 +30,8 @@ public class UserRole {
     void setUser(Account user) {
         this.user = user;
     }
+
+    public void loadFurther() {
+
+    }
 }

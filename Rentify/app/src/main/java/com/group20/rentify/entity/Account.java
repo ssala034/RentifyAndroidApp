@@ -1,5 +1,7 @@
 package com.group20.rentify.entity;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.database.DataSnapshot;
 import com.group20.rentify.controller.SaveDataController;
 
@@ -104,17 +106,16 @@ public class Account implements Entity {
             switch (role) {
                 case admin:
                     accountRole = dataSaver.loadRole(ds.child("accountRole"), AdminRole.class);
-                    accountRole.setUser(this);
                     break;
                 case renter:
                     accountRole = dataSaver.loadRole(ds.child("accountRole"), RenterRole.class);
-                    accountRole.setUser(this);
                     break;
                 case lesser: case lessor:
                     accountRole = dataSaver.loadRole(ds.child("accountRole"), LessorRole.class);
-                    accountRole.setUser(this);
                     break;
             }
+            accountRole.loadFurther();
+            accountRole.setUser(this);
         }
     }
 
@@ -230,6 +231,17 @@ public class Account implements Entity {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+        Account other = (Account) obj;
+        return (getUniqueIdentifier() == null && other.getUniqueIdentifier() == null)
+                || (other.getUniqueIdentifier() != null
+                && other.getUniqueIdentifier().equals(getUniqueIdentifier()));
     }
 
     private UserRole generateRole(UserRole.Role role) {

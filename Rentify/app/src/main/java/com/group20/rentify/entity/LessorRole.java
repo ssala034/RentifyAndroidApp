@@ -58,8 +58,15 @@ public class LessorRole extends UserRole {
         getUser().save();
     }
 
+    public void loadFurther() {
+        for (Item item: items) {
+            item.loadFurther(null);
+        }
+    }
+
     @Exclude
     public List<Item> getItems(Subscriber<Item> s) {
+        // ensure all items are properly loaded
         subscribers.add(s);
         return items;
     }

@@ -63,9 +63,7 @@ public class DatabaseInterface implements DataSaver {
                     if (!(res instanceof Entity)) {
                         throw new IllegalArgumentException();
                     }
-                    if (cls == Account.class) {
-                        ((Account) res).loadFurther(dataSnapshot);
-                    }
+                    ((Entity) res).loadFurther(dataSnapshot);
                     callback.onDataRetrieved((Entity) res);
                 } else {
                     Log.d("Database ERROR", "Entity does not exist");

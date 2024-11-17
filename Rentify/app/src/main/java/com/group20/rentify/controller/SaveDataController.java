@@ -98,7 +98,9 @@ public class SaveDataController {
                         for (Object category : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            categories.add(((DataSnapshot) category).getValue(Category.class));
+                            Category castedCategory = ((DataSnapshot) category).getValue(Category.class);
+                            castedCategory.loadFurther((DataSnapshot) category);
+                            categories.add(castedCategory);
                         }
                     }
 
@@ -115,7 +117,9 @@ public class SaveDataController {
                         for (Object item : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            items.add(((DataSnapshot) item).getValue(Item.class));
+                            Item castedItem = ((DataSnapshot) item).getValue(Item.class);
+                            castedItem.loadFurther((DataSnapshot) item);
+                            items.add(castedItem);
                         }
                     }
 
