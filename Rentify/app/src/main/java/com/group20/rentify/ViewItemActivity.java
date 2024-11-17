@@ -14,8 +14,10 @@ import androidx.appcompat.app.AlertDialog;
 import com.group20.rentify.controller.CategoryController;
 import com.group20.rentify.controller.ItemController;
 import com.group20.rentify.controller.Subscriber;
+import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Item;
+import com.group20.rentify.entity.LessorRole;
 
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((TextView) findViewById(R.id.heading)).setText(R.string.itemPageTitle);
 
         categoryController = CategoryController.getInstance();
         initCategoryList();
@@ -64,6 +68,11 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
     }
 
     @Override
+    protected void beforeDeleteEntity(Item item) {
+        controller.deleteItem(item);
+    }
+
+    @Override
     public void onEditEntity(Item item){
         showUpdateItemDialog(false,item);
     }
@@ -81,9 +90,12 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
         dialogBuilder.setView(dialogView);
 
         if(create){
-            ((TextView) dialogView.findViewById(R.id.textItemHeading)).setText("Add Category");
+            ((TextView) dialogView.findViewById(R.id.textItemHeading)).setText("Add Iem");
         }else{
-            ((TextView) dialogView.findViewById(R.id.textItemHeading)).setText("Edit Category");
+            ((TextView) dialogView.findViewById(R.id.textItemHeading)).setText("Edit Item");
+            // category cannot be edited
+            spinnerCategories.setVisibility(View.GONE);
+            (dialogView.findViewById(R.id.textViewCategoryInstruction)).setVisibility(View.GONE);
         }
         final AlertDialog d = dialogBuilder.create();
         d.show();
@@ -94,19 +106,19 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
         feeInput = dialogView.findViewById(R.id.textItemRentalFee);
 
         dialogView.findViewById(R.id.buttonCreateItem).setOnClickListener(v -> {
-            String itemName = nameInput.getText().toString().trim();
-            String itemDescription = descriptionInput.getText().toString().trim();
-            int itemPeriod = Integer.parseInt(periodInput.getText().toString().trim());
-            int itemFee = Integer.parseInt(feeInput.getText().toString().trim());
-            category = (Category) spinnerCategories.getSelectedItem();
 
-            boolean correct =
-            validateName(nameInput) &&
-            validateDescription(descriptionInput) &&
-            validatePeriod(periodInput) &&
-            validateFee(feeInput);
+            boolean correct = validateName(nameInput);
+            correct = validateDescription(descriptionInput) && correct;
+            correct = validatePeriod(periodInput) && correct;
+            correct = validateFee(feeInput) && correct; // force java to eval all four
 
             if(correct){
+                String itemName = nameInput.getText().toString().trim();
+                String itemDescription = descriptionInput.getText().toString().trim();
+                int itemPeriod = Integer.parseInt(periodInput.getText().toString().trim());
+                int itemFee = Integer.parseInt(feeInput.getText().toString().trim());
+                category = (Category) spinnerCategories.getSelectedItem();
+
                 if(create){
                    addItem(itemName,itemDescription,itemPeriod,itemFee,category);
                 }else{
@@ -129,7 +141,14 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
     }
 
     private void addItem(String itemName, String itemDescription, int itemPeriod, int itemFee, Category category) {
-        Item newItem = new Item(itemName,itemDescription,null,itemFee,itemPeriod, category);
+        Item newItem = new Item(
+                itemName,
+                itemDescription,
+                null,
+                itemFee,
+                itemPeriod,
+                category,
+                (LessorRole) Account.getSessionAccount().getAccountRole());
 
         boolean done = controller.addItem(newItem);
         if(done) {
@@ -155,8 +174,14 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
     private boolean hasAlphaWithSpecialChars(String input) {
         return input.matches(".*[a-zA-Z ]+.*") && input.matches("[a-zA-Z0-9\\W ]+");
     }
-    //check if only integers
-    private boolean isNumeric(String input){return input.matches("\\d+");}
+    //check if only numbers (including float)
+    private boolean isNumeric(String input){
+        return input.matches("\\f+");
+    }
+
+    private boolean isDollarFormat(String input) {
+        return input.matches("^[0-9]+(\\.[0-9][0-9])?$");
+    }
 
     //Specific validation methods
     private boolean validateName(EditText field) {
@@ -183,7 +208,7 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
 
     private boolean validatePeriod(EditText field){
         if(validateNotEmpty(field)){
-            if(! isNumeric(field.getText().toString())){
+            if(!isNumeric(field.getText().toString())){
                 field.setError("Period can only contain numbers");
                 return false;
             }
@@ -194,8 +219,8 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
 
     private boolean validateFee(EditText field) {
         if(validateNotEmpty(field)){
-            if(! isNumeric(field.getText().toString())){
-                field.setError("Fee can only contain numbers");
+            if(!isDollarFormat(field.getText().toString())){
+                field.setError("Fee must be a number with 0 or 2 decimals");
                 return false;
             }
             return true;

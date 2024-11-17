@@ -27,23 +27,27 @@ public class Item implements Entity {
     private String uniqueIdentifier;
 
     /**
-     * The rental fee of the item
+     * The rental fee of the item in dollars (flat fee)
      */
-    private int rentalFee;
+    private double rentalFee;
 
     /**
-     * The rental time period of the item
+     * The rental time period of the item in days
      */
-    private int rentalTime;
+    private double rentalTime;
 
     /**
      * The category in which the item belongs to
      */
     private Category category;
 
-    //constructors
+    /**
+     * The lessor who created the listing for the item -- READ ONLY
+     */
+    private String owner;
 
-    public Item() {
+    //constructors
+    public Item() {  // necessary for firebase; however normally Item would require a category to create
 
     }
 
@@ -55,18 +59,31 @@ public class Item implements Entity {
      * @param rentalFee The price of renting the item
      * @param rentalTime The rental time period of the item
      * @param category The category in which the item belongs to
+     * @param owner The username of the lessor the item belongs to
      * @throws IllegalArgumentException if the category is null
      */
-    public Item(String name, String description, String uniqueIdentifier, int rentalFee, int rentalTime, Category category){
+    public Item(String name, String description, String uniqueIdentifier,
+                double rentalFee, double rentalTime,
+                Category category, LessorRole owner){
         if (category == null){
             throw new IllegalArgumentException("An item must belong to a category!");
         }
+
+        if (owner == null) {
+            throw new IllegalArgumentException("An item must belong to a lessor");
+        }
+
         this.name = name;
         this.description = description;
         this.uniqueIdentifier = uniqueIdentifier;
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
+
+        category.addItem(this);
         this.category = category;
+
+        owner.addItem(this);
+        this.owner = owner.getUser().getUsername();
     }
 
     public static List<Item> getItems(Subscriber<Item> s) {
@@ -75,6 +92,10 @@ public class Item implements Entity {
 
     @Override
     public void delete() {
+        // do not need to remove from owner first, assume that owner will from list before calling delete
+        if (category != null) {  // null check in case category is deleted first
+            category.removeItem(this);
+        }
         dataSaver.removeEntity(this);
     }
 
@@ -89,7 +110,6 @@ public class Item implements Entity {
      * Gets the name of the entity
      * @return "item"
      */
-
     @Override
     public String getEntityTypeName() {
         return "item";
@@ -97,7 +117,7 @@ public class Item implements Entity {
 
     @Override
     public String displayDetails() {
-        return String.format("\t%-20s%s\n\t%-20s%s\n\t%-20s%s\n\n%s",
+        return String.format("\t%-20s%s\n\t%-20s$%s\n\t%-20s%s\n\n%s",
                 "Category:", category,
                 "Rental Fee:", rentalFee,
                 "Rental Time:", rentalTime,
@@ -134,7 +154,7 @@ public class Item implements Entity {
      * Getter for rentalFee attribute
      * @return rentalFee
      */
-    public int getRentalFee(){
+    public double getRentalFee(){
         return rentalFee;
     }
 
@@ -142,7 +162,7 @@ public class Item implements Entity {
      * Getter for rentalTime attribute
      * @return rentalTime
      */
-    public int getRentalTime(){
+    public double getRentalTime(){
         return rentalTime;
     }
 
@@ -152,6 +172,14 @@ public class Item implements Entity {
      */
     public Category getCategory() {
         return category;
+    }
+
+    /**
+     * Getter for owner
+     * @return  owner
+     */
+    public String getOwner() {
+        return owner;
     }
 
     // setters
@@ -191,7 +219,7 @@ public class Item implements Entity {
      * Setter for rentalFee attribute
      * @param rentalFee The rental fee price of the item
      */
-    public void setRentalFee(int rentalFee){
+    public void setRentalFee(double rentalFee){
         this.rentalFee = rentalFee;
     }
 
@@ -199,7 +227,7 @@ public class Item implements Entity {
      * Setter for rentalTime attribute
      * @param rentalTime The rental time period of the item
      */
-    public void setRentalTime(int rentalTime){
+    public void setRentalTime(double rentalTime){
         this.rentalTime = rentalTime;
     }
 
@@ -208,6 +236,15 @@ public class Item implements Entity {
      * @param category The category in which this item belongs to
      */
     public void setCategory(Category category){
-        this.category = category;
+        if (category != this.category) {
+            if (this.category != null) {
+                this.category.removeItem(this);
+            }
+            if (category != null) {
+                category.addItem(this);
+            }
+            this.category = category;
+        }
     }
+
 }

@@ -1,6 +1,8 @@
 package com.group20.rentify.controller;
 
+import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Item;
+import com.group20.rentify.entity.LessorRole;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class ItemController {
      * @param item                       The category to save to the database
      * @return                          True if category is saved successfully
      */
-    public boolean addItem(Item item ){ // should admin logic go here??
+    public boolean addItem(Item item){ // should admin logic go here??
         item.save();
         return true;
     }
@@ -33,11 +35,16 @@ public class ItemController {
       item.setDescription(newDescription);
       item.setRentalTime(newPeriod);
       item.setRentalFee(newFee);
+      ((LessorRole) Account.getSessionAccount().getAccountRole()).refreshList();
       item.save();
     }
 
     public List<Item> getItems(Subscriber<Item> s) {
-        return Item.getItems(s);
+        return ((LessorRole) (Account.getSessionAccount().getAccountRole())).getItems(s);
+    }
+
+    public void deleteItem(Item item) {
+        ((LessorRole) (Account.getSessionAccount().getAccountRole())).removeItem(item);
     }
 
 }

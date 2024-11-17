@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 import com.group20.rentify.util.callback.ChangeListenerCallback;
@@ -61,6 +62,9 @@ public class DatabaseInterface implements DataSaver {
                     Object res = dataSnapshot.getValue(cls);
                     if (!(res instanceof Entity)) {
                         throw new IllegalArgumentException();
+                    }
+                    if (cls == Account.class) {
+                        ((Account) res).loadFurther(dataSnapshot);
                     }
                     callback.onDataRetrieved((Entity) res);
                 } else {

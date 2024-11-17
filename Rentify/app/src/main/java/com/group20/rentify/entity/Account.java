@@ -1,5 +1,6 @@
 package com.group20.rentify.entity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.group20.rentify.controller.SaveDataController;
 
 /**
@@ -95,6 +96,25 @@ public class Account implements Entity {
     @Override
     public void save() {
         dataSaver.updateAccount(this);
+    }
+
+    public void loadFurther(DataSnapshot ds) {
+        if (ds.hasChild("accountRole")) {
+            switch (role) {
+                case admin:
+                    accountRole = dataSaver.loadRole(ds.child("accountRole"), AdminRole.class);
+                    accountRole.setUser(this);
+                    break;
+                case renter:
+                    accountRole = dataSaver.loadRole(ds.child("accountRole"), RenterRole.class);
+                    accountRole.setUser(this);
+                    break;
+                case lesser: case lessor:
+                    accountRole = dataSaver.loadRole(ds.child("accountRole"), LessorRole.class);
+                    accountRole.setUser(this);
+                    break;
+            }
+        }
     }
 
     // getters
@@ -214,11 +234,11 @@ public class Account implements Entity {
     private UserRole generateRole(UserRole.Role role) {
         switch (role) {
             case admin:
-                return new AdminRole();
+                return new AdminRole(this);
             case renter:
-                return new RenterRole();
+                return new RenterRole(this);
             case lessor: case lesser:
-                return new LessorRole();
+                return new LessorRole(this);
             default:
                 throw new IllegalArgumentException("Invalid Role");
         }

@@ -5,7 +5,6 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.Item;
@@ -80,7 +79,9 @@ public class SaveDataController {
                         for (Object account : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            accounts.add(((DataSnapshot) account).getValue(Account.class));
+                            Account castedAccount = ((DataSnapshot) account).getValue(Account.class);
+                            castedAccount.loadFurther((DataSnapshot) account);
+                            accounts.add(castedAccount);
                         }
                     }
 
@@ -225,6 +226,10 @@ public class SaveDataController {
                 dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email.toString()), null));
         dataSaver.removeEntity(DataSaver.USER_PATH + "/" + username);
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + username, null);
+    }
+
+    public UserRole loadRole(DataSnapshot ds, Class cls) {
+        return (UserRole) ds.getValue(cls);
     }
 
     /**
