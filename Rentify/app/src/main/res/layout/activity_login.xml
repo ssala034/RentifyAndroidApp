@@ -5,24 +5,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DADADE"
     android:textAlignment="center"
-    android:background="#C0B3FD"
     tools:context=".LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:cardCornerRadius="10dp"
         app:contentPaddingTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/margin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="30dp"
             android:background="#00F6F2F2"
             android:orientation="vertical">
@@ -87,7 +89,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_bg"
                     android:onClick="signInClick"
-                    android:text="@string/button_signIn" />
+                    android:text="@string/button_signIn"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -97,7 +100,7 @@
 
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="17dp" />
+                        android:layout_height="20dp" />
 
                     <TextView
                         android:id="@+id/text_createAccount"
@@ -115,7 +118,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_bg"
                         android:onClick="createAccountClick"
-                        android:text="@string/button_createAccount" />
+                        android:text="@string/button_createAccount"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

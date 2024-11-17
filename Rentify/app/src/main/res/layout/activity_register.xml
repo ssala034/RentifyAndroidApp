@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#C0B3FD"
+    android:background="#DADADE"
     tools:context=".RegisterActivity">
 
     <androidx.cardview.widget.CardView
@@ -33,8 +33,10 @@
                 android:id="@+id/RegisterTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REGISTER"
+                android:text="@string/registerTitle"
                 android:textAlignment="textStart"
+                android:textColor="#A16ED8"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -42,7 +44,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Welcome to rentify, create an account to get started!" />
+                android:text="Welcome to rentify, create an account to get started!"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/emailEnter"
@@ -50,7 +54,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Enter your Email"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/usernameEnter"
@@ -84,8 +88,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Password"
-                android:textSize="14sp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/passwordEnter2"
@@ -93,8 +97,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="Re-enter your password"
-                android:textSize="14sp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textSize="14sp" />
 
             <RadioGroup
                 android:id="@+id/selectRole"
@@ -130,7 +134,7 @@
                 android:layout_weight="1"
                 android:text="OR, create an admin account"
                 android:textAlignment="center"
-                android:textColor="#673AB7"
+                android:textColor="#A16ED8"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -138,7 +142,9 @@
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign Up" />
+                android:background="@drawable/btn_bg"
+                android:text="Sign Up"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
