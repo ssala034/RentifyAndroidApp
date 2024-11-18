@@ -100,8 +100,9 @@ public class Item implements Entity {
     @Override
     public void delete() {
         if (category != null) {  // null check in case category is deleted first
+            Category tempRef = category;
             category.removeItem(this);
-            category.save();
+            tempRef.save();
         }
         if (owner != null) {
             // this only updates firebase, assumes that if the account was loaded to disk
