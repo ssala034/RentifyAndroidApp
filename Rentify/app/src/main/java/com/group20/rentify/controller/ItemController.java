@@ -30,7 +30,7 @@ public class ItemController {
         return true;
     }
 
-    public void updateItem(Item item, String newName, String newDescription,  int newPeriod, int newFee){
+    public void updateItem(Item item, String newName, String newDescription,  double newPeriod, double newFee){
       item.setName(newName);
       item.setDescription(newDescription);
       item.setRentalTime(newPeriod);

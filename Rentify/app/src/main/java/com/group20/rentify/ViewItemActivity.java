@@ -115,8 +115,8 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
             if(correct){
                 String itemName = nameInput.getText().toString().trim();
                 String itemDescription = descriptionInput.getText().toString().trim();
-                int itemPeriod = Integer.parseInt(periodInput.getText().toString().trim());
-                int itemFee = Integer.parseInt(feeInput.getText().toString().trim());
+                double itemPeriod = Double.parseDouble(periodInput.getText().toString().trim());
+                double itemFee = Double.parseDouble(feeInput.getText().toString().trim());
                 category = (Category) spinnerCategories.getSelectedItem();
 
                 if(create){
@@ -131,7 +131,7 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
 
     }
 
-    private void editItem(Item item, String itemName, String itemDescription, int itemPeriod, int itemFee) {
+    private void editItem(Item item, String itemName, String itemDescription, double itemPeriod, double itemFee) {
         if (item != null) {
             controller.updateItem(item, itemName, itemDescription, itemPeriod, itemFee);
             Toast.makeText(this, "Item updated successfully", Toast.LENGTH_SHORT).show();
@@ -140,7 +140,7 @@ public class ViewItemActivity extends ManageEntitiesActivity<Item> {
         }
     }
 
-    private void addItem(String itemName, String itemDescription, int itemPeriod, int itemFee, Category category) {
+    private void addItem(String itemName, String itemDescription, double itemPeriod, double itemFee, Category category) {
         Item newItem = new Item(
                 itemName,
                 itemDescription,
