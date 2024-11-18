@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.util.callback.AuthenticationCallback;
 import com.group20.rentify.util.callback.ChangeListenerCallback;
@@ -62,6 +63,7 @@ public class DatabaseInterface implements DataSaver {
                     if (!(res instanceof Entity)) {
                         throw new IllegalArgumentException();
                     }
+                    ((Entity) res).loadFurther(dataSnapshot);
                     callback.onDataRetrieved((Entity) res);
                 } else {
                     Log.d("Database ERROR", "Entity does not exist");

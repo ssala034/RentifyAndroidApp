@@ -1,7 +1,12 @@
 package com.group20.rentify.entity;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.DataSnapshot;
 import com.group20.rentify.controller.SaveDataController;
 import com.group20.rentify.controller.Subscriber;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +79,11 @@ public class Category implements Entity {
         dataSaver.saveEntity(this);
     }
 
+    @Override
+    public void loadFurther(DataSnapshot ds) {
+        // category does not need further loading, ignored
+    }
+
     // getters
 
     /**
@@ -83,6 +93,11 @@ public class Category implements Entity {
     @Override
     public String getEntityTypeName() {
         return "category";
+    }
+
+    @Override
+    public String displayDetails() {
+        return getDescription();
     }
 
     /**
@@ -110,6 +125,9 @@ public class Category implements Entity {
         return uniqueIdentifier;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
 
     // setters
 
@@ -165,6 +183,24 @@ public class Category implements Entity {
             items.remove(item); //remove the item from the category items list
             item.setCategory(null); //dissociate the item from this category
         }
+    }
+
+    /**
+     * To string method
+     * @return name of category
+     */
+    public String toString(){return this.name;}
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+
+        Category other = (Category) obj;
+        return (getUniqueIdentifier() == null && other.getUniqueIdentifier() == null)
+                || (other.getUniqueIdentifier() != null
+                && other.getUniqueIdentifier().equals(getUniqueIdentifier()));
     }
 }
 

@@ -10,6 +10,10 @@ public class AdminRole extends UserRole {
         role = Role.admin;
     }
 
+    public AdminRole(Account account) {
+        super(account);
+    }
+
     public List<Account> getAccountList(Subscriber<Account> s) {
         return dataSaver.getAccounts(s);
     }

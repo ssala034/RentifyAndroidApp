@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.group20.rentify.controller.CategoryController;
 import com.group20.rentify.entity.Category;
 
-public class ManageCategories extends ManageEntitiesActivity<Category> {
+public class ManageCategoriesActivity extends ManageEntitiesActivity<Category> {
 
     private CategoryController controller;
     private EditText nameInput;

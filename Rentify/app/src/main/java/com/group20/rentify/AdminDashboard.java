@@ -34,7 +34,7 @@ public class AdminDashboard extends AppCompatActivity {
     }
 
     private void onShowCategoriesBtnPressed(View view) {
-        Intent intent = new Intent(this, ManageCategories.class);
+        Intent intent = new Intent(this, ManageCategoriesActivity.class);
         startActivity(intent);
     }
 }

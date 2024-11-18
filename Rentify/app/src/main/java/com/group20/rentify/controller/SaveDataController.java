@@ -5,9 +5,9 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
+import com.group20.rentify.entity.Item;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;
 import com.group20.rentify.util.DatabaseInterface;
@@ -29,10 +29,12 @@ public class SaveDataController {
     private final Set<String> emails;
     private final List<Account> accounts;
     private final List<Category> categories;
+    private final List<Item> items;
     private boolean adminCreated;
 
     private final List<Subscriber<Account>> accountSubscribers;
     private final List<Subscriber<Category>> categorySubscribers;
+    private final  List<Subscriber<Item>> itemSubscribers;
 
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
@@ -40,8 +42,10 @@ public class SaveDataController {
         emails = new HashSet<>();
         accounts = new ArrayList<>();
         categories = new ArrayList<>();
+        items = new ArrayList<>();
         accountSubscribers = new LinkedList<>();
         categorySubscribers = new LinkedList<>();
+        itemSubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -75,7 +79,9 @@ public class SaveDataController {
                         for (Object account : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            accounts.add(((DataSnapshot) account).getValue(Account.class));
+                            Account castedAccount = ((DataSnapshot) account).getValue(Account.class);
+                            castedAccount.loadFurther((DataSnapshot) account);
+                            accounts.add(castedAccount);
                         }
                     }
 
@@ -92,7 +98,9 @@ public class SaveDataController {
                         for (Object category : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            categories.add(((DataSnapshot) category).getValue(Category.class));
+                            Category castedCategory = ((DataSnapshot) category).getValue(Category.class);
+                            castedCategory.loadFurther((DataSnapshot) category);
+                            categories.add(castedCategory);
                         }
                     }
 
@@ -101,6 +109,26 @@ public class SaveDataController {
                     }
                 },
                 error -> {throw (DatabaseException) error;});
+
+        dataSaver.addDataChangeListener(DataSaver.ITEM_PATH,
+                data -> {
+                    items.clear();
+                    if (data != null) {
+                        for (Object item : data.values()) {
+                            // should find a cleaner way to do this
+                            // so that database logic is abstracted from this class
+                            Item castedItem = ((DataSnapshot) item).getValue(Item.class);
+                            castedItem.loadFurther((DataSnapshot) item);
+                            items.add(castedItem);
+                        }
+                    }
+
+                    for (Subscriber<Item> s: itemSubscribers) {
+                        s.notify(items);
+                    }
+                },
+                error -> {throw (DatabaseException) error;});
+
 
         dataSaver.retrieveData(DataSaver.ADMIN_PATH,
                 result -> adminCreated = result != null);
@@ -204,6 +232,10 @@ public class SaveDataController {
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + username, null);
     }
 
+    public UserRole loadRole(DataSnapshot ds, Class cls) {
+        return (UserRole) ds.getValue(cls);
+    }
+
     /**
      * Getter for the list of accounts, synchronized with the saved data
      * @return  A list of all accounts currently existing in the system
@@ -220,6 +252,15 @@ public class SaveDataController {
     public List<Category> getCategories(Subscriber<Category> s) {
         categorySubscribers.add(s);
         return categories;
+    }
+
+    /**
+     * Getter for the list of categories, synchronized with the saved data
+     * @return  A list of all categories currently existing in the system
+     */
+    public List<Item> getItems(Subscriber<Item> s) {
+        itemSubscribers.add(s);
+        return items;
     }
 
     /**

@@ -66,6 +66,14 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
 
     }
 
+    /**
+     * Hook called before entity is deleted
+     * Can be used to do any extra cleanup necessary before deleting an entity
+     */
+    protected void beforeDeleteEntity(E entity) {
+
+    }
+
     @Override
     public void notify(List<E> updatedList) {
         entityList = updatedList;
@@ -100,14 +108,15 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
 
         confirmButton.setOnClickListener(view -> {
             // Handle delete action
+            beforeDeleteEntity(entity);
             int position = entityList.indexOf(entity);
             if (position >= 0) {
                 entityList.remove(position);
                 adapter.notifyItemRemoved(position);
                 entity.delete();
                 onDeleteSuccess();
-                b.dismiss();
             }
+            b.dismiss();
         });
 
         cancelButton.setOnClickListener(view -> {

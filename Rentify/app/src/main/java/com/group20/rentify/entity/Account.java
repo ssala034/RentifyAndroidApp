@@ -1,5 +1,8 @@
 package com.group20.rentify.entity;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.DataSnapshot;
 import com.group20.rentify.controller.SaveDataController;
 
 /**
@@ -71,6 +74,7 @@ public class Account implements Entity {
         this.firstName = firstName.isEmpty() ? username : firstName;
         this.lastName = lastName;
         enabled = true;
+        this.role = role;
         this.accountRole = generateRole(role);
     }
 
@@ -95,6 +99,24 @@ public class Account implements Entity {
     @Override
     public void save() {
         dataSaver.updateAccount(this);
+    }
+
+    public void loadFurther(DataSnapshot ds) {
+        if (ds.hasChild("accountRole")) {
+            switch (role) {
+                case admin:
+                    accountRole = dataSaver.loadRole(ds.child("accountRole"), AdminRole.class);
+                    break;
+                case renter:
+                    accountRole = dataSaver.loadRole(ds.child("accountRole"), RenterRole.class);
+                    break;
+                case lesser: case lessor:
+                    accountRole = dataSaver.loadRole(ds.child("accountRole"), LessorRole.class);
+                    break;
+            }
+            accountRole.loadFurther();
+            accountRole.setUser(this);
+        }
     }
 
     // getters
@@ -157,7 +179,7 @@ public class Account implements Entity {
     }
 
     @Override
-    public String getDescription() {
+    public String displayDetails() {
         return String.format("%s\tRole: %s\n\tEmail: %s", enabled ? "" : "DISABLED\n", getRole(), getEmail());
     }
 
@@ -211,14 +233,25 @@ public class Account implements Entity {
         this.enabled = enabled;
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+        Account other = (Account) obj;
+        return (getUniqueIdentifier() == null && other.getUniqueIdentifier() == null)
+                || (other.getUniqueIdentifier() != null
+                && other.getUniqueIdentifier().equals(getUniqueIdentifier()));
+    }
+
     private UserRole generateRole(UserRole.Role role) {
         switch (role) {
             case admin:
-                return new AdminRole();
+                return new AdminRole(this);
             case renter:
-                return new RenterRole();
+                return new RenterRole(this);
             case lessor: case lesser:
-                return new LessorRole();
+                return new LessorRole(this);
             default:
                 throw new IllegalArgumentException("Invalid Role");
         }

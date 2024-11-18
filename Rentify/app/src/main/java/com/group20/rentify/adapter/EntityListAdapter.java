@@ -38,8 +38,8 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
         E entity = entities.get(position);
 
         // Bind the category data to the views
-        holder.categoryTitle.setText(entity.getName());
-        holder.categoryDetails.setText(entity.getDescription());
+        holder.entityTitle.setText(entity.getName());
+        holder.entityDetails.setText(entity.displayDetails());
 
         // Set click listeners for delete and edit buttons
         holder.deleteButton.setOnClickListener(view -> {
@@ -60,14 +60,14 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
 
     // ViewHolder for holding each category's view elements
     public static class ListItemViewHolder extends RecyclerView.ViewHolder {
-        TextView categoryTitle, categoryDetails;
+        TextView entityTitle, entityDetails;
         ImageView deleteButton, editButton;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
             // Initialize views
-            categoryTitle = itemView.findViewById(R.id.entityTitle);
-            categoryDetails = itemView.findViewById(R.id.entityDetails);
+            entityTitle = itemView.findViewById(R.id.entityTitle);
+            entityDetails = itemView.findViewById(R.id.entityDetails);
             deleteButton = itemView.findViewById(R.id.buttonDeleteEntity);
             editButton = itemView.findViewById(R.id.buttonEditEntity);
         }

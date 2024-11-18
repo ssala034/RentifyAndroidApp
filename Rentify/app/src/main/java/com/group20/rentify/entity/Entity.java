@@ -1,5 +1,7 @@
 package com.group20.rentify.entity;
 
+import com.google.firebase.database.DataSnapshot;
+
 public interface Entity {
 
     /**
@@ -27,7 +29,7 @@ public interface Entity {
     /**
      * @return  The display description for the entity
      */
-    String getDescription();
+    String displayDetails();
 
     /**
      * Destroy the entity and remove it from persistent data storage
@@ -38,4 +40,6 @@ public interface Entity {
      * Save any changes made to the entity to persistent data storage
      */
     void save();
+
+    void loadFurther(DataSnapshot ds);
 }
