@@ -98,7 +98,10 @@ public class Request implements Entity {
 
     @Override
     public String displayDetails() {
-        return String.format("\tItem:\t%s\n\tUser:\t%s", item.getName(), renter.getUser().getName());
+        return String.format("%s\tItem:\t%s\n\tUser:\t%s",
+                accepted ? "ACCEPTED\n" : "",
+                item.getName(),
+                renter.getUser().getName());
     }
 
     @Override
@@ -146,13 +149,22 @@ public class Request implements Entity {
         return accepted;
     }
 
-    public boolean setAccepted(LessorRole caller, boolean accept) {
+    public boolean accept(LessorRole caller) {
         if (!item.getOwner().equals(caller.getUser().getName())) {
             return false;  // only the owner of the item can call set accepted
         }
 
-        this.accepted = accept;
+        this.accepted = true;
         save();
+        return true;
+    }
+
+    public boolean deny(LessorRole caller) {
+        if (!item.getOwner().equals(caller.getUser().getName())) {
+            return false;  // only the owner of the item can call set accepted
+        }
+
+        delete();
         return true;
     }
 }

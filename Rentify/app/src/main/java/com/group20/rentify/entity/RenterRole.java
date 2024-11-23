@@ -40,4 +40,8 @@ public class RenterRole extends UserRole {
             request.delete();
         }
     }
+
+    public List<String> getRequestIds() {  // DO NOT USE - for firebase
+        return requestIds;
+    }
 }

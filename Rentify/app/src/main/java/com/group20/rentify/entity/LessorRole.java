@@ -4,8 +4,10 @@ import com.google.firebase.database.Exclude;
 import com.group20.rentify.controller.Subscriber;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class LessorRole extends UserRole {
 
@@ -66,9 +68,30 @@ public class LessorRole extends UserRole {
 
     @Exclude
     public List<Item> getItems(Subscriber<Item> s) {
-        // ensure all items are properly loaded
         subscribers.add(s);
         return items;
+    }
+
+    /**
+     * Compute and return a map of all the requests for this lessor, keyed by item.
+     * <p>
+     *     NOTE: the subscriber will receive a new LIST each time update is called, ignore this.
+     *     The update method notifies the subscriber that the map they have has changed.
+     *     The map object is changed directly, so the subscriber only needs to call a re-render method.
+     * </p>
+     *
+     * @param s     the subscriber which will receive a notification whenever the requests change
+     * @return      the map of requests
+     */
+    @Exclude
+    public Map<Item, List<Request>> getRequests(Subscriber<Request> s) {
+        Map<Item, List<Request>> requests = new HashMap<>();
+
+        for (Item item : items) {
+            requests.put(item, item.getRequests(s));
+        }
+
+        return requests;
     }
 
     public List<Item> getItems() {  // for firebase data saving should not be used

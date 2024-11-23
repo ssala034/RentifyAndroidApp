@@ -53,14 +53,15 @@ public class Item implements Entity {
     /**
      * The requests that have been made on the item
      */
-    private final List<Request> requests;
-
+    @Exclude private final List<Request> requests;
     private final List<String> requestIds;
+    @Exclude private final List<Subscriber<Request>> subscribers;
 
     //constructors
     public Item() {  // necessary for firebase; however normally Item would require a category to create
         requests = new LinkedList<>();
         requestIds = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     /**
@@ -100,6 +101,7 @@ public class Item implements Entity {
 
         requests = new LinkedList<>();
         requestIds = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     public static List<Item> getItems(Subscriber<Item> s) {
@@ -297,6 +299,9 @@ public class Item implements Entity {
         if (request != null && !requests.contains(request)) {
             requests.add(request);
             requestIds.add(request.getUniqueIdentifier());
+            for (Subscriber<Request> s : subscribers) {
+                s.notify(requests);
+            }
         }
     }
 
@@ -304,8 +309,21 @@ public class Item implements Entity {
         if (request != null) {
             if (requests.remove(request)) {
                 requestIds.remove(request.getUniqueIdentifier());
+                for (Subscriber<Request> s : subscribers) {
+                    s.notify(requests);
+                }
             }
         }
+    }
+
+    @Exclude
+    public List<Request> getRequests(Subscriber<Request> s) {
+        subscribers.add(s);
+        return requests;
+    }
+
+    public List<String> getRequestIds() {  // DO NOT USE - for firebase
+        return requestIds;
     }
 
     @Override
