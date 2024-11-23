@@ -52,6 +52,8 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
         addEntityButton.setOnClickListener(this::onAddEntityPressed);
     }
 
+    // TODO @Emily use this constructor to send your custom adapter when inheriting from this class
+    //      i.e. super.onCreate(savedInstanceState, new EntityListAdapter<Request>(...))
     protected void onCreate(Bundle savedInstanceState, EntityListAdapter<E> adapter) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
