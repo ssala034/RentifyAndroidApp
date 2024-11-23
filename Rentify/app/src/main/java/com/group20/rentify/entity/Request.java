@@ -8,41 +8,45 @@ public class Request implements Entity {
     /**
      * The renter making the request
      */
-    RenterRole renter;
+    private RenterRole renter;
 
     /**
      * The item that the request is for
      */
-    Item item;
+    private Item item;
 
     /**
      * Whether the request has been accepted
      */
-    boolean accepted;
+    private boolean accepted;
 
     /**
      * The unique identifier of the request
      */
-    String uniqueIdentifier;
+    private String uniqueIdentifier;
 
     /**
      * Constructor for request object
      *
-     * @param renter
-     * @param item
+     * @param renter    the renter making the request
+     * @param item      the item that the request is for
      */
     public Request(RenterRole renter, Item item) {
         this.renter = renter;
+        renter.addRequest(this);
         this.item = item;
+        item.addRequest(this);
         this.accepted = false;
     }
 
     public Request(String id, RenterRole renter) {
         this.renter = renter;
+        renter.addRequest(this);
 
         dataSaver.getField("requests/" + id + "/" + "itemId", (itemId) -> {
             dataSaver.getEntity("item", itemId, Item.class, (item) -> {
                 this.item = item;
+                item.addRequest(this);
             });
         });
 
@@ -53,10 +57,12 @@ public class Request implements Entity {
 
     public Request(String id, Item item) {
         this.item = item;
+        item.addRequest(this);
 
         dataSaver.getField("requests/" + id + "/" + "renterId", (renterId) -> {
             dataSaver.getAccount(renterId, (renter) -> {
                 this.renter = (RenterRole) renter.getAccountRole();
+                this.renter.addRequest(this);
             });
         });
 
@@ -97,9 +103,14 @@ public class Request implements Entity {
 
     @Override
     public void delete() {
-        // TODO remove the request from the renter and item list
+        // remove the request from the item's list
         item.removeRequest(this);
         item.save();
+
+        // remove the requst from the renter's list
+        renter.removeRequest(this);
+        renter.getUser().save();
+
         dataSaver.removeEntity(this);
     }
 

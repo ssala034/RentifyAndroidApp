@@ -91,6 +91,7 @@ public class Account implements Entity {
 
     @Override
     public void delete() {
+        accountRole.delete();
         dataSaver.removeAccount(username);
     }
 

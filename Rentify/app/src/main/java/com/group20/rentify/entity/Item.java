@@ -301,9 +301,10 @@ public class Item implements Entity {
     }
 
     public void removeRequest(Request request) {
-        if (request != null && !requests.contains(request)) {
-            requests.remove(request);
-            requestIds.remove(request.getUniqueIdentifier());
+        if (request != null) {
+            if (requests.remove(request)) {
+                requestIds.remove(request.getUniqueIdentifier());
+            }
         }
     }
 

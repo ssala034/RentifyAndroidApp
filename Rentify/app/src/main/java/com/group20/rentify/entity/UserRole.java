@@ -34,4 +34,8 @@ public class UserRole {
     public void loadFurther() {
 
     }
+
+    public void delete() {
+
+    }
 }
