@@ -41,6 +41,13 @@ public class RenterRole extends UserRole {
         }
     }
 
+    @Override
+    public void loadFurther() {
+        for (String id : requestIds) {
+            requests.add(new Request(id, this));
+        }
+    }
+
     public List<String> getRequestIds() {  // DO NOT USE - for firebase
         return requestIds;
     }
