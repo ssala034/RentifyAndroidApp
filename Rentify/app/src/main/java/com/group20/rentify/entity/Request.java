@@ -149,9 +149,9 @@ public class Request implements Entity {
         return accepted;
     }
 
-    public boolean accept(LessorRole caller) {
-        if (!item.getOwner().equals(caller.getUser().getName())) {
-            return false;  // only the owner of the item can call set accepted
+    public boolean accept() {
+        if (checkNotOwnerIllegalState()) {
+            return false;
         }
 
         this.accepted = true;
@@ -159,12 +159,17 @@ public class Request implements Entity {
         return true;
     }
 
-    public boolean deny(LessorRole caller) {
-        if (!item.getOwner().equals(caller.getUser().getName())) {
-            return false;  // only the owner of the item can call set accepted
+    public boolean reject() {
+        if (checkNotOwnerIllegalState()) {
+            return false;
         }
 
         delete();
         return true;
+    }
+
+    private boolean checkNotOwnerIllegalState() {
+        // only the owner of the item can accept or reject requests
+        return !Account.getSessionAccount().getUsername().equals(item.getOwner());
     }
 }
