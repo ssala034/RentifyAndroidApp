@@ -59,6 +59,10 @@ public class Request implements Entity {
                 this.renter = (RenterRole) renter.getAccountRole();
             });
         });
+
+        dataSaver.getField("requests/" + id + "/" + "accepted", (accepted) -> {
+            this.accepted = accepted.equals("true");
+        });
     }
 
     @Override
@@ -87,7 +91,6 @@ public class Request implements Entity {
     }
 
     @Override
-    @Exclude
     public String displayDetails() {
         return String.format("\tItem:\t%s\n\tUser:\t%s", item.getName(), renter.getUser().getName());
     }
@@ -95,6 +98,8 @@ public class Request implements Entity {
     @Override
     public void delete() {
         // TODO remove the request from the renter and item list
+        item.removeRequest(this);
+        item.save();
         dataSaver.removeEntity(this);
     }
 
@@ -124,6 +129,10 @@ public class Request implements Entity {
 
     public String getItemId() {
         return item.getUniqueIdentifier();
+    }
+
+    public boolean getAccepted() {
+        return accepted;
     }
 
     public boolean setAccepted(LessorRole caller, boolean accept) {
