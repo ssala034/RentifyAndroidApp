@@ -52,6 +52,30 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
         addEntityButton.setOnClickListener(this::onAddEntityPressed);
     }
 
+    protected void onCreate(Bundle savedInstanceState, EntityListAdapter<E> adapter) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_manage_entities);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // Initialize RecyclerView and Adapter
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntities);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
+
+        initEntityList();
+
+        this.adapter = adapter;
+        recyclerView.setAdapter(adapter);
+
+        // Set up the add button listener
+        addEntityButton = findViewById(R.id.buttonAddEntity);
+        addEntityButton.setOnClickListener(this::onAddEntityPressed);
+    }
+
     /**
      * Initialise the entity list by calling the appropriate controller
      */
