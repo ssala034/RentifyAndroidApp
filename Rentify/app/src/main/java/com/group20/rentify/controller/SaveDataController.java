@@ -130,7 +130,7 @@ public class SaveDataController {
                 error -> {throw (DatabaseException) error;});
 
 
-        dataSaver.retrieveData(DataSaver.ADMIN_PATH,
+        dataSaver.retrieveData(DataSaver.ADMIN_PATH, Boolean.class,
                 result -> adminCreated = result != null);
     }
 
@@ -204,17 +204,13 @@ public class SaveDataController {
     public void getAccount(String identifier, DataRetrievalCallback<Account> callback) {
         if (usernames.contains(identifier)) {
             dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class,
-                    entity -> {
-                        callback.onDataRetrieved((Account) entity);
-                    });
+                    callback);
         } else {
             dataSaver.retrieveData(
-                    DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier),
+                    DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier), String.class,
                     result -> {
-                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class,
-                                entity -> {
-                                    callback.onDataRetrieved((Account) entity);
-                                });
+                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result,
+                                Account.class, callback);
                     });
         }
     }
@@ -226,14 +222,14 @@ public class SaveDataController {
      * @throws IllegalStateException    if the account does not exist in the database
      */
     public void removeAccount(String username) {
-        dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + username, email ->
-                dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email.toString()), null));
+        dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + username, String.class, email ->
+                dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email), null));
         dataSaver.removeEntity(DataSaver.USER_PATH + "/" + username);
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + username, null);
     }
 
-    public UserRole loadRole(DataSnapshot ds, Class cls) {
-        return (UserRole) ds.getValue(cls);
+    public <T extends UserRole> UserRole loadRole(DataSnapshot ds, Class<T> cls) {
+        return ds.getValue(cls);
     }
 
     /**
@@ -272,9 +268,9 @@ public class SaveDataController {
     public void authenticate(String credential, String password, AuthenticationCallback callback) {
         if (usernames.contains(credential)) {
             dataSaver.retrieveData(
-                    DataSaver.USERNAME_PATH + "/" + credential,
+                    DataSaver.USERNAME_PATH + "/" + credential, String.class,
                     result -> {
-                        dataSaver.authenticate(result.toString(), password, callback);
+                        dataSaver.authenticate(result, password, callback);
                     });
         } else {
             dataSaver.authenticate(credential, password, callback);
@@ -321,7 +317,7 @@ public class SaveDataController {
      * @param cls           the target entity class
      * @param callback      callback object overriding onEntityRetrieved
      */
-    public void getEntity(String entityType, String identifier, Class cls, DataRetrievalCallback<Entity> callback) {
+    public <T extends Entity> void getEntity(String entityType, String identifier, Class<T> cls, DataRetrievalCallback<T> callback) {
         dataSaver.retrieveEntity(pluralize(entityType) + "/" + identifier, cls, callback);
     }
 
@@ -333,6 +329,16 @@ public class SaveDataController {
      */
     public void removeEntity(Entity entity) {
         dataSaver.removeEntity(pluralize(entity.getEntityTypeName()) + "/" + entity.getUniqueIdentifier());
+    }
+
+    /**
+     * Gets the string value of the given path's node
+     *
+     * @param path      the full path to the value to retrieve (i.e., items/< item id >/name
+     * @param callback  callback overriding onDataRetrieved(String)
+     */
+    public void getField(String path, DataRetrievalCallback<String> callback) {
+        dataSaver.retrieveData(path, String.class, callback);
     }
 
     private String replaceIllegalCharacters(String str) {

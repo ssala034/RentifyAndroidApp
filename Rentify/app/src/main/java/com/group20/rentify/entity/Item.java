@@ -11,8 +11,6 @@ import java.util.List;
 
 public class Item implements Entity {
 
-    private static final SaveDataController dataSaver = SaveDataController.getInstance();
-
     // instance variables
 
     /**

@@ -10,8 +10,6 @@ import com.group20.rentify.controller.SaveDataController;
  */
 public class Account implements Entity {
 
-    private static final SaveDataController dataSaver = SaveDataController.getInstance();
-
     private static Account sessionAccount;
 
     // instance variables

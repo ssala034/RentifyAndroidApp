@@ -1,8 +1,11 @@
 package com.group20.rentify.entity;
 
 import com.google.firebase.database.DataSnapshot;
+import com.group20.rentify.controller.SaveDataController;
 
 public interface Entity {
+
+    SaveDataController dataSaver = SaveDataController.getInstance();
 
     /**
      * Return the name of the entity type, usually the same as the class name

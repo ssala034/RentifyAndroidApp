@@ -16,8 +16,6 @@ import java.util.List;
  */
 public class Category implements Entity {
 
-    private static final SaveDataController dataSaver = SaveDataController.getInstance();
-
     // instance variables
 
     /**
