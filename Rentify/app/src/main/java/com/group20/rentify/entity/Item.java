@@ -4,14 +4,12 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
-import com.group20.rentify.controller.SaveDataController;
 import com.group20.rentify.controller.Subscriber;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Item implements Entity {
-
-    private static final SaveDataController dataSaver = SaveDataController.getInstance();
 
     // instance variables
 
@@ -52,9 +50,18 @@ public class Item implements Entity {
      */
     private String owner;
 
+    /**
+     * The requests that have been made on the item
+     */
+    @Exclude private final List<Request> requests;
+    private final List<String> requestIds;
+    @Exclude private final List<Subscriber<Request>> subscribers;
+
     //constructors
     public Item() {  // necessary for firebase; however normally Item would require a category to create
-
+        requests = new LinkedList<>();
+        requestIds = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     /**
@@ -91,6 +98,10 @@ public class Item implements Entity {
 
         owner.addItem(this);
         this.owner = owner.getUser().getUsername();
+
+        requests = new LinkedList<>();
+        requestIds = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     public static List<Item> getItems(Subscriber<Item> s) {
@@ -112,6 +123,11 @@ public class Item implements Entity {
                 data.save();
             });
         }
+
+        for (Request request : requests) {
+            request.delete();
+        }
+
         dataSaver.removeEntity(this);
     }
 
@@ -122,9 +138,11 @@ public class Item implements Entity {
 
     @Override
     public void loadFurther(DataSnapshot ds) {
-        dataSaver.getEntity("category", categoryId, Category.class, data -> {
-            setCategory((Category) data);
-        });
+        dataSaver.getEntity("category", categoryId, Category.class, this::setCategory);
+
+        for (String id : requestIds) {
+            requests.add(new Request(id, this));
+        }
     }
 
     // getters
@@ -275,6 +293,37 @@ public class Item implements Entity {
             }
             this.category = category;
         }
+    }
+
+    public void addRequest(Request request) {
+        if (request != null && !requests.contains(request)) {
+            requests.add(request);
+            requestIds.add(request.getUniqueIdentifier());
+            for (Subscriber<Request> s : subscribers) {
+                s.notify(requests);
+            }
+        }
+    }
+
+    public void removeRequest(Request request) {
+        if (request != null) {
+            if (requests.remove(request)) {
+                requestIds.remove(request.getUniqueIdentifier());
+                for (Subscriber<Request> s : subscribers) {
+                    s.notify(requests);
+                }
+            }
+        }
+    }
+
+    @Exclude
+    public List<Request> getRequests(Subscriber<Request> s) {
+        subscribers.add(s);
+        return requests;
+    }
+
+    public List<String> getRequestIds() {  // DO NOT USE - for firebase
+        return requestIds;
     }
 
     @Override
