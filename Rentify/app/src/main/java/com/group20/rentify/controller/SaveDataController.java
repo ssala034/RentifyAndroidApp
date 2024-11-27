@@ -130,7 +130,7 @@ public class SaveDataController {
                 error -> {throw (DatabaseException) error;});
 
 
-        dataSaver.retrieveData(DataSaver.ADMIN_PATH, Boolean.class,
+        dataSaver.retrieveData(DataSaver.ADMIN_PATH, Object.class,
                 result -> adminCreated = result != null);
     }
 
