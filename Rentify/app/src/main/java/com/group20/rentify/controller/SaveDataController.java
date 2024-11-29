@@ -15,6 +15,7 @@ import com.group20.rentify.util.callback.AuthenticationCallback;
 import com.group20.rentify.util.callback.DataRetrievalCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -130,7 +131,7 @@ public class SaveDataController {
                 error -> {throw (DatabaseException) error;});
 
 
-        dataSaver.retrieveData(DataSaver.ADMIN_PATH, Object.class,
+        dataSaver.retrieveData(DataSaver.ADMIN_PATH + "/admin", Boolean.class,
                 result -> adminCreated = result != null);
     }
 

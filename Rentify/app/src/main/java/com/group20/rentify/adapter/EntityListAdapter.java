@@ -1,5 +1,7 @@
 package com.group20.rentify.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.group20.rentify.R;
+import com.group20.rentify.ViewRequestsActivity;
 import com.group20.rentify.entity.Entity;
+import com.group20.rentify.entity.Item;
 
 import java.util.List;
 
@@ -59,6 +63,18 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
         holder.editButton.setOnClickListener(view -> {
             // Calls the activity’s onEditCategory for the specific category
             actionListener.onEditEntity(entity);
+        });
+
+        // Handle item click
+        holder.itemView.setOnClickListener(v -> {
+            // Open ViewRequestsActivity when an item is clicked
+            if (entity instanceof Item) {
+                Item selectedItem = (Item) entity;  // Cast to Item
+                Context context = v.getContext();
+                Intent intent = new Intent(context, ViewRequestsActivity.class);
+                intent.putExtra("itemID", selectedItem.getUniqueIdentifier());  // Pass the item
+                context.startActivity(intent);
+            }
         });
     }
 

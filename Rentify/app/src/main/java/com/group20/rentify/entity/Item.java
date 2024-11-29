@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
 import com.group20.rentify.controller.Subscriber;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 

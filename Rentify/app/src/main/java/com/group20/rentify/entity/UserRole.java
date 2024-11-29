@@ -11,7 +11,6 @@ public class UserRole {
     @Exclude protected Account user;
 
     public UserRole() {
-
     }
 
     public UserRole(Account account) {

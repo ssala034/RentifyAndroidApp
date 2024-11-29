@@ -49,5 +49,6 @@
     <string name="titleCategoriesForLessor">Categories:</string>
     <string name="subtitleCategoriesForLessor">Click on each category to see the items</string>
     <string name="hintItemCategory">Choose a category for your item from the menu below</string>
+    <string name="requestPageTitle">Requests</string>
 
 </resources>

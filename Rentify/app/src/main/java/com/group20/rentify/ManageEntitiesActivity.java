@@ -57,7 +57,7 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
     protected void onCreate(Bundle savedInstanceState, EntityListAdapter<E> adapter) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_manage_entities);
+        setContentView(R.layout.activity_view_requests);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -72,10 +72,6 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
 
         this.adapter = adapter;
         recyclerView.setAdapter(adapter);
-
-        // Set up the add button listener
-        addEntityButton = findViewById(R.id.buttonAddEntity);
-        addEntityButton.setOnClickListener(this::onAddEntityPressed);
     }
 
     /**
