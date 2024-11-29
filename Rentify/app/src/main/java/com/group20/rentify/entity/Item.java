@@ -1,10 +1,15 @@
 package com.group20.rentify.entity;
 
-import com.group20.rentify.controller.SaveDataController;
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.Exclude;
+import com.group20.rentify.controller.Subscriber;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Item implements Entity {
-
-    private static final SaveDataController dataSaver = SaveDataController.getInstance();
 
     // instance variables
 
@@ -24,24 +29,39 @@ public class Item implements Entity {
     private String uniqueIdentifier;
 
     /**
-     * The rental fee of the item
+     * The rental fee of the item in dollars (flat fee)
      */
-    private int rentalFee;
+    private double rentalFee;
 
     /**
-     * The rental time period of the item
+     * The rental time period of the item in days
      */
-    private int rentalTime;
+    private double rentalTime;
 
     /**
      * The category in which the item belongs to
      */
     private Category category;
 
+    private String categoryId;
+
+    /**
+     * The lessor who created the listing for the item -- READ ONLY
+     */
+    private String owner;
+
+    /**
+     * The requests that have been made on the item
+     */
+    @Exclude private final List<Request> requests;
+    private final List<String> requestIds;
+    @Exclude private final List<Subscriber<Request>> subscribers;
+
     //constructors
-
-    public Item() {
-
+    public Item() {  // necessary for firebase; however normally Item would require a category to create
+        requests = new LinkedList<>();
+        requestIds = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     /**
@@ -52,22 +72,62 @@ public class Item implements Entity {
      * @param rentalFee The price of renting the item
      * @param rentalTime The rental time period of the item
      * @param category The category in which the item belongs to
+     * @param owner The username of the lessor the item belongs to
      * @throws IllegalArgumentException if the category is null
      */
-    public Item(String name, String description, String uniqueIdentifier, int rentalFee, int rentalTime, Category category){
+    public Item(String name, String description, String uniqueIdentifier,
+                double rentalFee, double rentalTime,
+                Category category, LessorRole owner){
         if (category == null){
             throw new IllegalArgumentException("An item must belong to a category!");
         }
+
+        if (owner == null) {
+            throw new IllegalArgumentException("An item must belong to a lessor");
+        }
+
         this.name = name;
         this.description = description;
         this.uniqueIdentifier = uniqueIdentifier;
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
+
+        category.addItem(this);
         this.category = category;
+        this.categoryId = category.getUniqueIdentifier();
+
+        owner.addItem(this);
+        this.owner = owner.getUser().getUsername();
+
+        requests = new LinkedList<>();
+        requestIds = new LinkedList<>();
+        subscribers = new LinkedList<>();
+    }
+
+    public static List<Item> getItems(Subscriber<Item> s) {
+        return dataSaver.getItems(s);
     }
 
     @Override
     public void delete() {
+        if (category != null) {  // null check in case category is deleted first
+            Category tempRef = category;
+            category.removeItem(this);
+            tempRef.save();
+        }
+        if (owner != null) {
+            // this only updates firebase, assumes that if the account was loaded to disk
+            // deletion is handled already
+            dataSaver.getAccount(owner, data -> {
+                ((LessorRole) data.getAccountRole()).removeItem(this);
+                data.save();
+            });
+        }
+
+        for (Request request : requests) {
+            request.delete();
+        }
+
         dataSaver.removeEntity(this);
     }
 
@@ -76,16 +136,34 @@ public class Item implements Entity {
         dataSaver.saveEntity(this);
     }
 
+    @Override
+    public void loadFurther(DataSnapshot ds) {
+        dataSaver.getEntity("category", categoryId, Category.class, this::setCategory);
+
+        for (String id : requestIds) {
+            requests.add(new Request(id, this));
+        }
+    }
+
     // getters
 
     /**
      * Gets the name of the entity
      * @return "item"
      */
-
     @Override
     public String getEntityTypeName() {
         return "item";
+    }
+
+    @Override
+    public String displayDetails() {
+        return String.format("\t%-20s%s\n\t%-20s$%s\n\t%-20s%s\n\n%s",
+                "Category:", category,
+                "Rental Fee:", rentalFee,
+                "Rental Time:", rentalTime,
+                description
+        );
     }
 
     /**
@@ -117,7 +195,7 @@ public class Item implements Entity {
      * Getter for rentalFee attribute
      * @return rentalFee
      */
-    public int getRentalFee(){
+    public double getRentalFee(){
         return rentalFee;
     }
 
@@ -125,7 +203,7 @@ public class Item implements Entity {
      * Getter for rentalTime attribute
      * @return rentalTime
      */
-    public int getRentalTime(){
+    public double getRentalTime(){
         return rentalTime;
     }
 
@@ -133,8 +211,21 @@ public class Item implements Entity {
      * Getter for category
      * @return category
      */
+    @Exclude
     public Category getCategory() {
         return category;
+    }
+
+    /**
+     * Getter for owner
+     * @return  owner
+     */
+    public String getOwner() {
+        return owner;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
     }
 
     // setters
@@ -174,7 +265,7 @@ public class Item implements Entity {
      * Setter for rentalFee attribute
      * @param rentalFee The rental fee price of the item
      */
-    public void setRentalFee(int rentalFee){
+    public void setRentalFee(double rentalFee){
         this.rentalFee = rentalFee;
     }
 
@@ -182,7 +273,7 @@ public class Item implements Entity {
      * Setter for rentalTime attribute
      * @param rentalTime The rental time period of the item
      */
-    public void setRentalTime(int rentalTime){
+    public void setRentalTime(double rentalTime){
         this.rentalTime = rentalTime;
     }
 
@@ -191,6 +282,59 @@ public class Item implements Entity {
      * @param category The category in which this item belongs to
      */
     public void setCategory(Category category){
-        this.category = category;
+        if (category != this.category) {
+            if (this.category != null) {
+                this.category.removeItem(this);
+                this.category.save();
+            }
+            if (category != null) {
+                category.addItem(this);
+                category.save();
+            }
+            this.category = category;
+        }
+    }
+
+    public void addRequest(Request request) {
+        if (request != null && !requests.contains(request)) {
+            requests.add(request);
+            requestIds.add(request.getUniqueIdentifier());
+            for (Subscriber<Request> s : subscribers) {
+                s.notify(requests);
+            }
+        }
+    }
+
+    public void removeRequest(Request request) {
+        if (request != null) {
+            if (requests.remove(request)) {
+                requestIds.remove(request.getUniqueIdentifier());
+                for (Subscriber<Request> s : subscribers) {
+                    s.notify(requests);
+                }
+            }
+        }
+    }
+
+    @Exclude
+    public List<Request> getRequests(Subscriber<Request> s) {
+        subscribers.add(s);
+        return requests;
+    }
+
+    public List<String> getRequestIds() {  // DO NOT USE - for firebase
+        return requestIds;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+
+        Item other = (Item) obj;
+        return (getUniqueIdentifier() == null && other.getUniqueIdentifier() == null)
+                || (other.getUniqueIdentifier() != null
+                && other.getUniqueIdentifier().equals(getUniqueIdentifier()));
     }
 }

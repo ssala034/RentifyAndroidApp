@@ -53,7 +53,7 @@ public class ViewAccountsActivity extends ManageEntitiesActivity<Account> {
         dialogBuilder.setView(dialogView);
 
         ((TextView) dialogView.findViewById(R.id.dialogueMessage)).setText(
-                account.getDescription()
+                account.displayDetails()
         );
 
         Button disableButton = dialogView.findViewById(R.id.buttonConfirm);

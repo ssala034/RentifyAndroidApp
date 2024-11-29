@@ -5,9 +5,9 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseException;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.AdminRole;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
+import com.group20.rentify.entity.Item;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;
 import com.group20.rentify.util.DatabaseInterface;
@@ -29,10 +29,12 @@ public class SaveDataController {
     private final Set<String> emails;
     private final List<Account> accounts;
     private final List<Category> categories;
+    private final List<Item> items;
     private boolean adminCreated;
 
     private final List<Subscriber<Account>> accountSubscribers;
     private final List<Subscriber<Category>> categorySubscribers;
+    private final  List<Subscriber<Item>> itemSubscribers;
 
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
@@ -40,8 +42,10 @@ public class SaveDataController {
         emails = new HashSet<>();
         accounts = new ArrayList<>();
         categories = new ArrayList<>();
+        items = new ArrayList<>();
         accountSubscribers = new LinkedList<>();
         categorySubscribers = new LinkedList<>();
+        itemSubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -75,7 +79,9 @@ public class SaveDataController {
                         for (Object account : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            accounts.add(((DataSnapshot) account).getValue(Account.class));
+                            Account castedAccount = ((DataSnapshot) account).getValue(Account.class);
+                            castedAccount.loadFurther((DataSnapshot) account);
+                            accounts.add(castedAccount);
                         }
                     }
 
@@ -92,7 +98,9 @@ public class SaveDataController {
                         for (Object category : data.values()) {
                             // should find a cleaner way to do this
                             // so that database logic is abstracted from this class
-                            categories.add(((DataSnapshot) category).getValue(Category.class));
+                            Category castedCategory = ((DataSnapshot) category).getValue(Category.class);
+                            castedCategory.loadFurther((DataSnapshot) category);
+                            categories.add(castedCategory);
                         }
                     }
 
@@ -102,7 +110,27 @@ public class SaveDataController {
                 },
                 error -> {throw (DatabaseException) error;});
 
-        dataSaver.retrieveData(DataSaver.ADMIN_PATH,
+        dataSaver.addDataChangeListener(DataSaver.ITEM_PATH,
+                data -> {
+                    items.clear();
+                    if (data != null) {
+                        for (Object item : data.values()) {
+                            // should find a cleaner way to do this
+                            // so that database logic is abstracted from this class
+                            Item castedItem = ((DataSnapshot) item).getValue(Item.class);
+                            castedItem.loadFurther((DataSnapshot) item);
+                            items.add(castedItem);
+                        }
+                    }
+
+                    for (Subscriber<Item> s: itemSubscribers) {
+                        s.notify(items);
+                    }
+                },
+                error -> {throw (DatabaseException) error;});
+
+
+        dataSaver.retrieveData(DataSaver.ADMIN_PATH, Boolean.class,
                 result -> adminCreated = result != null);
     }
 
@@ -176,17 +204,13 @@ public class SaveDataController {
     public void getAccount(String identifier, DataRetrievalCallback<Account> callback) {
         if (usernames.contains(identifier)) {
             dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + identifier, Account.class,
-                    entity -> {
-                        callback.onDataRetrieved((Account) entity);
-                    });
+                    callback);
         } else {
             dataSaver.retrieveData(
-                    DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier),
+                    DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(identifier), String.class,
                     result -> {
-                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result.toString(), Account.class,
-                                entity -> {
-                                    callback.onDataRetrieved((Account) entity);
-                                });
+                        dataSaver.retrieveEntity(DataSaver.USER_PATH + "/" + result,
+                                Account.class, callback);
                     });
         }
     }
@@ -198,10 +222,14 @@ public class SaveDataController {
      * @throws IllegalStateException    if the account does not exist in the database
      */
     public void removeAccount(String username) {
-        dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + username, email ->
-                dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email.toString()), null));
+        dataSaver.retrieveData(DataSaver.USERNAME_PATH + "/" + username, String.class, email ->
+                dataSaver.saveOrUpdateData(DataSaver.EMAIL_PATH + "/" + replaceIllegalCharacters(email), null));
         dataSaver.removeEntity(DataSaver.USER_PATH + "/" + username);
         dataSaver.saveOrUpdateData(DataSaver.USERNAME_PATH + "/" + username, null);
+    }
+
+    public <T extends UserRole> UserRole loadRole(DataSnapshot ds, Class<T> cls) {
+        return ds.getValue(cls);
     }
 
     /**
@@ -223,6 +251,15 @@ public class SaveDataController {
     }
 
     /**
+     * Getter for the list of categories, synchronized with the saved data
+     * @return  A list of all categories currently existing in the system
+     */
+    public List<Item> getItems(Subscriber<Item> s) {
+        itemSubscribers.add(s);
+        return items;
+    }
+
+    /**
      * Authenticate a login
      * @param credential    The username or email of the user
      * @param password      The associated password
@@ -231,9 +268,9 @@ public class SaveDataController {
     public void authenticate(String credential, String password, AuthenticationCallback callback) {
         if (usernames.contains(credential)) {
             dataSaver.retrieveData(
-                    DataSaver.USERNAME_PATH + "/" + credential,
+                    DataSaver.USERNAME_PATH + "/" + credential, String.class,
                     result -> {
-                        dataSaver.authenticate(result.toString(), password, callback);
+                        dataSaver.authenticate(result, password, callback);
                     });
         } else {
             dataSaver.authenticate(credential, password, callback);
@@ -280,7 +317,7 @@ public class SaveDataController {
      * @param cls           the target entity class
      * @param callback      callback object overriding onEntityRetrieved
      */
-    public void getEntity(String entityType, String identifier, Class cls, DataRetrievalCallback<Entity> callback) {
+    public <T extends Entity> void getEntity(String entityType, String identifier, Class<T> cls, DataRetrievalCallback<T> callback) {
         dataSaver.retrieveEntity(pluralize(entityType) + "/" + identifier, cls, callback);
     }
 
@@ -292,6 +329,16 @@ public class SaveDataController {
      */
     public void removeEntity(Entity entity) {
         dataSaver.removeEntity(pluralize(entity.getEntityTypeName()) + "/" + entity.getUniqueIdentifier());
+    }
+
+    /**
+     * Gets the string value of the given path's node
+     *
+     * @param path      the full path to the value to retrieve (i.e., items/< item id >/name
+     * @param callback  callback overriding onDataRetrieved(String)
+     */
+    public void getField(String path, DataRetrievalCallback<String> callback) {
+        dataSaver.retrieveData(path, String.class, callback);
     }
 
     private String replaceIllegalCharacters(String str) {

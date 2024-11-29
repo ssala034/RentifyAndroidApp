@@ -52,6 +52,32 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
         addEntityButton.setOnClickListener(this::onAddEntityPressed);
     }
 
+    // TODO @Emily use this constructor to send your custom adapter when inheriting from this class
+    //      i.e. super.onCreate(savedInstanceState, new EntityListAdapter<Request>(...))
+    protected void onCreate(Bundle savedInstanceState, EntityListAdapter<E> adapter) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_manage_entities);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // Initialize RecyclerView and Adapter
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntities);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
+
+        initEntityList();
+
+        this.adapter = adapter;
+        recyclerView.setAdapter(adapter);
+
+        // Set up the add button listener
+        addEntityButton = findViewById(R.id.buttonAddEntity);
+        addEntityButton.setOnClickListener(this::onAddEntityPressed);
+    }
+
     /**
      * Initialise the entity list by calling the appropriate controller
      */
@@ -63,6 +89,14 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
      * Hook called whenever entity is deleted
      */
     protected void onDeleteSuccess() {
+
+    }
+
+    /**
+     * Hook called before entity is deleted
+     * Can be used to do any extra cleanup necessary before deleting an entity
+     */
+    protected void beforeDeleteEntity(E entity) {
 
     }
 
@@ -100,14 +134,15 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
 
         confirmButton.setOnClickListener(view -> {
             // Handle delete action
+            beforeDeleteEntity(entity);
             int position = entityList.indexOf(entity);
             if (position >= 0) {
                 entityList.remove(position);
                 adapter.notifyItemRemoved(position);
                 entity.delete();
                 onDeleteSuccess();
-                b.dismiss();
             }
+            b.dismiss();
         });
 
         cancelButton.setOnClickListener(view -> {

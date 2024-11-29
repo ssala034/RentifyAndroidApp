@@ -12,7 +12,7 @@
     <string name="text_password">Password:</string>
     <string name="button_signIn">Sign In</string>
     <string name="button_createAccount">Create Account</string>
-    <string name="text_createAccount">"Don't have an account? "</string>
+    <string name="text_createAccount">"Don't have an account "</string>
     <string name="input_email">Email</string>
     <string name="header">Rentify</string>
     <string name="category1Details">This is the description for category 1</string>
@@ -37,5 +37,17 @@
 
     <string name="disableButtonText">Disable Account</string>
     <string name="deleteButtonText">Delete Account</string>
-    <string name="registerTitle">REGISTER</string>
+
+    <string name="itemPageTitle">ITEMS</string>
+    <string name="addItemHeading">Add Item</string>
+    <string name="infromationMessageEditIem">Enter the item\'s name, description, rental period, and rental fee below</string>
+    <string name="hintItemName">Item Name</string>
+    <string name="hintItemDescription">Item Description</string>
+    <string name="hintItemPeriod">Rental Period</string>
+    <string name="hintItemFee">Rental Fee</string>
+    <string name="headingLessorDashboard">Lessor Dashboard</string>
+    <string name="titleCategoriesForLessor">Categories:</string>
+    <string name="subtitleCategoriesForLessor">Click on each category to see the items</string>
+    <string name="hintItemCategory">Choose a category for your item from the menu below</string>
+
 </resources>

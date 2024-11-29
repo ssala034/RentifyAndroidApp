@@ -50,19 +50,16 @@ public class DatabaseInterface implements DataSaver {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void retrieveEntity(String key, Class cls, DataRetrievalCallback<Entity> callback) {
+    public <T extends Entity> void retrieveEntity(String key, Class<T> cls, DataRetrievalCallback<T> callback) {
         DatabaseReference node = db.getReference().child(key);
 
         node.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Object res = dataSnapshot.getValue(cls);
-                    if (!(res instanceof Entity)) {
-                        throw new IllegalArgumentException();
-                    }
-                    callback.onDataRetrieved((Entity) res);
+                    T res = dataSnapshot.getValue(cls);
+                    res.loadFurther(dataSnapshot);
+                    callback.onDataRetrieved(res);
                 } else {
                     Log.d("Database ERROR", "Entity does not exist");
                     callback.onDataRetrieved(null);
@@ -119,13 +116,13 @@ public class DatabaseInterface implements DataSaver {
     }
 
     @Override
-    public void retrieveData(String key, DataRetrievalCallback<Object> callback) {
+    public <T> void retrieveData(String key, Class<T> cls, DataRetrievalCallback<T> callback) {
         DatabaseReference node = db.getReference().child(key);
         node.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Object res = dataSnapshot.getValue();
+                    T res = dataSnapshot.getValue(cls);
                     callback.onDataRetrieved(res);
                 } else {
                     Log.d("Database ERROR", "Object does not exist");

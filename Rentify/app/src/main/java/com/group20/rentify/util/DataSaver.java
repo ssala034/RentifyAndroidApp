@@ -13,6 +13,7 @@ public interface DataSaver {
     String EMAIL_PATH = "emails";
     String ADMIN_PATH = "admins";
     String CATEGORY_PATH = "categories";
+    String ITEM_PATH = "items";
 
     /**
      * Get the data item at the path provided by key
@@ -20,7 +21,7 @@ public interface DataSaver {
      * @param key       The full path to the entity (i.e., users.username.name)
      * @param callback  A callback for processing the retrieved data
      */
-    void retrieveEntity(String key, Class cls, DataRetrievalCallback<Entity> callback);
+    <T extends Entity> void retrieveEntity(String key, Class<T> cls, DataRetrievalCallback<T> callback);
 
     /**
      * Remove the data item at the path provided by key
@@ -49,7 +50,7 @@ public interface DataSaver {
      * @param key       The full path to the location of the data field to retrieve
      * @param callback  The callback for processing the data stored at the key location
      */
-    void retrieveData(String key, DataRetrievalCallback<Object> callback);
+    <T> void retrieveData(String key, Class<T> cls, DataRetrievalCallback<T> callback);
     /**
      * Authenticate a login
      *

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C0B3FD"
-    tools:context=".ManageCategories">
+    tools:context=".ManageCategoriesActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -13,10 +13,11 @@
         android:theme="@style/Theme.Rentify"
         tools:targetApi="31">
         <activity
-            android:name=".EditCategory"
-            android:exported="false" />
+            android:name=".ViewItemActivity"
+            android:exported="true">
+        </activity>
         <activity
-            android:name=".ManageCategories"
+            android:name=".ManageCategoriesActivity"
             android:exported="true" />
         <activity
             android:name=".AdminDashboard"

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,10 +18,18 @@ import java.util.List;
 public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<EntityListAdapter.ListItemViewHolder> {
     private final List<E> entities;
     private final EntityActionListener<E> actionListener;
+    private final int layout;
 
     public EntityListAdapter(List<E> entities, EntityActionListener<E> actionListener) {
+        this(entities, actionListener, R.layout.layout_entity_list_item);
+    }
+
+    // TODO @Emily use this constructor to pass a slightly modified layout with the different images
+    //      so you can reuse this class for the request display
+    public EntityListAdapter(List<E> entities, EntityActionListener<E> actionListener, @LayoutRes int layout) {
         this.entities = entities;
         this.actionListener = actionListener;
+        this.layout = layout;
     }
 
     @NonNull
@@ -28,7 +37,7 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
     public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate the layout for each category item
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_entity_list_item, parent, false); // Assume category_item.xml is the layout for each item
+                .inflate(layout, parent, false); // Assume category_item.xml is the layout for each item
         return new ListItemViewHolder(view);
     }
 
@@ -38,8 +47,8 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
         E entity = entities.get(position);
 
         // Bind the category data to the views
-        holder.categoryTitle.setText(entity.getName());
-        holder.categoryDetails.setText(entity.getDescription());
+        holder.entityTitle.setText(entity.getName());
+        holder.entityDetails.setText(entity.displayDetails());
 
         // Set click listeners for delete and edit buttons
         holder.deleteButton.setOnClickListener(view -> {
@@ -60,14 +69,14 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
 
     // ViewHolder for holding each category's view elements
     public static class ListItemViewHolder extends RecyclerView.ViewHolder {
-        TextView categoryTitle, categoryDetails;
+        TextView entityTitle, entityDetails;
         ImageView deleteButton, editButton;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
             // Initialize views
-            categoryTitle = itemView.findViewById(R.id.entityTitle);
-            categoryDetails = itemView.findViewById(R.id.entityDetails);
+            entityTitle = itemView.findViewById(R.id.entityTitle);
+            entityDetails = itemView.findViewById(R.id.entityDetails);
             deleteButton = itemView.findViewById(R.id.buttonDeleteEntity);
             editButton = itemView.findViewById(R.id.buttonEditEntity);
         }
