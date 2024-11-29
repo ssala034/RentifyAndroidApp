@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--    For normal/light mode-->
+    <color name="backgroundColor">#EDEDEF</color>
+    <color name="cardColor">#FFFFFFFF</color>
+    <color name="textColor">#000000</color>
 </resources>

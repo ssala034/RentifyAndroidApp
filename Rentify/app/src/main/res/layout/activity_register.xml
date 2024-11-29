@@ -5,10 +5,11 @@
     android:id="@+id/main"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#DADADE"
+    android:background="@color/backgroundColor"
     tools:context=".RegisterActivity">
 
     <androidx.cardview.widget.CardView
+        android:background="@color/backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -45,11 +46,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Welcome to rentify, create an account to get started!"
-                android:textColor="#000000"
+                android:textColor="@color/textColor"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/emailEnter"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -58,6 +60,7 @@
 
             <EditText
                 android:id="@+id/usernameEnter"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -67,6 +70,7 @@
 
             <EditText
                 android:id="@+id/firstNameEnter"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -76,6 +80,7 @@
 
             <EditText
                 android:id="@+id/lastNameEnter"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -84,6 +89,7 @@
 
             <EditText
                 android:id="@+id/passwordEnter"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -93,6 +99,7 @@
 
             <EditText
                 android:id="@+id/passwordEnter2"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -102,6 +109,7 @@
 
             <RadioGroup
                 android:id="@+id/selectRole"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:checkedButton="@id/renterSelect"
@@ -109,6 +117,7 @@
 
                 <RadioButton
                     android:id="@+id/renterSelect"
+                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -118,6 +127,7 @@
 
                 <RadioButton
                     android:id="@+id/lenderSelect"
+                    android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -132,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="OR, create an admin account"
+                android:text="@string/createAdminButton"
                 android:textAlignment="center"
                 android:textColor="#A16ED8"
                 android:textSize="12sp"

@@ -4,9 +4,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C0B3FD">
+    android:background="@color/backgroundColor">
+
 
     <androidx.cardview.widget.CardView
+        android:background="@color/cardColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -29,6 +31,7 @@
 
             <TextView
                 android:id="@+id/textCategoryHeading"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/editCategoryHeading"
@@ -40,6 +43,7 @@
 
             <TextView
                 android:id="@+id/textView2"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -47,6 +51,7 @@
 
             <EditText
                 android:id="@+id/textCategoryName"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -56,6 +61,7 @@
 
             <EditText
                 android:id="@+id/textDescription"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -69,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
+                android:background="@drawable/btn_bg"
                 android:text="@string/doneCreatingCategory" />
         </LinearLayout>
 
