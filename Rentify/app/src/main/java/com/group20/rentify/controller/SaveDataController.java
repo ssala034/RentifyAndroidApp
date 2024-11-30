@@ -288,7 +288,7 @@ public class SaveDataController {
      * Getter for the list of requests, synchronized with the saved data
      * @return  A list of all requests currently existing in the system
      */
-    public List<Request> getRequestes(Subscriber<Request> s) {
+    public List<Request> getRequests(Subscriber<Request> s) {
         requestSubscribers.add(s);
         return requests;
     }

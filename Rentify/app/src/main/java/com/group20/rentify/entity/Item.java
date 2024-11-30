@@ -89,15 +89,19 @@ public class Item implements Entity {
 
         this.name = name;
         this.description = description;
-        this.uniqueIdentifier = uniqueIdentifier;
+//        if(uniqueIdentifier == null){
+//            dataSaver.generateUniqueIdentifier();
+//        }else{
+            this.uniqueIdentifier = uniqueIdentifier;
+//        }
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
 
-        category.addItem(this);
+        //category.addItem(this);
         this.category = category;
         this.categoryId = category.getUniqueIdentifier();
 
-        owner.addItem(this);
+        //owner.addItem(this);
         this.owner = owner.getUser().getUsername();
 
         requests = new LinkedList<>();
@@ -135,6 +139,7 @@ public class Item implements Entity {
     @Override
     public void save() {
         dataSaver.saveEntity(this);
+
     }
 
     @Override
@@ -257,6 +262,12 @@ public class Item implements Entity {
     public boolean setUniqueIdentifier(String id) {
         if (id != null && !id.isEmpty()){
             this.uniqueIdentifier = id;
+            //category and owner must be updated afterwards to be synced with actual item (has an id)
+            category.addItem(this);
+            dataSaver.getAccount(owner, data -> {
+                ((LessorRole) data.getAccountRole()).addItem(this);
+            });
+
             return true;
         }
         return false;

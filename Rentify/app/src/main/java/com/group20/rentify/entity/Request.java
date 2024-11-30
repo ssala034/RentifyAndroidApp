@@ -201,7 +201,7 @@ public class Request implements Entity {
     }
 
     public static List<Request> getRequests(Subscriber<Request> s) {
-        return dataSaver.getRequestes(s);
+        return dataSaver.getRequests(s);
     }
 
 }
