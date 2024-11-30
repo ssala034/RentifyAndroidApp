@@ -2,6 +2,11 @@ package com.group20.rentify.entity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
+import com.group20.rentify.controller.Subscriber;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Request implements Entity {
 
@@ -26,6 +31,19 @@ public class Request implements Entity {
     private String uniqueIdentifier;
 
     /**
+     * The list of requests
+     */
+    private final List<Request> requests;
+
+    @Exclude private final List<Subscriber<Request>> subscribers;
+
+    //constructors
+    public Request() {  // necessary for firebase; however normally Request would require a more variables to create
+        requests = new LinkedList<>();
+        subscribers = new LinkedList<>();
+    }
+
+    /**
      * Constructor for request object
      *
      * @param renter    the renter making the request
@@ -37,6 +55,9 @@ public class Request implements Entity {
         this.item = item;
         item.addRequest(this);
         this.accepted = false;
+
+        requests = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     public Request(String id, RenterRole renter) {
@@ -53,6 +74,9 @@ public class Request implements Entity {
         dataSaver.getField("requests/" + id + "/" + "accepted", (accepted) -> {
             this.accepted = accepted.equals("true");
         });
+
+        requests = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     public Request(String id, Item item) {
@@ -69,6 +93,9 @@ public class Request implements Entity {
         dataSaver.getField("requests/" + id + "/" + "accepted", (accepted) -> {
             this.accepted = accepted.equals("true");
         });
+
+        requests = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     @Override
@@ -172,4 +199,9 @@ public class Request implements Entity {
         // only the owner of the item can accept or reject requests
         return !Account.getSessionAccount().getUsername().equals(item.getOwner());
     }
+
+    public static List<Request> getRequests(Subscriber<Request> s) {
+        return dataSaver.getRequestes(s);
+    }
+
 }

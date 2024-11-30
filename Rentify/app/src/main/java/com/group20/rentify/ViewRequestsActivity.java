@@ -22,22 +22,15 @@ public class ViewRequestsActivity extends ManageEntitiesActivity<Request> {
     protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 
-        String itemId = getIntent().getStringExtra("itemId");
+        String itemId = getIntent().getStringExtra("itemID");
 
         controller = RequestController.getInstance();
 
-        Map<Item,List<Request>> requestMap = controller.getRequests(this);
-
-        Set<Item> itemSet = requestMap.keySet();
-
-        for(Item item: itemSet){
-            if(item.getUniqueIdentifier().equals(itemId)){
-                requestList = requestMap.get(item);
-            }
-        }
+        List<Request> allRequests = controller.getRequests(this);
+        requestList = new ArrayList<>();
 
         super.onCreate(savedInstanceState,
-                new EntityListAdapter<>(requestList,this,R.layout.layout_entity_list_item)
+                new EntityListAdapter<>(requestList,this,R.layout.layout_request_list_item)
         );
 
         ((TextView) findViewById(R.id.heading)).setText(R.string.requestPageTitle);
@@ -57,11 +50,7 @@ public class ViewRequestsActivity extends ManageEntitiesActivity<Request> {
 
     }
 
-
     @Override
-    public void onEditEntity(Request entity) {
+    public void onEditEntity(Request entity) {}
 
-    }
-
-    //item has .getRequests() -> List<Request>
 }

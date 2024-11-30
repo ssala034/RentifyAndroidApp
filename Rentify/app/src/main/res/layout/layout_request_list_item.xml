@@ -54,10 +54,9 @@
                 android:id="@+id/buttonApproveRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:clickable="true"
-                android:contentDescription="Delete Entity"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
+                android:contentDescription="ApproveRequest"
+                app:srcCompat="?android:attr/textCheckMarkInverse" />
 
             <!-- Edit Button -->
             <ImageView
@@ -65,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="Edit Entity"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                android:contentDescription="Deny Request"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
         </LinearLayout>
 
     </LinearLayout>

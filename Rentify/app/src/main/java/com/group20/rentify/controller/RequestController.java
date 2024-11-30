@@ -36,9 +36,9 @@ public class RequestController {
         ((RenterRole) (Account.getSessionAccount().getAccountRole())).removeRequest(request);
     }
 
-    public Map<Item, List<Request>> getRequests(Subscriber<Request> s) {
-
-        return ((LessorRole) (Account.getSessionAccount().getAccountRole())).getRequests(s);
-
+    public List<Request> getRequests(Subscriber<Request> s) {
+        return Request.getRequests(s);
     }
+
+
 }

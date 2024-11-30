@@ -14,6 +14,7 @@ public interface DataSaver {
     String ADMIN_PATH = "admins";
     String CATEGORY_PATH = "categories";
     String ITEM_PATH = "items";
+    String REQUEST_PATH = "requests";
 
     /**
      * Get the data item at the path provided by key
