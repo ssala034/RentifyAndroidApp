@@ -52,18 +52,10 @@ public class ItemFromCategoryActivity extends SpecialManageEntities<Item>{
 
     public void updateUI(){
         if(myCategory!=null){
-            entityList = myCategory.getItems();
-            updateAdapter(entityList);
+            notify(myCategory.getItems());
             String headingInfo = "Request for an Item from category: " + myCategory.getName();
             heading.setText(headingInfo);
         }
-    }
-
-    @Override
-    public void updateAdapter(List<Item> newEnityList){
-        adapter = new SpecialEntityListAdapter<>(newEnityList, this);
-        recyclerView.setAdapter(adapter);
-
     }
 
 

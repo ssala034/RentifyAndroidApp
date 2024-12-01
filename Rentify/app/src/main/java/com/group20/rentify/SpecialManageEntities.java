@@ -27,7 +27,6 @@ import java.util.List;
 public abstract class SpecialManageEntities<E extends Entity> extends AppCompatActivity implements SpecialEntityListAdapter.SpecialEntityActionListener<E>, Subscriber<E> {
     protected List<E> entityList;
     protected SpecialEntityListAdapter<E> adapter;
-    protected RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
         });
 
         // Initialize RecyclerView and Adapter
-        recyclerView = findViewById(R.id.recyclerViewEntities); // might have to change id if picks wrong one
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntitiesSpecial); // might have to change id if picks wrong one
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
 
         initEntityList();
@@ -61,7 +60,7 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
         });
 
         // Initialize RecyclerView and Adapter
-        recyclerView = findViewById(R.id.recyclerViewEntities);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntitiesSpecial);
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
 
         initEntityList();
@@ -82,13 +81,9 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
 
     @Override
     public void notify(java.util.List<E> updatedList) {
-        entityList = updatedList;
+        entityList.clear();
+        entityList.addAll(updatedList);
         adapter.notifyDataSetChanged();
-    }
-
-    /*Meant to be overridden by ItemFRomCategoryActivity*/
-    public void updateAdapter(List<E> newEntityList){
-
     }
 
 
