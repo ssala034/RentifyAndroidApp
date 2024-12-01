@@ -156,7 +156,9 @@ public class Item implements Entity {
 
     @Override
     public void loadFurther(DataSnapshot ds) {
-        dataSaver.getEntity("category", categoryId, Category.class, this::setCategory);
+        dataSaver.getEntity("category", categoryId, Category.class, category -> {
+            this.category = category;
+        });
 
         for (String id : requestIds) {
             requests.add(new Request(id, this));
