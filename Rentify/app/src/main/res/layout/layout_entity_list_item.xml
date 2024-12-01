@@ -38,10 +38,12 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/colour"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingHorizontal="20dp"
+                    android:background="#A16ED8"
                     android:paddingVertical="20dp">
 
                     <TextView
@@ -66,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#C0B3FD"
+                    android:background="#D0D0D0"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingVertical="5dp">
