@@ -150,13 +150,13 @@ public class Request implements Entity {
 
     @Override
     public void delete() {
-        // remove the request from the item's list
-        item.removeRequest(this);
-        item.save();
-
-        // remove the request from the renter's list
-        renter.removeRequest(this);
-        renter.getUser().save();
+//        // item does not have a list of request
+//        item.removeRequest(this);
+//        item.save();
+//
+//        // renter does not have a list of requests
+//        renter.removeRequest(this);
+//        renter.getUser().save();
 
         requests.remove(this);
 

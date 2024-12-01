@@ -70,14 +70,12 @@ public class ViewRequestsActivity extends ManageEntitiesActivity<Request> {
         if(!request.getAccepted()){
             if(request.reject()) {
                 Toast.makeText(this, "Request successfully rejected", Toast.LENGTH_SHORT).show();
-
+                //remove from view?
             }
         }else{
             Toast.makeText(this, "Request already accepted", Toast.LENGTH_SHORT).show();
 
         }
-        //Request.reject
-
     }
 
     @Override
