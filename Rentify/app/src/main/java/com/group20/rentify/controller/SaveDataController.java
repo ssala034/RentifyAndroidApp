@@ -296,16 +296,23 @@ public class SaveDataController {
         String entityRootPath = pluralize(entity.getEntityTypeName());
         String id = entity.getUniqueIdentifier();
 
-        dataSaver.retrieveEntity(entityRootPath + "/" + id, entity.getClass(),
-                result -> {
-                    if (result != null) {
-                        dataSaver.saveEntity(entity, entityRootPath + "/" + id);
-                    } else {
-                        String newId = dataSaver.generateUniqueIdentifier(entityRootPath);
-                        entity.setUniqueIdentifier(newId);
-                        dataSaver.saveEntity(entity, entityRootPath + "/" + newId);
-                    }
-                });
+        if (id == null) {
+            id = dataSaver.generateUniqueIdentifier(entityRootPath);
+            entity.setUniqueIdentifier(id);
+        }
+
+        dataSaver.saveEntity(entity, entityRootPath + "/" + id);
+
+//        dataSaver.retrieveEntity(entityRootPath + "/" + id, entity.getClass(),
+//                result -> {
+//                    if (result != null) {
+//                        dataSaver.saveEntity(entity, entityRootPath + "/" + id);
+//                    } else {
+//                        String newId = dataSaver.generateUniqueIdentifier(entityRootPath);
+//                        entity.setUniqueIdentifier(newId);
+//                        dataSaver.saveEntity(entity, entityRootPath + "/" + newId);
+//                    }
+//                });
     }
 
     /**
