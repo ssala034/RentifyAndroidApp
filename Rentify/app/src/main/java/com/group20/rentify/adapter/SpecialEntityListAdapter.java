@@ -10,6 +10,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
 import com.group20.rentify.R;
 import com.group20.rentify.entity.Entity;
 
@@ -43,6 +44,7 @@ public class SpecialEntityListAdapter<E extends Entity> extends RecyclerView.Ada
     public void onBindViewHolder(@NonNull SpecialEntityListAdapter.ListItemViewHolder holder, int position) {
         // Get the category object at the current position
         E entity = entities.get(position);
+        entity.loadFurther(null);
 
         // Bind the category data to the views
         holder.entityTitle.setText(entity.getName());

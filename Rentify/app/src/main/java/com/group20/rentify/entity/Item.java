@@ -156,9 +156,11 @@ public class Item implements Entity {
 
     @Override
     public void loadFurther(DataSnapshot ds) {
-        dataSaver.getEntity("category", categoryId, Category.class, category -> {
-            this.category = category;
-        });
+        for(Category c: dataSaver.getCategories(new Subscriber<Category>() {@Override public void notify(List<Category> updatedList) {}})){
+            if(c.getUniqueIdentifier().equals(categoryId)){
+                category = c;
+            }
+        }
 
         for (String id : requestIds) {
             requests.add(new Request(id, this));
