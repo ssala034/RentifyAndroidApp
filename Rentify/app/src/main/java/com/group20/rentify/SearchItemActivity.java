@@ -12,13 +12,6 @@ import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Item;
 
 public class SearchItemActivity extends SpecialManageEntities<Category> {
-    // make sure to update category & item list properly
-
-    // NEED TO ALSO MAKE SURE CORRECT VIEW IS LOADED, NOT JUST THE OLD
-    // AND SINCE SEARCH ITS ONLY ON ONE VIEW JUST PUT IT HERE ? IS THAT CORRECT!!!
-
-    // Also make sure request , items etc are notified properly (et.c when delete, edited etc).
-
     private CategoryController controller;
     private EditText itemName;
     private Button searchButton;
@@ -36,11 +29,12 @@ public class SearchItemActivity extends SpecialManageEntities<Category> {
         String name = itemName.getText().toString().trim();
         Item foundItem;
         if(validateNotEmpty(itemName)) {
-            if ((foundItem = itemNameExists(name)) != null) {
+            foundItem = itemNameExists(name);
+            if (foundItem != null) {
                 // go to request activity, pass item found
-                RequestItemActivity.setItem(foundItem);
+
                 Intent intent = new Intent(this, RequestItemActivity.class);
-//                intent.putExtra("itemId", foundItem.getUniqueIdentifier());
+                intent.putExtra("itemId", foundItem.getUniqueIdentifier());
                 startActivity(intent);
                 finish();
             } else {
@@ -65,9 +59,9 @@ public class SearchItemActivity extends SpecialManageEntities<Category> {
             return;
         }
         // go to the next activity & pass the list of items from the chosen category
-        ItemFromCategoryActivity.setMyCategory(category);
+
         Intent intent = new Intent(this, ItemFromCategoryActivity.class);
-//        intent.putExtra("categoryId", category.getUniqueIdentifier());
+        intent.putExtra("categoryId", category.getUniqueIdentifier());
         startActivity(intent);
         finish();
     }

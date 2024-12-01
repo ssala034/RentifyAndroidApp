@@ -16,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.group20.rentify.controller.SaveDataController;
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Item;
 import com.group20.rentify.entity.RenterRole;
 import com.group20.rentify.entity.Request;
@@ -24,7 +23,7 @@ import com.group20.rentify.entity.Request;
 public class RequestItemActivity extends AppCompatActivity {
 
 
-    private static Item myItem;
+    private  Item myItem;
     private Button requestBtn;
     private TextView name;
     private TextView description;
@@ -46,17 +45,12 @@ public class RequestItemActivity extends AppCompatActivity {
             return insets;
         });
 
-//        Intent intent = getIntent();
-//
-//        String id = intent.getStringExtra("itemId");
-//        controller = SaveDataController.getInstance();
+        Intent intent = getIntent();
 
+        String id = intent.getStringExtra("itemId");
+        controller = SaveDataController.getInstance();
+        setItem(id);
 
-        String nameInfo = "Item Name: " + myItem.getName();
-        String descriptionInfo = "Item Description: " + myItem.getDescription();
-        String feeInfo = "Item Rental Fee: $" + myItem.getRentalFee();
-        String timeInfo = "Item Rental Time: " + myItem.getRentalTime() + "days";
-        String ownerInfo = "Item Owner: " + myItem.getOwner();
 
 
         name = findViewById(R.id.reqName);
@@ -65,44 +59,6 @@ public class RequestItemActivity extends AppCompatActivity {
         time = findViewById(R.id.reqTime);
         name = findViewById(R.id.reqName);
         owner = findViewById(R.id.reqOwner);
-
-        name.setText(nameInfo);
-        description.setText(descriptionInfo);
-        fee.setText(feeInfo);
-        time.setText(timeInfo);
-        owner.setText(ownerInfo);
-
-
-
-
-//        controller.getEntity("item", id, Item.class, result ->{
-//            if(result != null){
-//                myItem = result;
-//                String nameInfo = "Item Name: " + myItem.getName();
-//                String descriptionInfo = "Item Description: " + myItem.getDescription();
-//                String feeInfo = "Item Rental Fee: " + myItem.getRentalFee();
-//                String timeInfo = "Item Rental Time: " + myItem.getRentalTime();
-//                String ownerInfo = "Item Owner: " + myItem.getOwner();
-//
-//
-//                name = findViewById(R.id.reqName);
-//                description = findViewById(R.id.reqDescription);
-//                fee = findViewById(R.id.reqFee);
-//                time = findViewById(R.id.reqTime);
-//                name = findViewById(R.id.reqName);
-//                owner = findViewById(R.id.reqOwner);
-//
-//                name.setText(nameInfo);
-//                description.setText(descriptionInfo);
-//                fee.setText(feeInfo);
-//                time.setText(timeInfo);
-//                owner.setText(ownerInfo);
-//
-//            }else{
-//                Log.d("Error", "Item retrival error");
-//            }
-//        });
-
 
         requestBtn = findViewById(R.id.btnRequest);
         requestBtn.setOnClickListener(this::onRequestPressed);
@@ -115,14 +71,36 @@ public class RequestItemActivity extends AppCompatActivity {
         Request currRequest = new Request(renter, myItem);
 
         currRequest.save();
+        Account.getSessionAccount().save();
+        myItem.save();
 
         Toast.makeText(this, "Request sent", Toast.LENGTH_SHORT).show();
     }
 
-
-    public static void setItem(Item item){
-        myItem = item;
+    public void setItem(String id){
+        controller.getEntity("item", id, Item.class, result ->{
+            if(result != null){
+                myItem = result;
+                runOnUiThread(this::updateUI); // will update ui thread when item it set
+            }
+        });
     }
 
+    private void updateUI() {
+        if (myItem != null) {
+            String nameInfo = "Item Name: " + myItem.getName();
+            String descriptionInfo = "Item Description: " + myItem.getDescription();
+            String feeInfo = "Item Rental Fee: $" + myItem.getRentalFee();
+            String timeInfo = "Item Rental Time: " + myItem.getRentalTime() + " days";
+            String ownerInfo = "Item Owner: " + myItem.getOwner();
 
+            name.setText(nameInfo);
+            description.setText(descriptionInfo);
+            fee.setText(feeInfo);
+            time.setText(timeInfo);
+            owner.setText(ownerInfo);
+        } else {
+            Log.d("Error", "Item is null, cannot update UI");
+        }
+    }
 }

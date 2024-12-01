@@ -1,5 +1,6 @@
 package com.group20.rentify;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -25,8 +27,7 @@ import java.util.List;
 public abstract class SpecialManageEntities<E extends Entity> extends AppCompatActivity implements SpecialEntityListAdapter.SpecialEntityActionListener<E>, Subscriber<E> {
     protected List<E> entityList;
     protected SpecialEntityListAdapter<E> adapter;
-
-//    private static int layoutID = R.layout.activity_search_item;
+    protected RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
         });
 
         // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntities); // might have to change id if picks wrong one
+        recyclerView = findViewById(R.id.recyclerViewEntities); // might have to change id if picks wrong one
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
 
         initEntityList();
@@ -60,7 +61,7 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
         });
 
         // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewEntities);
+        recyclerView = findViewById(R.id.recyclerViewEntities);
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set LayoutManager
 
         initEntityList();
@@ -68,13 +69,9 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
         adapter = new SpecialEntityListAdapter<>(entityList, this);
         recyclerView.setAdapter(adapter);
 
-        // Set up the add button listener (might do for request)!!!!
     }
 
 
-//    public static void setLayoutID(int id){
-//        layoutID = id;
-//    }
 
     /**
      * Initialise the entity list by calling the appropriate controller
@@ -87,6 +84,11 @@ public abstract class SpecialManageEntities<E extends Entity> extends AppCompatA
     public void notify(java.util.List<E> updatedList) {
         entityList = updatedList;
         adapter.notifyDataSetChanged();
+    }
+
+    /*Meant to be overridden by ItemFRomCategoryActivity*/
+    public void updateAdapter(List<E> newEntityList){
+
     }
 
 
