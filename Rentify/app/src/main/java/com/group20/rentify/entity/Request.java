@@ -150,13 +150,8 @@ public class Request implements Entity {
 
     @Override
     public void delete() {
-//        // item does not have a list of request
-//        item.removeRequest(this);
-//        item.save();
-//
-//        // renter does not have a list of requests
-//        renter.removeRequest(this);
-//        renter.getUser().save();
+        // item does not have a list of request
+        // renter does not have a list of requests
 
         requests.remove(this);
 
@@ -196,25 +191,21 @@ public class Request implements Entity {
     }
 
     public boolean accept() {
-//        if (checkNotOwnerIllegalState()) {
-//            return false;
-//        }
+
         this.accepted = true;
         save();
         return true;
     }
 
     public boolean reject() {
-//        if (checkNotOwnerIllegalState()) {
-//            return false;
-//        }
+
         delete();
         return true;
     }
 
     private boolean checkNotOwnerIllegalState() {
         // only the owner of the item can accept or reject requests
-        //not necessary
+        //not necessary because logged in earlier
         return !Account.getSessionAccount().getUsername().equals(item.getOwner());
     }
 

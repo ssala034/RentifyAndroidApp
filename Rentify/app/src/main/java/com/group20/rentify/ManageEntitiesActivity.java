@@ -85,7 +85,6 @@ public abstract class ManageEntitiesActivity<E extends Entity> extends AppCompat
      * Hook called whenever entity is deleted
      */
     protected void onDeleteSuccess() {
-
     }
 
     /**
