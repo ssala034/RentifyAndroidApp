@@ -35,7 +35,7 @@
                 android:layout_width="181dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/rentifylogo"
+                style="@style/appLogo"
                 tools:ignore="ContentDescription" />
 
             <LinearLayout
@@ -61,6 +61,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textEmailAddress"
+                    android:textColorHint="@color/textColor"
+                    android:backgroundTint="@color/textColor"
                     android:minHeight="48dp"
                     android:textColor="@color/textColor"
                     tools:ignore="LabelFor" />
@@ -81,6 +83,8 @@
                     android:textColor="@color/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textColor"
+                    android:backgroundTint="@color/textColor"
                     android:ems="10"
                     android:inputType="textPassword" />
 

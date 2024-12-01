@@ -4,4 +4,6 @@
     <color name="backgroundColor">#202123</color>
     <color name="cardColor">#2C2C2E</color>
     <color name="textColor">#CACACA</color>
+    <style name="appLogo"><item name="android:src">@drawable/logonight</item></style>
+    <style name="simpleLogo"><item name="android:src">@drawable/simplelogonight</item></style>
 </resources>

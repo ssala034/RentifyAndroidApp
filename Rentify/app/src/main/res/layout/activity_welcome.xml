@@ -40,7 +40,7 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:foregroundGravity="center|center_horizontal"
-                app:srcCompat="@drawable/simplelogo" />
+                style="@style/simpleLogo" />
 
             <Space
                 android:layout_width="match_parent"
@@ -85,7 +85,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_bg"
-                android:textColor="@color/textColor"
                 android:text="Let's Go!"
                 android:textAllCaps="false"
                 android:textSize="20sp"

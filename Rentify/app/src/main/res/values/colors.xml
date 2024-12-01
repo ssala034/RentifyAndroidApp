@@ -7,4 +7,6 @@
     <color name="backgroundColor">#EDEDEF</color>
     <color name="cardColor">#FFFFFFFF</color>
     <color name="textColor">#000000</color>
+    <style name="appLogo"><item name="android:src">@drawable/rentifylogo</item></style>
+    <style name="simpleLogo"><item name="android:src">@drawable/simplelogo</item></style>
 </resources>
