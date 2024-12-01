@@ -73,6 +73,7 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ViewRequestsActivity.class);
                 intent.putExtra("itemID", selectedItem.getUniqueIdentifier());  // Pass the item
+                intent.putExtra("itemName", selectedItem.getName());  // Pass the item name
                 context.startActivity(intent);
             }
         });
@@ -93,8 +94,8 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
             // Initialize views
             entityTitle = itemView.findViewById(R.id.entityTitle);
             entityDetails = itemView.findViewById(R.id.entityDetails);
-            deleteButton = itemView.findViewById(R.id.buttonApproveRequest);
-            editButton = itemView.findViewById(R.id.buttonDenyRequest);
+            deleteButton = itemView.findViewById(R.id.buttonDenyRequest);
+            editButton = itemView.findViewById(R.id.buttonAcceptRequest);
         }
     }
 

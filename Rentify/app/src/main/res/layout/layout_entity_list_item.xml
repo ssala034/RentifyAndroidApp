@@ -51,7 +51,7 @@
 
             <!-- Delete Button -->
             <ImageView
-                android:id="@+id/buttonApproveRequest"
+                android:id="@+id/buttonDenyRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -61,7 +61,7 @@
 
             <!-- Edit Button -->
             <ImageView
-                android:id="@+id/buttonDenyRequest"
+                android:id="@+id/buttonAcceptRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"

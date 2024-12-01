@@ -13,12 +13,16 @@ public class Request implements Entity {
     /**
      * The renter making the request
      */
-    private RenterRole renter;
+    @Exclude private RenterRole renter;
 
     /**
      * The item that the request is for
      */
-    private Item item;
+    @Exclude private Item item;
+
+
+    private String renterId;
+    private String itemId;
 
     /**
      * Whether the request has been accepted
@@ -51,22 +55,31 @@ public class Request implements Entity {
      */
     public Request(RenterRole renter, Item item) {
         this.renter = renter;
+        this.renterId = renter.getUser().getUsername();
+
         renter.addRequest(this);
+
         this.item = item;
+        this.itemId = item.getUniqueIdentifier();
         item.addRequest(this);
         this.accepted = false;
 
         requests = new LinkedList<>();
         subscribers = new LinkedList<>();
+
+        requests.add(this);
     }
 
     public Request(String id, RenterRole renter) {
         this.renter = renter;
+        this.renterId = renter.getUser().getUsername();
+
         renter.addRequest(this);
 
         dataSaver.getField("requests/" + id + "/" + "itemId", (itemId) -> {
             dataSaver.getEntity("item", itemId, Item.class, (item) -> {
                 this.item = item;
+                this.itemId = item.getUniqueIdentifier();
                 item.addRequest(this);
             });
         });
@@ -77,15 +90,19 @@ public class Request implements Entity {
 
         requests = new LinkedList<>();
         subscribers = new LinkedList<>();
+
+        requests.add(this);
     }
 
     public Request(String id, Item item) {
         this.item = item;
+        this.itemId = item.getUniqueIdentifier();
         item.addRequest(this);
 
         dataSaver.getField("requests/" + id + "/" + "renterId", (renterId) -> {
             dataSaver.getAccount(renterId, (renter) -> {
                 this.renter = (RenterRole) renter.getAccountRole();
+                this.renterId = this.renter.getUser().getUsername();
                 this.renter.addRequest(this);
             });
         });
@@ -96,6 +113,8 @@ public class Request implements Entity {
 
         requests = new LinkedList<>();
         subscribers = new LinkedList<>();
+
+        requests.add(this);
     }
 
     @Override
@@ -125,10 +144,8 @@ public class Request implements Entity {
 
     @Override
     public String displayDetails() {
-        return String.format("%s\tItem:\t%s\n\tUser:\t%s",
-                accepted ? "ACCEPTED\n" : "",
-                item.getName(),
-                renter.getUser().getName());
+        return String.format("%s\n\tUser:\t%s",
+                accepted ? "ACCEPTED\n" : "", renterId);
     }
 
     @Override
@@ -137,9 +154,12 @@ public class Request implements Entity {
         item.removeRequest(this);
         item.save();
 
-        // remove the requst from the renter's list
+        // remove the request from the renter's list
         renter.removeRequest(this);
         renter.getUser().save();
+
+        requests.remove(this);
+
 
         dataSaver.removeEntity(this);
     }
@@ -160,7 +180,7 @@ public class Request implements Entity {
     }
 
     public String getRenterId() {
-        return renter.getUser().getUniqueIdentifier();
+        return renterId;
     }
 
     @Exclude
@@ -169,7 +189,7 @@ public class Request implements Entity {
     }
 
     public String getItemId() {
-        return item.getUniqueIdentifier();
+        return itemId; // item.getUniqueIdentifier()
     }
 
     public boolean getAccepted() {
@@ -180,7 +200,6 @@ public class Request implements Entity {
         if (checkNotOwnerIllegalState()) {
             return false;
         }
-
         this.accepted = true;
         save();
         return true;

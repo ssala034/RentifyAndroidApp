@@ -51,21 +51,21 @@
 
             <!-- Delete Button -->
             <ImageView
-                android:id="@+id/buttonApproveRequest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="ApproveRequest"
-                app:srcCompat="?android:attr/textCheckMarkInverse" />
-
-            <!-- Edit Button -->
-            <ImageView
                 android:id="@+id/buttonDenyRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="Deny Request"
+                android:contentDescription="DenyRequest"
                 app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+            <!-- Edit Button -->
+            <ImageView
+                android:id="@+id/buttonAcceptRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="Accept Request"
+                app:srcCompat="?android:attr/textCheckMarkInverse" />
         </LinearLayout>
 
     </LinearLayout>

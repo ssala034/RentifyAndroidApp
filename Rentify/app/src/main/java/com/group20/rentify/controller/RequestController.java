@@ -7,7 +7,6 @@ import com.group20.rentify.entity.RenterRole;
 import com.group20.rentify.entity.Request;
 
 import java.util.List;
-import java.util.Map;
 
 public class RequestController {
     private static RequestController instance;
