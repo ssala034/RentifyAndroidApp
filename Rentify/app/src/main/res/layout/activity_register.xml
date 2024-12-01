@@ -9,7 +9,7 @@
     tools:context=".RegisterActivity">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/backgroundColor"
+        app:cardBackgroundColor="@color/cardColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/registerTitle"
                 android:textAlignment="textStart"
-                android:textColor="#A16ED8"
+                android:textColor="@color/textColor"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -55,6 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:hint="Enter your Email"
                 android:textSize="14sp" />
 
@@ -64,6 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:hint="Create a Username"
                 android:textAlignment="viewStart"
                 android:textSize="14sp" />
@@ -74,13 +78,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:hint="First Name"
                 android:textAlignment="viewStart"
                 android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/lastNameEnter"
-                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -89,7 +96,8 @@
 
             <EditText
                 android:id="@+id/passwordEnter"
-                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -105,7 +113,10 @@
                 android:layout_marginTop="20dp"
                 android:hint="Re-enter your password"
                 android:inputType="textPassword"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:textSize="14sp" />
+
 
             <RadioGroup
                 android:id="@+id/selectRole"
@@ -145,6 +156,8 @@
                 android:text="@string/createAdminButton"
                 android:textAlignment="center"
                 android:textColor="#A16ED8"
+                android:textColorHighlight="#920000"
+                android:textColorHint="#8A0000"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -154,6 +167,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_bg"
                 android:text="Sign Up"
+
                 android:textStyle="bold" />
 
         </LinearLayout>

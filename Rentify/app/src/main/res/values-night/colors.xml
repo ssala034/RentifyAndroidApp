@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--    For night/dark mode-->
-    <color name="backgroundColor">#4B4B4B</color>
-    <color name="cardColor">#000000</color>
-    <color name="textColor">#FFFFFF</color>
+    <color name="backgroundColor">#202123</color>
+    <color name="cardColor">#2C2C2E</color>
+    <color name="textColor">#CACACA</color>
 </resources>

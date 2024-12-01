@@ -8,7 +8,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:background="@color/cardColor"
+        app:cardBackgroundColor="@color/cardColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -31,11 +31,11 @@
 
             <TextView
                 android:id="@+id/textCategoryHeading"
-                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/editCategoryHeading"
                 android:textAlignment="textStart"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
@@ -43,30 +43,32 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/informationMessage" />
+                android:text="@string/informationMessage"
+                android:textColor="@color/textColor" />
 
             <EditText
                 android:id="@+id/textCategoryName"
-                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="@string/hintCategoryName"
                 android:inputType="text"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/textDescription"
-                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="@string/hintCategoryDescription"
                 android:inputType="text"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:textSize="16sp" />
 
             <Button

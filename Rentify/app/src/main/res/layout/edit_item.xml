@@ -6,7 +6,7 @@
     android:background="@color/backgroundColor">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/cardColor"
+        app:cardBackgroundColor="@color/cardColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -49,7 +49,8 @@
 
             <EditText
                 android:id="@+id/textItemName"
-                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -59,7 +60,8 @@
 
             <EditText
                 android:id="@+id/textItemDescription"
-                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -69,7 +71,8 @@
 
             <EditText
                 android:id="@+id/textItemRentalPeriod"
-                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -79,7 +82,8 @@
 
             <EditText
                 android:id="@+id/textItemRentalFee"
-                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
+                android:backgroundTint="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -96,10 +100,10 @@
 
             <Spinner
                 android:id="@+id/categoryOptions"
-                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:backgroundTint="#FFFFFF"
                 android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
