@@ -1,8 +1,6 @@
 package com.group20.rentify.controller;
 
 import com.group20.rentify.entity.Account;
-import com.group20.rentify.entity.Item;
-import com.group20.rentify.entity.LessorRole;
 import com.group20.rentify.entity.RenterRole;
 import com.group20.rentify.entity.Request;
 
@@ -34,6 +32,7 @@ public class RequestController {
     public void deleteRequest(Request request) {
         ((RenterRole) (Account.getSessionAccount().getAccountRole())).removeRequest(request);
     }
+
 
     public List<Request> getRequests(Subscriber<Request> s) {
         return Request.getRequests(s);

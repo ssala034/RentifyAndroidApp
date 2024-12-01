@@ -60,21 +60,34 @@ public class ViewRequestsActivity extends ManageEntitiesActivity<Request> {
     }
 
     @Override
+    //Not used for requests
     protected void onAddEntityPressed(View view) {}
 
     @Override
-    public void onDeleteEntity(Request entity) {
+    //Rejecting request
+    public void onDeleteEntity(Request request) {
+
+        if(!request.getAccepted()){
+            if(request.reject()) {
+                Toast.makeText(this, "Request successfully rejected", Toast.LENGTH_SHORT).show();
+
+            }
+        }else{
+            Toast.makeText(this, "Request already accepted", Toast.LENGTH_SHORT).show();
+
+        }
         //Request.reject
-        Toast.makeText(this, "Reject Request", Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onEditEntity(Request entity) {
+    //Accepting request
+    public void onEditEntity(Request request) {
         //request.accept
-        Toast.makeText(this, "Accept Request", Toast.LENGTH_SHORT).show();
-
-
+        if(!request.getAccepted()){
+            if(request.accept()){
+                Toast.makeText(this, "Request successfully accepted", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
-
 }

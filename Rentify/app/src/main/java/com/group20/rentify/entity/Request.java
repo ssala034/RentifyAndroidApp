@@ -160,7 +160,6 @@ public class Request implements Entity {
 
         requests.remove(this);
 
-
         dataSaver.removeEntity(this);
     }
 
@@ -197,25 +196,25 @@ public class Request implements Entity {
     }
 
     public boolean accept() {
-        if (checkNotOwnerIllegalState()) {
-            return false;
-        }
+//        if (checkNotOwnerIllegalState()) {
+//            return false;
+//        }
         this.accepted = true;
         save();
         return true;
     }
 
     public boolean reject() {
-        if (checkNotOwnerIllegalState()) {
-            return false;
-        }
-
+//        if (checkNotOwnerIllegalState()) {
+//            return false;
+//        }
         delete();
         return true;
     }
 
     private boolean checkNotOwnerIllegalState() {
         // only the owner of the item can accept or reject requests
+        //not necessary
         return !Account.getSessionAccount().getUsername().equals(item.getOwner());
     }
 
