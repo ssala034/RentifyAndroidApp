@@ -94,8 +94,8 @@ public class EntityListAdapter<E extends Entity> extends RecyclerView.Adapter<En
             // Initialize views
             entityTitle = itemView.findViewById(R.id.entityTitle);
             entityDetails = itemView.findViewById(R.id.entityDetails);
-            deleteButton = itemView.findViewById(R.id.buttonDenyRequest);
-            editButton = itemView.findViewById(R.id.buttonAcceptRequest);
+            deleteButton = itemView.findViewById(R.id.buttonDeleteEntity);
+            editButton = itemView.findViewById(R.id.buttonEditEntity);
         }
     }
 
