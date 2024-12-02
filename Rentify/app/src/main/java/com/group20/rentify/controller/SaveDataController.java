@@ -8,6 +8,7 @@ import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Entity;
 import com.group20.rentify.entity.Item;
+import com.group20.rentify.entity.Request;
 import com.group20.rentify.entity.UserRole;
 import com.group20.rentify.util.DataSaver;
 import com.group20.rentify.util.DatabaseInterface;
@@ -15,6 +16,7 @@ import com.group20.rentify.util.callback.AuthenticationCallback;
 import com.group20.rentify.util.callback.DataRetrievalCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,11 +32,13 @@ public class SaveDataController {
     private final List<Account> accounts;
     private final List<Category> categories;
     private final List<Item> items;
+    private final List<Request> requests;
     private boolean adminCreated;
 
     private final List<Subscriber<Account>> accountSubscribers;
     private final List<Subscriber<Category>> categorySubscribers;
     private final  List<Subscriber<Item>> itemSubscribers;
+    private final List<Subscriber<Request>> requestSubscribers;
 
     private SaveDataController() {
         dataSaver = DatabaseInterface.getInstance();
@@ -43,9 +47,11 @@ public class SaveDataController {
         accounts = new ArrayList<>();
         categories = new ArrayList<>();
         items = new ArrayList<>();
+        requests = new ArrayList<>();
         accountSubscribers = new LinkedList<>();
         categorySubscribers = new LinkedList<>();
         itemSubscribers = new LinkedList<>();
+        requestSubscribers = new LinkedList<>();
 
         // add listeners
         dataSaver.addDataChangeListener(DataSaver.USERNAME_PATH,
@@ -129,8 +135,27 @@ public class SaveDataController {
                 },
                 error -> {throw (DatabaseException) error;});
 
+        dataSaver.addDataChangeListener(DataSaver.REQUEST_PATH,
+                data -> {
+                    requests.clear();
+                    if (data != null) {
+                        for (Object request : data.values()) {
+                            // should find a cleaner way to do this
+                            // so that database logic is abstracted from this class
+                            Request castedRequest = ((DataSnapshot) request).getValue(Request.class);
+                            castedRequest.loadFurther((DataSnapshot) request);
+                            requests.add(castedRequest);
+                        }
+                    }
 
-        dataSaver.retrieveData(DataSaver.ADMIN_PATH, Object.class,
+                    for (Subscriber<Request> s: requestSubscribers) {
+                        s.notify(requests);
+                    }
+                },
+                error -> {throw (DatabaseException) error;});
+
+
+        dataSaver.retrieveData(DataSaver.ADMIN_PATH + "/admin", Boolean.class,
                 result -> adminCreated = result != null);
     }
 
@@ -251,12 +276,21 @@ public class SaveDataController {
     }
 
     /**
-     * Getter for the list of categories, synchronized with the saved data
-     * @return  A list of all categories currently existing in the system
+     * Getter for the list of items, synchronized with the saved data
+     * @return  A list of all items currently existing in the system
      */
     public List<Item> getItems(Subscriber<Item> s) {
         itemSubscribers.add(s);
         return items;
+    }
+
+    /**
+     * Getter for the list of requests, synchronized with the saved data
+     * @return  A list of all requests currently existing in the system
+     */
+    public List<Request> getRequests(Subscriber<Request> s) {
+        requestSubscribers.add(s);
+        return requests;
     }
 
     /**

@@ -3,10 +3,7 @@ package com.group20.rentify.entity;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DataSnapshot;
-import com.group20.rentify.controller.SaveDataController;
 import com.group20.rentify.controller.Subscriber;
-
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +44,12 @@ public class Category implements Entity {
 
     /**
      * Full argument constructor.
-     * @param name The name of the category
-     * @param description The description providing information about the category
+     *
+     * @param name             The name of the category
+     * @param description      The description providing information about the category
      * @param uniqueIdentifier The unique identifier of the category
      */
-    public Category(String name, String description, String uniqueIdentifier){
+    public Category(String name, String description, String uniqueIdentifier) {
         this.name = name;
         this.description = description;
         this.uniqueIdentifier = uniqueIdentifier;
@@ -63,7 +61,7 @@ public class Category implements Entity {
     }
 
     @Override
-    public void delete(){
+    public void delete() {
         for (Item item : items) {
             item.setCategory(null);  // dissociate each item from this category
             item.delete();
@@ -86,6 +84,7 @@ public class Category implements Entity {
 
     /**
      * Gets the name of the entity
+     *
      * @return "category"
      */
     @Override
@@ -100,6 +99,7 @@ public class Category implements Entity {
 
     /**
      * Getter for name attribute
+     *
      * @return name
      */
     public String getName() {
@@ -108,6 +108,7 @@ public class Category implements Entity {
 
     /**
      * Getter for description attribute
+     *
      * @return description
      */
     public String getDescription() {
@@ -116,6 +117,7 @@ public class Category implements Entity {
 
     /**
      * Getter for id attribute
+     *
      * @return id
      */
     @Override
@@ -131,6 +133,7 @@ public class Category implements Entity {
 
     /**
      * Setter for name attribute
+     *
      * @param name The new name
      */
     public void setName(String name) {
@@ -139,6 +142,7 @@ public class Category implements Entity {
 
     /**
      * Setter for description attribute
+     *
      * @param description The new description
      */
     public void setDescription(String description) {
@@ -146,7 +150,6 @@ public class Category implements Entity {
     }
 
     /**
-     *
      * Setter for id attribute
      *
      * @param id The new identifier
@@ -154,7 +157,7 @@ public class Category implements Entity {
      */
     @Override
     public boolean setUniqueIdentifier(String id) {
-        if (id != null && !id.isEmpty()){
+        if (id != null && !id.isEmpty()) {
             this.uniqueIdentifier = id;
             return true;
         }
@@ -163,6 +166,7 @@ public class Category implements Entity {
 
     /**
      * Adds a new item to a category
+     *
      * @param item The item to be added
      */
     public void addItem(Item item) {
@@ -174,9 +178,10 @@ public class Category implements Entity {
 
     /**
      * Removes an item from the category
+     *
      * @param item The item to be removed
      */
-    public void removeItem(Item item){
+    public void removeItem(Item item) {
         if (item != null && items.contains(item)) { //check if the item exists in the category and is not null
             items.remove(item); //remove the item from the category items list
             item.setCategory(null); //dissociate the item from this category
@@ -185,9 +190,12 @@ public class Category implements Entity {
 
     /**
      * To string method
+     *
      * @return name of category
      */
-    public String toString(){return this.name;}
+    public String toString() {
+        return this.name;
+    }
 
     @Override
     public boolean equals(@Nullable Object obj) {

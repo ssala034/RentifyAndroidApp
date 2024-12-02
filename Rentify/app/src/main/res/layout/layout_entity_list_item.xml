@@ -24,7 +24,7 @@
         <!-- Container for entity title and details -->
 
         <!-- Container for delete and edit buttons -->
-
+      
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

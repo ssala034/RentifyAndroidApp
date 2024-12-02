@@ -13,8 +13,13 @@
         android:theme="@style/Theme.Rentify"
         tools:targetApi="31">
         <activity
+            android:name=".ViewRequestsActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ViewItemActivity"
             android:exported="true">
+
         </activity>
         <activity
             android:name=".ManageCategoriesActivity"

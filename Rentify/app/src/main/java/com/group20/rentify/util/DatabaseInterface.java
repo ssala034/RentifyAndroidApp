@@ -1,5 +1,7 @@
 package com.group20.rentify.util;
 
+import static java.sql.DriverManager.println;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -122,6 +124,7 @@ public class DatabaseInterface implements DataSaver {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    println(key);
                     T res = dataSnapshot.getValue(cls);
                     callback.onDataRetrieved(res);
                 } else {

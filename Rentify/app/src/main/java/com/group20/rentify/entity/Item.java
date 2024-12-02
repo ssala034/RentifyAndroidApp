@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
 import com.group20.rentify.controller.Subscriber;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -90,13 +91,17 @@ public class Item implements Entity {
 
         this.name = name;
         this.description = description;
-        this.uniqueIdentifier = uniqueIdentifier;
+//        if(uniqueIdentifier == null){
+//            dataSaver.generateUniqueIdentifier();
+//        }else{
+            this.uniqueIdentifier = uniqueIdentifier;
+//        }
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
 
         this.categoryId = category.getUniqueIdentifier();
         setCategory(category);
-
+      
         this.owner = owner.getUser().getUsername();
         ownerObject = owner.getUser();
         owner.addItem(this);
@@ -278,6 +283,12 @@ public class Item implements Entity {
     public boolean setUniqueIdentifier(String id) {
         if (id != null && !id.isEmpty()){
             this.uniqueIdentifier = id;
+            //category and owner must be updated afterwards to be synced with actual item (has an id)
+            category.addItem(this);
+            dataSaver.getAccount(owner, data -> {
+                ((LessorRole) data.getAccountRole()).addItem(this);
+            });
+
             return true;
         }
         return false;

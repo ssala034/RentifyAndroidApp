@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:padding="8dp">
+
+        <!-- Container for entity title and details -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="#7262C8">
+
+            <!-- Entity Title -->
+            <TextView
+                android:id="@+id/entityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Placeholder Title"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <!-- Entity Details -->
+            <TextView
+                android:id="@+id/entityDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Placeholder Details"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- Container for delete and edit buttons -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#C0B3FD">
+
+            <!-- Delete Button -->
+            <ImageView
+                android:id="@+id/buttonDeleteEntity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="DenyRequest"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+            <!-- Edit Button -->
+            <ImageView
+                android:id="@+id/buttonEditEntity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="Accept Request"
+                app:srcCompat="?android:attr/textCheckMarkInverse" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
