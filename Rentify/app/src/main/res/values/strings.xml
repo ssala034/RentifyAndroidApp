@@ -51,6 +51,12 @@
     <string name="titleCategoriesForLessor">Categories:</string>
     <string name="subtitleCategoriesForLessor">Click on each category to see the items</string>
     <string name="hintItemCategory">Choose a category for your item from the menu below</string>
+    <string name="registerTitle">REGISTER</string>
+    <string name="createAdminButton">OR, create an admin account</string>
+
+    <string name="admin_dashboard_description">Welcome, manage users and categories here</string>
+    <string name="admin_dashboard_title">Admin Dashboard</string>
     <string name="searchitem">Search for an Item</string>
+
 
 </resources>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C0B3FD"
+    android:background="@color/backgroundColor"
     tools:context=".AdminDashboard">
 
     <androidx.cardview.widget.CardView
+        app:cardBackgroundColor="@color/cardColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -32,12 +32,27 @@
 
             <TextView
                 android:id="@+id/RegisterTitle"
+                android:textColor="@color/textColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Admin Dashboard"
+                android:text="@string/admin_dashboard_title"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="13dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/textColor"
+                android:text="@string/admin_dashboard_description" />
+
 
             <Space
                 android:layout_width="match_parent"
@@ -47,16 +62,18 @@
                 android:id="@+id/viewUsersBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
                 android:text="@string/viewAllUsers" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="17dp" />
 
             <Button
                 android:id="@+id/showCategoriesBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
                 android:text="@string/showAllCategories" />
 
         </LinearLayout>

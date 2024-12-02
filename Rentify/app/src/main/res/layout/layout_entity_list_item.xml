@@ -5,69 +5,98 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="15dp"
         android:weightSum="4"
-        android:padding="8dp">
+        android:background="@color/cardColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
 
         <!-- Container for entity title and details -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:background="#7262C8">
-
-            <!-- Entity Title -->
-            <TextView
-                android:id="@+id/entityTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Placeholder Title"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <!-- Entity Details -->
-            <TextView
-                android:id="@+id/entityDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Placeholder Details"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
 
         <!-- Container for delete and edit buttons -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#C0B3FD">
 
-            <!-- Delete Button -->
-            <ImageView
-                android:id="@+id/buttonDeleteEntity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                android:contentDescription="Delete Entity"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#7262C8"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="20dp">
 
-            <!-- Edit Button -->
-            <ImageView
-                android:id="@+id/buttonEditEntity"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="Edit Entity"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
-        </LinearLayout>
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/colour"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:background="#A16ED8"
+                    android:paddingVertical="20dp">
+
+                    <TextView
+                        android:id="@+id/entityTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder Title"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/entityDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder Details"
+                        android:textColor="#FFFFFF" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#D0D0D0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="5dp">
+
+                    <!-- Delete Button -->
+                    <ImageView
+                        android:id="@+id/buttonDeleteEntity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:contentDescription="Delete Entity"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@android:drawable/ic_menu_delete" />
+
+                    <!-- Edit Button -->
+                    <ImageView
+                        android:id="@+id/buttonEditEntity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:contentDescription="Edit Entity"
+                        app:srcCompat="@android:drawable/ic_menu_edit" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
