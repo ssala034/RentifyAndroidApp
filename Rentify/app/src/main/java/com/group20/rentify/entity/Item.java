@@ -51,6 +51,8 @@ public class Item implements Entity {
      */
     private String owner;
 
+    private Account ownerObject;
+
     /**
      * The requests that have been made on the item
      */
@@ -97,12 +99,12 @@ public class Item implements Entity {
         this.rentalFee = rentalFee;
         this.rentalTime = rentalTime;
 
-        //category.addItem(this);
-        this.category = category;
         this.categoryId = category.getUniqueIdentifier();
-
-        //owner.addItem(this);
+        setCategory(category);
+      
         this.owner = owner.getUser().getUsername();
+        ownerObject = owner.getUser();
+        owner.addItem(this);
 
         requests = new LinkedList<>();
         requestIds = new LinkedList<>();
@@ -115,36 +117,55 @@ public class Item implements Entity {
 
     @Override
     public void delete() {
-        if (category != null) {  // null check in case category is deleted first
-            Category tempRef = category;
-            category.removeItem(this);
-            tempRef.save();
-        }
         if (owner != null) {
             // this only updates firebase, assumes that if the account was loaded to disk
             // deletion is handled already
             dataSaver.getAccount(owner, data -> {
+                owner = null;
                 ((LessorRole) data.getAccountRole()).removeItem(this);
                 data.save();
             });
-        }
+        } else {
+            if (category != null) {  // null check in case category is deleted first
+                Category tempRef = category;
+                category.removeItem(this);
+                tempRef.save();
+            }
 
-        for (Request request : requests) {
-            request.delete();
-        }
+            for (Request request : requests) {
+                request.delete();
+            }
 
-        dataSaver.removeEntity(this);
+            dataSaver.removeEntity(this);
+        }
     }
 
     @Override
     public void save() {
         dataSaver.saveEntity(this);
 
+        if (ownerObject != null) {
+            ownerObject.save();
+        } else if (owner != null) {
+            dataSaver.getAccount(owner, Account::save);
+        }
+
+        if (category != null) {
+            category.save();
+        }
+
+        for (Request request : requests) {
+            request.save();
+        }
     }
 
     @Override
     public void loadFurther(DataSnapshot ds) {
-        dataSaver.getEntity("category", categoryId, Category.class, this::setCategory);
+        for(Category c: dataSaver.getCategories(new Subscriber<Category>() {@Override public void notify(List<Category> updatedList) {}})){
+            if(c.getUniqueIdentifier().equals(categoryId)){
+                category = c;
+            }
+        }
 
         for (String id : requestIds) {
             requests.add(new Request(id, this));
@@ -294,17 +315,17 @@ public class Item implements Entity {
      * @param category The category in which this item belongs to
      */
     public void setCategory(Category category){
-        if (category != this.category) {
+        if (category != null && !category.equals(this.category)) {
             if (this.category != null) {
                 this.category.removeItem(this);
                 this.category.save();
             }
-            if (category != null) {
-                category.addItem(this);
-                category.save();
-            }
-            this.category = category;
+
+            category.addItem(this);
+            category.save();
         }
+
+        this.category = category;
     }
 
     public void addRequest(Request request) {

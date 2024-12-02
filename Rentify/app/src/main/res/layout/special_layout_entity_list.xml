@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,21 +18,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-
         <!-- Container for entity title and details -->
-
-        <!-- Container for delete and edit buttons -->
-      
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:cardBackgroundColor="#7262C8"
             app:cardCornerRadius="8dp"
             app:cardElevation="20dp">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -46,26 +41,29 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="20dp">
 
+                    <!-- Entity Title -->
                     <TextView
                         android:id="@+id/entityTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Placeholder Title"
+                        android:textAlignment="viewStart"
                         android:textColor="#FFFFFF"
-                        android:textSize="15sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
+                    <!-- Entity Details -->
                     <TextView
                         android:id="@+id/entityDetails"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Placeholder Details"
+                        android:textAlignment="viewStart"
                         android:textColor="#FFFFFF" />
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="211dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#D0D0D0"
@@ -75,28 +73,24 @@
 
                     <!-- Delete Button -->
                     <ImageView
-                        android:id="@+id/buttonDeleteEntity"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/buttonRequestEnity"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:clickable="true"
-                        android:contentDescription="Delete Entity"
-                        android:scaleType="centerInside"
-                        app:srcCompat="@android:drawable/ic_menu_delete" />
+                        android:contentDescription="Request Enity"
+                        app:srcCompat="@drawable/request" />
 
                     <!-- Edit Button -->
-                    <ImageView
-                        android:id="@+id/buttonEditEntity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:contentDescription="Edit Entity"
-                        app:srcCompat="@android:drawable/ic_menu_edit" />
                 </LinearLayout>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
+        <!-- Container for delete and edit buttons -->
+
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C0B3FD"
+    android:background="@color/backgroundColor"
     tools:context=".ManageCategoriesActivity">
 
     <androidx.cardview.widget.CardView
@@ -15,10 +14,12 @@
         android:layout_margin="30dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="20dp"
+        app:cardBackgroundColor="@color/cardColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,8 +39,8 @@
                     android:layout_width="198dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:padding="20dp"
                     android:textAlignment="viewStart"
+                    android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -48,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    app:backgroundTint="#C0B3FD"
+                    app:backgroundTint="#A16ED8"
                     app:srcCompat="@android:drawable/ic_menu_add" />
             </LinearLayout>
 
@@ -62,9 +63,9 @@
                 android:id="@+id/recyclerViewEntities"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:clipToPadding="false"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:textColor="@color/textColor" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

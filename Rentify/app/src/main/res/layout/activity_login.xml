@@ -5,37 +5,38 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     android:textAlignment="center"
-    android:background="#C0B3FD"
     tools:context=".LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/cardColor"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="682dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="20dp"
+        app:contentPaddingTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/margin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="30dp"
             android:background="#00F6F2F2"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/header"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="181dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                style="@style/appLogo"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,38 +44,62 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
+
                 <TextView
                     android:id="@+id/text_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_email" />
+                    android:text="@string/text_email"
+                    android:textColor="@color/textColor" />
 
                 <EditText
                     android:id="@+id/text_inputEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/textColor"
+                    android:backgroundTint="@color/textColor"
+                    android:minHeight="48dp"
+                    android:textColor="@color/textColor"
+                    tools:ignore="LabelFor" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
 
                 <TextView
                     android:id="@+id/text_password"
+                    android:textColor="@color/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/text_password" />
 
                 <EditText
                     android:id="@+id/text_inputPassword"
+                    android:textColor="@color/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textColor"
+                    android:backgroundTint="@color/textColor"
                     android:ems="10"
                     android:inputType="textPassword" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
 
                 <Button
                     android:id="@+id/button_signIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bg"
                     android:onClick="signInClick"
-                    android:text="@string/button_signIn" />
+                    android:text="@string/button_signIn"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -82,18 +107,31 @@
                     android:layout_gravity="center"
                     android:orientation="vertical">
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp" />
+
                     <TextView
                         android:id="@+id/text_createAccount"
                         android:layout_width="wrap_content"
+                        android:textColor="@color/textColor"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center|center_horizontal"
                         android:text="@string/text_createAccount" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="17dp" />
 
                     <Button
                         android:id="@+id/button_createAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/btn_bg"
                         android:onClick="createAccountClick"
-                        android:text="@string/button_createAccount" />
+                        android:text="@string/button_createAccount"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

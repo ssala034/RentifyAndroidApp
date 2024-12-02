@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
-    tools:context=".ViewItemActivity">
+    android:background="@color/backgroundColor">
 
     <androidx.cardview.widget.CardView
         app:cardBackgroundColor="@color/cardColor"
@@ -20,14 +18,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:orientation="vertical"
             android:padding="20dp">
-            <!-- Header with title and add button -->
+
+            <!-- Header with title and logo (later) -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,40 +37,28 @@
                     android:id="@+id/heading"
                     android:layout_width="198dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="2"
-                    android:text="@string/itemPageTitle"
-                    android:textAlignment="viewStart"
+                    android:text="@string/searchitem"
                     android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/buttonAddItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    app:backgroundTint="#A16ED8"
-                    app:srcCompat="@android:drawable/ic_menu_add" />
             </LinearLayout>
 
             <!-- Space between header and RecyclerView -->
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
 
             <!-- RecyclerView to display categories -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewItems"
+                android:id="@+id/recyclerViewEntitiesSpecial"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:clipToPadding="false"
-                android:padding="5dp"
-                android:textColor="@color/textColor" />
-
+                android:padding="5dp" />
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
