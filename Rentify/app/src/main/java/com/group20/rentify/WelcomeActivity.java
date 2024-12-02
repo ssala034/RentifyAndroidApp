@@ -72,6 +72,10 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ViewItemActivity.class);
             startActivity(intent);
             finish();
+        }else {
+            Intent intent = new Intent(this, SearchItemActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }
