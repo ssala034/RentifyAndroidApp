@@ -5,10 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C0B3FD"
+    android:background="@color/backgroundColor"
     tools:context=".SearchItemActivity">
 
     <androidx.cardview.widget.CardView
+        app:cardBackgroundColor="@color/cardColor"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="30dp"
@@ -20,10 +21,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="40dp"
+            android:orientation="vertical">
 
             <!-- Header with title and logo (later) -->
 
@@ -38,9 +41,9 @@
                     android:layout_width="198dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:padding="20dp"
                     android:text="@string/searchitem"
                     android:textAlignment="viewStart"
+                    android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -51,8 +54,11 @@
                 android:layout_width="198dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:backgroundTint="@color/textColor"
                 android:hint="@string/hintItemName"
                 android:inputType="text"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/textColor"
                 android:textSize="16sp" />
 
             <!-- Space between header and RecyclerView -->
@@ -61,6 +67,7 @@
                 android:id="@+id/searchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
                 android:text="@string/searchButton"
                 android:translationX="210dp"
                 android:translationY="-47dp" />
@@ -74,9 +81,7 @@
                 android:id="@+id/recyclerViewEntitiesSpecial"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:clipToPadding="false"
-                android:padding="5dp" />
+                android:clipToPadding="false" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,59 +7,90 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/cardColor"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:weightSum="4">
+        android:paddingVertical="10dp"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <!-- Container for entity title and details -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="#7262C8"
-            android:orientation="vertical"
-            android:padding="10dp">
+            app:cardBackgroundColor="#7262C8"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="20dp">
 
-            <!-- Entity Title -->
-            <TextView
-                android:id="@+id/entityTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Placeholder Title"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold" />
 
-            <!-- Entity Details -->
-            <TextView
-                android:id="@+id/entityDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Placeholder Details"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/colour"
+                    android:layout_width="211dp"
+                    android:layout_height="wrap_content"
+                    android:background="#A16ED8"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="20dp">
+
+                    <!-- Entity Title -->
+                    <TextView
+                        android:id="@+id/entityTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder Title"
+                        android:textAlignment="viewStart"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- Entity Details -->
+                    <TextView
+                        android:id="@+id/entityDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder Details"
+                        android:textAlignment="viewStart"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#D0D0D0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="5dp">
+
+                    <!-- Delete Button -->
+                    <ImageView
+                        android:id="@+id/buttonRequestEnity"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:contentDescription="Request Enity"
+                        app:srcCompat="@drawable/request" />
+
+                    <!-- Edit Button -->
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <!-- Container for delete and edit buttons -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#C0B3FD"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <!-- Delete Button -->
-            <ImageView
-                android:id="@+id/buttonRequestEnity"
-                android:layout_width="56dp"
-                android:layout_height="42dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                android:contentDescription="Request Enity"
-                app:srcCompat="@drawable/request" />
-
-            <!-- Edit Button -->
-        </LinearLayout>
 
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

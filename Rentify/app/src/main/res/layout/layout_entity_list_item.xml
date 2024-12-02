@@ -9,10 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp"
-        android:weightSum="4"
         android:background="@color/cardColor"
+        android:orientation="horizontal"
+        android:paddingVertical="10dp"
+        android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -39,11 +39,11 @@
 
                 <LinearLayout
                     android:id="@+id/colour"
-                    android:layout_width="300dp"
+                    android:layout_width="211dp"
                     android:layout_height="wrap_content"
+                    android:background="#A16ED8"
                     android:orientation="vertical"
                     android:paddingHorizontal="20dp"
-                    android:background="#A16ED8"
                     android:paddingVertical="20dp">
 
                     <TextView
@@ -65,7 +65,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="211dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#D0D0D0"

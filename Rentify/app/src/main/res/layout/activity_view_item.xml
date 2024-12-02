@@ -24,6 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="30dp"
             android:orientation="vertical"
             android:padding="20dp">
             <!-- Header with title and add button -->
@@ -35,13 +36,13 @@
 
                 <TextView
                     android:id="@+id/heading"
-                    android:textColor="@color/textColor"
                     android:layout_width="198dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="2"
-                    android:padding="20dp"
                     android:text="@string/itemPageTitle"
                     android:textAlignment="viewStart"
+                    android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -61,13 +62,13 @@
 
             <!-- RecyclerView to display categories -->
             <androidx.recyclerview.widget.RecyclerView
-                android:textColor="@color/textColor"
                 android:id="@+id/recyclerViewItems"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:clipToPadding="false"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:textColor="@color/textColor" />
 
         </LinearLayout>
 

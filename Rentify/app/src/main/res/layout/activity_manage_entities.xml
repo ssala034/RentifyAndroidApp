@@ -39,9 +39,8 @@
                     android:layout_width="198dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:padding="20dp"
-                    android:textColor="@color/textColor"
                     android:textAlignment="viewStart"
+                    android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -61,13 +60,12 @@
 
             <!-- RecyclerView to display categories -->
             <androidx.recyclerview.widget.RecyclerView
-                android:textColor="@color/textColor"
                 android:id="@+id/recyclerViewEntities"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:clipToPadding="false"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:textColor="@color/textColor" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
