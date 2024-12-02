@@ -66,6 +66,13 @@ public class LessorRole extends UserRole {
         }
     }
 
+    @Override
+    public void delete() {
+        for (Item item : items) {
+            item.delete();
+        }
+    }
+
     @Exclude
     public List<Item> getItems(Subscriber<Item> s) {
         subscribers.add(s);
