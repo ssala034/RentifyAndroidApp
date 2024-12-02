@@ -15,10 +15,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.group20.rentify.controller.SaveDataController;
+import com.group20.rentify.controller.Subscriber;
 import com.group20.rentify.entity.Account;
 import com.group20.rentify.entity.Item;
 import com.group20.rentify.entity.RenterRole;
 import com.group20.rentify.entity.Request;
+
+import java.util.List;
 
 public class RequestItemActivity extends AppCompatActivity {
 
@@ -69,6 +72,15 @@ public class RequestItemActivity extends AppCompatActivity {
 
         RenterRole renter =  (RenterRole) Account.getSessionAccount().getAccountRole();
         Request currRequest = new Request(renter, myItem);
+
+        for(Request r : Request.getRequests(new Subscriber<Request>() {@Override public void notify(List<Request> updatedList) {}})){
+            if(r.getRenterId().equals(currRequest.getRenterId())){
+                if(r.getItemId().equals(currRequest.getItemId())){
+                    Toast.makeText(this, "Already have a request on this item", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
 
         currRequest.save();
         Account.getSessionAccount().save();

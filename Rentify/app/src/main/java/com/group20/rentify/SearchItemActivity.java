@@ -2,14 +2,25 @@ package com.group20.rentify;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.group20.rentify.adapter.SpecialEntityListAdapter;
 import com.group20.rentify.controller.CategoryController;
 import com.group20.rentify.entity.Category;
 import com.group20.rentify.entity.Item;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchItemActivity extends SpecialManageEntities<Category> {
     private CategoryController controller;
@@ -25,18 +36,26 @@ public class SearchItemActivity extends SpecialManageEntities<Category> {
     }
 
     private void onSearchPressed(View view){
-        // validate if itemName is correct & go to activity to confirm selection
         String name = itemName.getText().toString().trim();
-        Item foundItem;
-        if(validateNotEmpty(itemName)) {
-            foundItem = itemNameExists(name);
-            if (foundItem != null) {
-                // go to request activity, pass item found
 
-                Intent intent = new Intent(this, RequestItemActivity.class);
-                intent.putExtra("itemId", foundItem.getUniqueIdentifier());
-                startActivity(intent);
-                finish();
+
+        ArrayList<String> itemIds;
+        if(validateNotEmpty(itemName)) {
+            itemIds = itemNames(name);
+            if (!itemIds.isEmpty()) {
+                // go to request activity, pass item found
+                if(itemIds.size() == 1) {
+                    Intent intent = new Intent(this, RequestItemActivity.class);
+                    intent.putExtra("itemId", itemIds.get(0));
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(this, ItemFromSearchActivity.class);
+                    intent.putStringArrayListExtra("item_ids", itemIds);
+                    intent.putExtra("prefix", name);
+                    startActivity(intent);
+                    finish();
+                }
             } else {
                 Toast.makeText(this, "Item does not exits. Re-select an existing item", Toast.LENGTH_SHORT).show();
             }
@@ -66,15 +85,16 @@ public class SearchItemActivity extends SpecialManageEntities<Category> {
         finish();
     }
 
-    private Item itemNameExists(String name){
+    private ArrayList<String> itemNames(String name){
+        ArrayList<String> res = new ArrayList<String>();
         for(Category category : entityList){
             for(Item item: category.getItems()) {
-                if (item.getName().equals(name)) {
-                    return item;
+                if (item.getName().startsWith(name)) {
+                    res.add(item.getUniqueIdentifier());
                 }
             }
         }
-        return null;
+        return res;
     }
 
     private boolean validateNotEmpty(EditText field) {

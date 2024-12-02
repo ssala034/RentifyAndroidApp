@@ -58,5 +58,6 @@
     <string name="admin_dashboard_description">Welcome, manage users and categories here</string>
     <string name="admin_dashboard_title">Admin Dashboard</string>
     <string name="searchitem">Search for an Item</string>
+    <string name="searchResults"> Search Results</string>
 
 </resources>

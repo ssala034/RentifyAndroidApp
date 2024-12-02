@@ -55,6 +55,11 @@
         <activity
             android:name=".RequestItemActivity"
             android:exported="true" />
+        
+        <activity
+            android:name=".ItemFromSearchActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

@@ -57,7 +57,9 @@ public class ViewRequestsActivity extends ManageEntitiesActivity<Request> {
     public void onDeleteEntity(Request request) {
         if(!request.getAccepted()){
             if(request.reject()) {
+                requestList.remove(request);
                 request.delete();
+                notify(requestList);
                 Toast.makeText(this, "Request successfully rejected", Toast.LENGTH_SHORT).show();
             }
         }else{
