@@ -3,7 +3,7 @@
 Project accomplished with fellow classmates.
 
 #### Pictures
-![alt text](https://lh3.googleusercontent.com/keep-bbsk/AFgXFlKASXFXjqp0z2-49bEF3muSvdtbjqMTYz4ZS0mMZDHon8eoenRYOFu6HhCp-UHolrDQeNMHgxlnSHQ-_XW8o2dPAiWPRdd4HL5JMKTr1Pd6w5etQOqqIw=s1440)
+![alt text](Rentify/images/image1.png)
 
 
 
