@@ -1,7 +1,7 @@
 
 Project accomplished with fellow classmates
 
-###What’s Rentify?
+#### What’s Rentify?
 
 Rentify is a mobile app designed to simplify the rental process by connecting lessors (users renting out items) and renters (users renting items). Its key features include:
 
@@ -17,7 +17,7 @@ Rentify is a mobile app designed to simplify the rental process by connecting le
 
 The app combines practical functionality with a clean, beginner-friendly interface, supported by Firebase for authentication and database management.
 
-###Tech Stack:
+####Tech Stack:
 
 Java, Android Studio, Gradle, GitHub, Firebase RealtimeDatabase, Git
 
