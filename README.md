@@ -6,8 +6,14 @@ Project accomplished with fellow classmates
 Rentify is a mobile app designed to simplify the rental process by connecting lessors (users renting out items) and renters (users renting items). Its key features include:
 
  • Admin capabilities: Managing categories, accounts, and moderating content.
+ 
  • Lessors: Listing items for rent with details like price, availability, and rental terms.
+ 
  • Renters: Browsing and searching items, and submitting rental requests.
+ 
+ • UI: Easy on the eyes with light and dark mode to browse all day!!
+
+ 
 
 The app combines practical functionality with a clean, beginner-friendly interface, supported by Firebase for authentication and database management.
 
