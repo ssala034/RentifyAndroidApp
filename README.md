@@ -1,6 +1,4 @@
 
-Project accomplished with fellow classmates
-
 #### What’s Rentify?
 
 Rentify is a mobile app designed to simplify the rental process by connecting lessors (users renting out items) and renters (users renting items). Its key features include:
